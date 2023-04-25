@@ -60,6 +60,10 @@ public class Athlete {
 	public Genre getGenre() {
 		return genre;
 	}
+	
+	public String getGenreString() {
+		return genre.name();
+	}
 
 	public void setGenre(Genre genre) {
 		this.genre = genre;

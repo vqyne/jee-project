@@ -9,10 +9,12 @@ import model.Athlete;
 import model.Discipline;
 import model.Genre;
 import database.DisciplineDAO;
+import database.AthleteDAO;
 
 public class ImportAthlete {
 	
     public static void importAthletesFromCSV(String csvFilePath) {
+    	AthleteDAO athleteDAO = new AthleteDAO();
         try {
             CSVReader reader = new CSVReader(new FileReader(csvFilePath));
             String[] header = reader.readNext();
@@ -41,6 +43,7 @@ public class ImportAthlete {
                 Athlete athlete = new Athlete(prenom,nom,pays,discipline);
                 athlete.setGenre(genre);
                 athlete.setBirthdate(birthdate);
+                athleteDAO.addAthlete(athlete);
             }
         } catch (Exception e) {
             e.printStackTrace();
