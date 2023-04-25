@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import model.Athlete;
 import model.Discipline;
 import model.Genre;
+import database.DisciplineDAO;
 
 public class ImportAthlete {
 	
@@ -47,7 +48,8 @@ public class ImportAthlete {
     }
     
     public static Discipline getDiscipline(String sport) {
-    	return null;
+    	DisciplineDAO disciplineDAO = new DisciplineDAO();
+    	return disciplineDAO.findByString(sport);
     }
     
 }
