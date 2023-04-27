@@ -3,6 +3,7 @@ package model;
 import java.util.Date;
 
 public class Athlete {
+	private int id;
 	private String lastname;
 	private String firstname;
 	private String country;
@@ -15,6 +16,30 @@ public class Athlete {
 		this.lastname = l;
 		this.country = c;
 		this.discipline = d;
+	}
+	
+	/**
+	 * Constructor for find and findAll of AthleteDAO
+	 * @param id id of the athlete in the database
+	 * @param l lastname of the athlete
+	 * @param f firstname of the athlete
+	 * @param c country of the athlete
+	 * @param birthd birthdate of the athlete
+	 * @param genre genre of the athlete
+	 * @param dis discipline of the athlete
+	 */
+	public Athlete(int id, String l,String f, String c, Date birthd, Genre genre, Discipline dis) {
+		this.id = id;
+		this.lastname = l;
+		this.firstname = f;
+		this.country = c;
+		this.birthdate = birthd;
+		this.genre = genre;
+		this.discipline = dis;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	public String getLastname() {
