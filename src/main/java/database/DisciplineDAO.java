@@ -39,6 +39,34 @@ public class DisciplineDAO {
 
 	    return ret;
 	}
+	
+	public boolean removeDiscipline(String name) {
+	    Connection connection = null;
+	    PreparedStatement statement = null;
+	    boolean ret = false;
+
+	    try {
+	        connection = DBManager.getInstance().getConnection();
+	        String sql = "DELETE FROM discipline WHERE upper(name)=?";
+	        statement = connection.prepareStatement(sql);
+
+	        statement.setString(1, name.toUpperCase());
+
+	        int rowsDeleted = statement.executeUpdate();
+
+	        if (rowsDeleted > 0) {
+	            System.out.println("Discipline bien supprimé de la base de données.");
+	            ret = true;
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Error deleting discipline: " + e.getMessage());
+	    } finally {
+	        // Clean up resources
+	        DBManager.getInstance().cleanup(connection, statement, null);
+	    }
+
+	    return ret;
+	}
 
 	public List<Discipline> findAll(){
 		List<Discipline> ret = new ArrayList<Discipline>();
