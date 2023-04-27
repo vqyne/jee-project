@@ -149,4 +149,30 @@ public class AthleteDAO {
 		}
 		return ret;
 	}
+	
+	public List<Athlete> findByDiscipline(Discipline discipline) {
+		List<Athlete> ret = new ArrayList<Athlete>();
+		Connection connexion = DBManager.getInstance().getConnection();
+		try {
+			PreparedStatement ps = connexion.prepareStatement("SELECT * FROM athlete WHERE upper(discipline) = ?");
+			ps.setString(1, "%" + discipline.getName().toUpperCase() + "%");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String lastname = rs.getString("lastname");
+				String firstname = rs.getString("firstname");
+				String country = rs.getString("country");
+				Date birthdate = rs.getDate("birthdate");
+				Genre genre = Genre.valueOf(rs.getString("genre"));
+				
+				ret.add(new Athlete(id,lastname,firstname,country,birthdate,genre,discipline));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
+	}
+	
+	
 }

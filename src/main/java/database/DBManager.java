@@ -120,7 +120,6 @@ public class DBManager {
 
 	        // Create Session table
 	        String sessionTable = "CREATE TABLE IF NOT EXISTS session ("
-	                + "id INT NOT NULL AUTO_INCREMENT,"
 	                + "code VARCHAR(255) NOT NULL,"
 	                + "date DATE NOT NULL,"
 	                + "fromHour TIME NOT NULL,"
@@ -130,7 +129,7 @@ public class DBManager {
 	                + "description TEXT NOT NULL,"
 	                + "type VARCHAR(255) NOT NULL,"
 	                + "category VARCHAR(255) NOT NULL,"
-	                + "PRIMARY KEY (id),"
+	                + "PRIMARY KEY (code),"
 	                + "FOREIGN KEY (discipline) REFERENCES discipline(name),"
 	                + "FOREIGN KEY (site) REFERENCES site(id)"
 	                + ");";

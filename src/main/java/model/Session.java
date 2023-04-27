@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -27,6 +28,18 @@ public class Session {
 		this.code = d.getName().substring(0, 3) + "00";
 	}
 	
+	public Session(String code, Date date, LocalTime from, LocalTime to, Discipline d, Site s, String des, TypeSession t, CategorieSession c) {
+		this.code = code;
+		this.date = date;
+		this.fromHour = from;
+		this.toHour = to;
+		this.discipline = d;
+		this.site = s;
+		this.description = des;
+		this.type = t;
+		this.category = c;
+	}
+
 	public String getCode() {
 		return code;
 	}
@@ -75,10 +88,10 @@ public class Session {
 	public void setType(TypeSession type) {
 		this.type = type;
 	}
-	public CategorieSession getCategorie() {
+	public CategorieSession getCategory() {
 		return category;
 	}
-	public void setCategorie(CategorieSession c) {
+	public void setCategory(CategorieSession c) {
 		this.category = c;
 	}
 	
