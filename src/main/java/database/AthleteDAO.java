@@ -141,7 +141,7 @@ public class AthleteDAO {
 				Genre genre = Genre.valueOf(rs.getString("genre"));
 				Discipline discipline = new DisciplineDAO().findByString(rs.getString("discipline"));
 				
-				ret.add(Athlete(id,lastname,firstname,country,birthdate,genre,discipline));
+				ret.add(new Athlete(id,lastname,firstname,country,birthdate,genre,discipline));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
