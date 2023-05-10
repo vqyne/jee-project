@@ -90,8 +90,8 @@ public class DisciplineDAO {
 		Discipline ret = null;
 		Connection connexion = DBManager.getInstance().getConnection();
 		try {
-			PreparedStatement ps = connexion.prepareStatement("SELECT * FROM discipline WHERE upper(title) = ?");
-			ps.setString(1, "%" + searchText.toUpperCase() + "%");
+			PreparedStatement ps = connexion.prepareStatement("SELECT * FROM discipline WHERE upper(name) = ?");
+			ps.setString(1,searchText.toUpperCase());
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				String name = rs.getString("name");
