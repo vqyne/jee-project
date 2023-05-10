@@ -14,7 +14,7 @@
   padding-left: 90px;
 }
 
-body {
+html, body {
   /* background-color: #F3F1F5; */
   /* Définit la largeur du body à 100% de la largeur de l'écran */
   height: 100vh;
