@@ -66,7 +66,7 @@ public class SessionDAO {
 
         try {
             connection = DBManager.getInstance().getConnection();
-            String sql = "SELECT * FROM session WHERE discipline_name = ? AND date = ? AND ((fromHour <= ? AND toHour >= ?) OR (fromHour <= ? AND toHour >= ?))";
+            String sql = "SELECT * FROM session WHERE discipline_name = ? AND date = ? AND ((fromHour <= ? AND toHour >= ?) OR (fromHour <= ? AND toHour >= ?) OR (toHour < ? AND ADDTIME(toHour, '01:00:00') > ?) OR (fromHour > ? AND SUBTIME(fromHour, '01:00:00') < ?))";
             statement = connection.prepareStatement(sql);
             statement.setString(1, session.getDiscipline().getName());
             statement.setDate(2, new java.sql.Date(session.getDate().getTime()));
