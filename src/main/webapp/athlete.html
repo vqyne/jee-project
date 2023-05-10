@@ -25,34 +25,36 @@
 				athletelist.removeChild(athletelist.firstChild);
 			}
 			
-			var table = document.createElement("table");
-			table.style.margin = "auto";
-			table.style.borderCollapse = "collapse";
-			table.style.border = "1px solid black"; 
-			table.style.width = "80%"; 
-			athletelist.appendChild(table);
+			var table = document.getElementById("tbody-athlete");
 			
-			console.log(athletes);
 			for (var a of athletes) {
-				console.log(a);
 				var tr = document.createElement("tr");
-				var td_id = document.createElement("td");
+				tr.classList.add('bg-white', 'border-b', 'dark:bg-gray-800', 'dark:border-gray-700');
+				var td_id = document.createElement("th");
 				td_id.append(a.id);
+				td_id.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_id.setAttribute("scope", "col"); 
 				var td_lastname = document.createElement("td");
 				td_lastname.append(a.lastname);
+				td_lastname.classList.add('px-6', 'py-4')
 				var td_firstname = document.createElement("td");
 				td_firstname.append(a.firstname);
+				td_firstname.classList.add('px-6', 'py-4')
 				var td_country = document.createElement("td");
 				td_country.append(a.country);
+				td_country.classList.add('px-6', 'py-4')
 				var td_birthdate = document.createElement("td");
 				td_birthdate.append(a.birthdate);
+				td_birthdate.classList.add('px-6', 'py-4')
 				var td_genre = document.createElement("td");
 				td_genre.append(a.genre);
+				td_genre.classList.add('px-6', 'py-4')
 				var td_discipline = document.createElement("td");
 				td_discipline.append(a.discipline.name);
+				td_discipline.classList.add('px-6', 'py-4')
 				tr.appendChild(td_id);
-				tr.appendChild(td_lastname);
 				tr.appendChild(td_firstname);
+				tr.appendChild(td_lastname);
 				tr.appendChild(td_country);
 				tr.appendChild(td_birthdate);
 				tr.appendChild(td_genre);
@@ -101,10 +103,42 @@
 			</div>
 		</div>
 	</nav>
-
-	<h1 style="text-align: center; margin-top: calc(120.8px - 1rem)">Liste des athlètes participant aux JO</h1>
 	
-	<div style="margin-top:30px" id="athletelist"></div>
+	<div id="athletelist"></div>
+	 <main style="margin-top: 50px" class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div  style="margin-top: 50px" class="w-full overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg z-10">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead
+                    class="z-10 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Identifiant
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Prénom
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Nom
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Nation
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Date de naissance
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Genre
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Discipline
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-athlete">
+                </tbody>
+            </table>
+        </div>
+    </main>
 
 	<span class="dot" id="red"></span>
 	<span class="dot" id="blue"></span>
