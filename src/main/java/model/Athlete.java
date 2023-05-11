@@ -94,5 +94,9 @@ public class Athlete {
 		this.genre = genre;
 	}
 	
+	public String toString() {
+		return "L'athlète " + this.firstname + " " + this.lastname +  " (" + this.genre + ") " + " est né(e) le " + this.birthdate + ", son pays est " + this.country + " et pratique la discipline " + this.discipline.getName();  
+	}
+	
 	
 }
