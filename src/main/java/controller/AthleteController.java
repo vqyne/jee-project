@@ -42,4 +42,22 @@ public class AthleteController {
 		return json;
 	}
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/get-athletes-name")
+	public String getAthletesName(@QueryParam("name") String name) {
+		List<Athlete> athletes = null;
+		if(name != null && name.length() > 0) {
+			athletes = athleteDAO.findByName(name);
+		} 
+		
+		if(athletes == null || athletes.isEmpty()) {
+			athletes = new ArrayList<Athlete>();
+		}
+		
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		String json = gson.toJson(athletes);
+		return json;
+	}
 }

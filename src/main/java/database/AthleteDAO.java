@@ -128,16 +128,31 @@ public class AthleteDAO {
 		return ret;
 	}
 	
-	public List<Athlete> findByName(String firstname, String lastname) {
+	public List<Athlete> findByName(String name) {
 		List<Athlete> ret = new ArrayList<Athlete>();
 		Connection connexion = DBManager.getInstance().getConnection();
 		try {
-			PreparedStatement ps = connexion.prepareStatement("SELECT * FROM athlete WHERE upper(lastname) = ? AND upper(firstname) = ?");
-			ps.setString(1, "%" + firstname.toUpperCase() + "%");
-			ps.setString(2, "%" + lastname.toUpperCase() + "%");
+			String[] names = name.split(" ");
+			String lastname = "";
+			String firstname = "";
+
+			if(names.length == 2) {
+			    lastname = names[1];
+			    firstname = names[0];
+			} else if(names.length == 1) {
+			    lastname = names[0];
+			    firstname = names[0];
+			}
+
+			
+			PreparedStatement ps = connexion.prepareStatement("SELECT * FROM athlete WHERE upper(lastname) LIKE ? OR upper(firstname) LIKE ?");
+			ps.setString(1, "%" + lastname.toUpperCase() + "%");
+			ps.setString(2, "%" + firstname.toUpperCase() + "%");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				int id = rs.getInt("id");
+				lastname = rs.getString("lastname");
+				firstname = rs.getString("firstname");
 				String country = rs.getString("country");
 				Date birthdate = rs.getDate("birthdate");
 				Genre genre = Genre.valueOf(rs.getString("genre"));
