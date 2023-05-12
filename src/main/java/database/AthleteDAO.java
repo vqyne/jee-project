@@ -14,6 +14,8 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 
 public class AthleteDAO {
+	
+	private DisciplineDAO disciplineDAO = new DisciplineDAO();
 
 	public boolean addAthlete(Athlete athlete) {
 	    Connection connection = null;
@@ -90,7 +92,7 @@ public class AthleteDAO {
 				String country = rs.getString("country");
 				Date birthdate = rs.getDate("birthdate");
 				Genre genre = Genre.valueOf(rs.getString("genre"));
-				Discipline discipline = new DisciplineDAO().findByString(rs.getString("discipline"));
+				Discipline discipline = disciplineDAO.findByString(rs.getString("discipline"));
 				
 				ret.add(new Athlete(id,lastname,firstname,country,birthdate,genre,discipline));
 			}
@@ -114,7 +116,7 @@ public class AthleteDAO {
 				String country = rs.getString("country");
 				Date birthdate = rs.getDate("birthdate");
 				Genre genre = Genre.valueOf(rs.getString("genre"));
-				Discipline discipline = new DisciplineDAO().findByString(rs.getString("discipline"));
+				Discipline discipline = disciplineDAO.findByString(rs.getString("discipline"));
 				
 				ret = new Athlete(id,lastname,firstname,country,birthdate,genre,discipline);
 				break;
@@ -139,7 +141,7 @@ public class AthleteDAO {
 				String country = rs.getString("country");
 				Date birthdate = rs.getDate("birthdate");
 				Genre genre = Genre.valueOf(rs.getString("genre"));
-				Discipline discipline = new DisciplineDAO().findByString(rs.getString("discipline"));
+				Discipline discipline = disciplineDAO.findByString(rs.getString("discipline"));
 				
 				ret.add(new Athlete(id,lastname,firstname,country,birthdate,genre,discipline));
 			}
@@ -150,12 +152,12 @@ public class AthleteDAO {
 		return ret;
 	}
 	
-	public List<Athlete> findByDiscipline(Discipline discipline) {
+	public List<Athlete> findByDiscipline(String disciplineName) {
 		List<Athlete> ret = new ArrayList<Athlete>();
 		Connection connexion = DBManager.getInstance().getConnection();
 		try {
 			PreparedStatement ps = connexion.prepareStatement("SELECT * FROM athlete WHERE upper(discipline) = ?");
-			ps.setString(1, "%" + discipline.getName().toUpperCase() + "%");
+			ps.setString(1, "%" + disciplineName.toUpperCase() + "%");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				int id = rs.getInt("id");
@@ -164,6 +166,7 @@ public class AthleteDAO {
 				String country = rs.getString("country");
 				Date birthdate = rs.getDate("birthdate");
 				Genre genre = Genre.valueOf(rs.getString("genre"));
+				Discipline discipline = disciplineDAO.findByString(disciplineName);
 				
 				ret.add(new Athlete(id,lastname,firstname,country,birthdate,genre,discipline));
 			}
