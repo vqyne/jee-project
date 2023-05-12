@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -46,12 +47,17 @@ public class DisciplineController {
 	}
 	
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("/discipline-add/{name}/{accessible}")
-	public boolean addDiscipline(@PathParam("name") String name, @PathParam("accessible") boolean accessible) {
+	@Consumes("application/x-www-form-urlencoded")
+	@Path("/discipline-add")
+	public boolean addDiscipline(@FormParam("name") String name, @FormParam("accessible") String accessible) {
+		boolean accessibleBooolean = false;
+		
+		if(accessible.equals("1")) {
+			accessibleBooolean = true;
+		}
+		
 		try {
-			Discipline discipline = new Discipline(name, accessible);
+			Discipline discipline = new Discipline(name, accessibleBooolean);
 			disciplineDAO.addDiscipline(discipline);
 			return true;
 		} catch (Exception e) {

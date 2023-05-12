@@ -162,14 +162,24 @@
 	    
 	    const name = nameInput.value;
 	    const accessible = accessibleInput.checked;
+	    
+	    var accessibleBit = 0;
+	    if(accessible){
+	    	accessibleBit = 1;
+	    }
 
-	    const url = '/jee-project/api/discipline-controller/discipline-add/'+name+'/'+accessible+'/';
+	    const url = '/jee-project/api/discipline-controller/discipline-add/';
+	    
+	    const formData = new URLSearchParams();
+	    formData.append('name', name);
+	    formData.append('accessible', accessibleBit.toString());
 
 	    fetch(url, {
 	        method: 'POST',
 	        headers: {
-	            'Content-Type': 'application/json'
-	        }
+	            'Content-Type': 'application/x-www-form-urlencoded'
+	          },
+	          body: formData
 	    })
 	    .then(response => {
 	      if (!response.ok) {
