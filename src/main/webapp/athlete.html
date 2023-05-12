@@ -16,7 +16,7 @@
 			fetch(url)
 			.then(response => response.json())
 			.then(response => process(response))
-			.catch(error => alert("Erreur : " + error));
+			.catch(error => console.log("Erreur : " + error));
 		}
 		
 		function process(athletes) {
@@ -31,9 +31,7 @@
 		    while (table.childElementCount > 0) {
 		        table.removeChild(table.lastChild);
 		    }
-		    
-		    console.log("nb d'elements dans le tableau : " + table.childElementCount)
-			
+		    			
 			for (var a of athletes) {
 				var tr = document.createElement("tr");
 				tr.classList.add('bg-white', 'border-b', 'dark:bg-gray-800', 'dark:border-gray-700');
