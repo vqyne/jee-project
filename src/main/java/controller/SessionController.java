@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import utils.LocalTimeAdapter; // Import the LocalTimeAdapter class
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -21,7 +22,6 @@ import model.CategorieSite;
 import database.DisciplineDAO;
 import database.SessionDAO;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Path("/session-controller")
@@ -46,13 +46,15 @@ public class SessionController {
 			sessions.add(new Session("ESC01", 
 					new Date(), 
 					LocalTime.of(14,0), 
-					LocalTime.of(16,0), new Discipline("Escrime"), 
+					LocalTime.of(16,0), 
+					new Discipline("Escrime"), 
 					new Site("Stade de France", "Saint Denis", CategorieSite.stade),
 					"Escrime",
 					TypeSession.medailles,
 					CategorieSession.homme));
 		}
 		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(LocalTime.class, new LocalTimeAdapter()); // Register the LocalTimeAdapter
 		Gson gson = builder.create();
 		String json = gson.toJson(sessions);
 		return json;
