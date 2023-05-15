@@ -31,7 +31,7 @@ public class DisciplineDAO {
 	            ret = true;
 	        }
 	    } catch (SQLException e) {
-	        System.err.println("Error inserting athlete: " + e.getMessage());
+	        System.err.println("Error inserting discipline: " + e.getMessage());
 	    } finally {
 	        // Clean up resources
 	        DBManager.getInstance().cleanup(connection, statement, null);
