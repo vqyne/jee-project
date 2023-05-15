@@ -132,7 +132,7 @@ public class SessionDAO {
                 Site site = new SiteDAO().findById(rs.getInt("site"));
                 String description = rs.getString("description");
                 TypeSession type = TypeSession.valueOf(rs.getString("type"));
-                CategorieSession category = CategorieSession.valueOf(rs.getString("category"));
+                CategorieSession category = CategorieSession.valueOf(rs.getString("category").toLowerCase());
                 ret.add(new Session(code, date, fromHour, toHour, discipline, site, description, type, category));
             }
         } catch (SQLException e) {
