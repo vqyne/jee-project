@@ -57,13 +57,10 @@ public class SessionController {
 	@Path("/get-sessions-code")
 	public String getSessionsCode(@QueryParam("code") String code) {
 		Session sessions = null;
+		System.out.println(sessionDAO.findByCode(code));
 		if(code != null && code.length() > 0) {
 			sessions = sessionDAO.findByCode(code);
 		} 
-		
-		if(sessions == null) {
-			return null;
-		}
 		
 		GsonBuilder builder = new GsonBuilder();
 		Gson gson = builder.create();
