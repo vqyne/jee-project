@@ -117,63 +117,74 @@ public class SessionDAO {
         return ret;
     }
 
-    public List<Session> findAll() {
-        List<Session> ret = new ArrayList<Session>();
-        Connection connection = DBManager.getInstance().getConnection();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM session");
-            while (rs.next()) {
-                String code = rs.getString("code");
-                Date date = rs.getDate("date");
-                LocalTime fromHour = rs.getTime("fromHour").toLocalTime();
-                LocalTime toHour = rs.getTime("toHour").toLocalTime();
-                Discipline discipline = new DisciplineDAO().findByString(rs.getString("discipline"));
-                Site site = new SiteDAO().findById(rs.getInt("site"));
-                String description = rs.getString("description");
-                TypeSession type = TypeSession.valueOf(rs.getString("type"));
-                CategorieSession category = CategorieSession.valueOf(rs.getString("category"));
-                ret.add(new Session(code, date, fromHour, toHour, discipline, site, description, type, category));
-            }
-        } catch (SQLException e) {
-            System.err.println("Error finding sessions: " + e.getMessage());
-        } finally {
-            // Clean up resources
-            DBManager.getInstance().cleanup(connection, null, null);
-        }
-        
-        return ret;
-    }
+	public List<Session> findAll() {
+	    List<Session> ret = new ArrayList<Session>();
+	    Connection connection = DBManager.getInstance().getConnection();
+	    try {
+	        Statement statement = connection.createStatement();
+	        String query = "SELECT s.*, d.*, si.* " +
+	                       "FROM session s " +
+	                       "JOIN discipline d ON s.discipline = d.name " +
+	                       "JOIN site si ON s.site = si.id";
+	        ResultSet rs = statement.executeQuery(query);
+	        while (rs.next()) {
+	            String code = rs.getString("s.code");
+	            Date date = rs.getDate("s.date");
+	            LocalTime fromHour = rs.getTime("s.fromHour").toLocalTime();
+	            LocalTime toHour = rs.getTime("s.toHour").toLocalTime();
+	            Discipline discipline = new Discipline(rs.getString("d.name"), rs.getBoolean("d.flag"));
+	            Site site = new Site(rs.getInt("si.id"), rs.getString("si.name"), rs.getString("si.city"), CategorieSite.valueOf(rs.getString("si.category").toLowerCase()));
+	            String description = rs.getString("s.description");
+	            TypeSession type = TypeSession.valueOf(rs.getString("s.type"));
+	            CategorieSession category = CategorieSession.valueOf(rs.getString("s.category").toLowerCase());
+	            ret.add(new Session(code, date, fromHour, toHour, discipline, site, description, type, category));
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Error finding sessions: " + e.getMessage());
+	    } finally {
+	        // Clean up resources
+	        DBManager.getInstance().cleanup(connection, null, null);
+	    }
+
+	    return ret;
+	}
+
     
-    public Session findByCode(String code) {
-        Session ret = null;
-        Connection connection = DBManager.getInstance().getConnection();
-        try {
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM session WHERE code = ?");
-            ps.setString(1, code);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
-                String sessionCode = rs.getString("code");
-                Date sessionDate = rs.getDate("date");
-                LocalTime sessionFromHour = rs.getTime("fromHour").toLocalTime();
-                LocalTime sessionToHour = rs.getTime("toHour").toLocalTime();
-                String sessionDescription = rs.getString("description");
-                String disciplineName = rs.getString("discipline");
-                Discipline discipline = new DisciplineDAO().findByString(disciplineName);
-                Site site = new SiteDAO().findById(rs.getInt("site"));
-                String sessionType = rs.getString("type");
-                String sessionCategory = rs.getString("category");
-                ret = new Session(sessionCode, sessionDate, sessionFromHour, sessionToHour, discipline, site, sessionDescription, TypeSession.valueOf(sessionType), CategorieSession.valueOf(sessionCategory));
-                break;
-            }
-        } catch (SQLException e) {
-            System.err.println("Error finding session by code: " + e.getMessage());
-        } finally {
-            // Clean up resources
-            DBManager.getInstance().cleanup(connection, null, null);
-        }
-        return ret;
-    }
+	@SuppressWarnings("null")
+	public List<Session> findByCode(String code) {
+	    List <Session> ret = null;
+	    Connection connection = DBManager.getInstance().getConnection();
+	    try {
+	        String query = "SELECT s.*, d.name AS discipline_name, d.flag AS discipline_flag, si.id AS site_id, si.name AS site_name, si.city AS site_city, si.category AS site_category " +
+	                       "FROM session s " +
+	                       "JOIN discipline d ON s.discipline = d.name " +
+	                       "JOIN site si ON s.site = si.id " +
+	                       "WHERE s.code LIKE ?";
+	        PreparedStatement ps = connection.prepareStatement(query);
+	        ps.setString(1, code + "%");
+	        ResultSet rs = ps.executeQuery();
+	        while(rs.next()) {
+	            String sessionCode = rs.getString("s.code");
+	            Date sessionDate = rs.getDate("s.date");
+	            LocalTime sessionFromHour = rs.getTime("s.fromHour").toLocalTime();
+	            LocalTime sessionToHour = rs.getTime("s.toHour").toLocalTime();
+	            String sessionDescription = rs.getString("s.description");
+	            Discipline discipline = new Discipline(rs.getString("discipline_name"), rs.getBoolean("discipline_flag"));
+	            Site site = new Site(rs.getInt("site_id"), rs.getString("site_name"), rs.getString("site_city"), CategorieSite.valueOf(rs.getString("site_category")));
+	            String sessionType = rs.getString("s.type");
+	            String sessionCategory = rs.getString("s.category");
+	            ret.add(new Session(sessionCode, sessionDate, sessionFromHour, sessionToHour, discipline, site, sessionDescription, TypeSession.valueOf(sessionType), CategorieSession.valueOf(sessionCategory)));
+	            break;
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Error finding session by code: " + e.getMessage());
+	    } finally {
+	        // Clean up resources
+	        DBManager.getInstance().cleanup(connection, null, null);
+	    }
+	    return ret;
+	}
+
     
     public List<Session> findByDiscipline(Discipline discipline) {
         List<Session> ret = new ArrayList<Session>();

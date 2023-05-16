@@ -51,5 +51,23 @@ public class SessionController {
 		String json = gson.toJson(sessions);
 		return json;
 	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/get-sessions-code")
+	public String getSessionsCode(@QueryParam("code") String code) {
+		List<Session> sessions = null;
+		System.out.println(sessionDAO.findByCode(code));
+		if(code != null && code.length() > 0) {
+			sessions = sessionDAO.findByCode(code);
+		} 
+		
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		String json = gson.toJson(sessions);
+		return json;
+	}
+
+
 	
 }
