@@ -9,36 +9,57 @@
 	<link rel="stylesheet" href="css/styles.css">
 	<link rel="icon" href="./img/paris.ico" type="image/x-icon">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
-	
-	<script type="text/javascript">
-	
-		function loadAthletes(url) {
-			fetch(url)
-			.then(response => response.json())
-			.then(response => process(response))
-			.catch(error => console.log("Erreur : " + error));
+	<style>
+		.spinner {
+			border: 16px solid #f3f3f3;
+			border-top: 16px solid #ffd700;
+			border-radius: 50%;
+			width: 70px;
+			height: 70px;
+			animation: spin 2s linear infinite;
 		}
-		
+
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+	</style>
+	<script type="text/javascript">
+
+		function loadAthletes(url) {
+			// Show the loader
+			document.getElementById("loader").style.display = "block";
+			fetch(url)
+				.then(response => response.json())
+				.then(response => process(response))
+				.catch(error => console.log("Erreur : " + error));
+		}
+
 		function process(athletes) {
 			var athletelist = document.getElementById("athletelist");
-			
+
 			if (athletelist.hasChildNodes()) {
 				athletelist.removeChild(athletelist.firstChild);
 			}
-			
+
 			var table = document.getElementById("tbody-athlete");
-			
-		    while (table.childElementCount > 0) {
-		        table.removeChild(table.lastChild);
-		    }
-		    			
+
+			while (table.childElementCount > 0) {
+				table.removeChild(table.lastChild);
+			}
+
 			for (var a of athletes) {
 				var tr = document.createElement("tr");
 				tr.classList.add('bg-white', 'border-b', 'dark:bg-gray-800', 'dark:border-gray-700');
 				var td_id = document.createElement("th");
 				td_id.append(a.id);
 				td_id.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-				td_id.setAttribute("scope", "col"); 
+				td_id.setAttribute("scope", "col");
 				var td_lastname = document.createElement("td");
 				td_lastname.append(a.lastname);
 				td_lastname.classList.add('px-6', 'py-4')
@@ -66,17 +87,25 @@
 				tr.appendChild(td_discipline);
 				table.appendChild(tr);
 			}
+			// Hide the loader
+			document.getElementById("loader").style.display = "none";
 		}
-		
+
 	</script>
 </head>
 
 <body class="body" onload="loadAthletes('/jee-project/api/athlete-controller/get-athletes')">
+	<div id="loader"
+		style="display: none; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.5); z-index: 9999;">
+		<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+			<div class="spinner"></div>
+		</div>
+	</div>
 	<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
 		<div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 			<a class="flex items-center">
 				<img id="paris_logo" src="./img/paris2.png" class="h-16 mr-2" alt="Paris OG Logo">
-				<span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Paris 2024</span>
+				<span style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white prevent-select">Paris 2024</span>
 			</a>
 			<div class="flex md:order-2">
 				<button onclick="window.location.href='/jee-project/admin/index.html';" type="button"
@@ -109,70 +138,82 @@
 			</div>
 		</div>
 	</nav>
-	
-	<div style="margin-top: 80px" class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-	  <input style="margin-top: 40px" type="text" id="searchInput" placeholder="Rechercher" class="bg-transparent focus:outline-none w-full">
+
+	<div style="margin-top: 120px" class=" max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+		<label for="searchInput" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Rechercher
+			un athlète par nom</label>
+		<div class="relative w-full">
+			<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+				<svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none"
+					stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+						d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+				</svg>
+			</div>
+			<input type="search" id="searchInput"
+				class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+				placeholder="Rechercher un athlète par nom" required>
+		</div>
 	</div>
-	
+
 	<div id="athletelist"></div>
-	 <main style="margin-top: 10px" class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <div  style="margin-top: 10px" class="w-full overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg z-10">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead
-                    class="z-10 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                            Identifiant
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Prénom
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Nom
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Nation
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Date de naissance
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Genre
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Discipline
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="tbody-athlete">
-                </tbody>
-            </table>
-        </div>
-    </main>
+	<main style="margin-top: 10px" class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
+		<div style="margin-top: 10px" class="w-full overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg z-10">
+			<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+				<thead class="z-10 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+					<tr>
+						<th scope="col" class="px-6 py-3">
+							Identifiant
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Prénom
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Nom
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Nation
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Date de naissance
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Genre
+						</th>
+						<th scope="col" class="px-6 py-3">
+							Discipline
+						</th>
+					</tr>
+				</thead>
+				<tbody id="tbody-athlete">
+				</tbody>
+			</table>
+		</div>
+	</main>
 
 	<span class="dot" id="red"></span>
 	<span class="dot" id="blue"></span>
 	<span class="dot" id="yellow"></span>
-	
+
 	<script>
 		const paris_logo = document.getElementById("paris_logo");
-		paris_logo.addEventListener("click", function(){
-			window.location.href='/jee-project/';
+		paris_logo.addEventListener("click", function () {
+			window.location.href = '/jee-project/';
 		});
-	
- 		const searchInput = document.getElementById("searchInput");
- 		
+
+		const searchInput = document.getElementById("searchInput");
+
 		searchInput.addEventListener("keyup", (event) => {
-			  if (/[a-zA-Z]/.test(event.key)) {
-				  executeSearch();
-			  }
+			if (/[a-zA-Z]/.test(event.key)) {
+				executeSearch();
+			}
 		});
-		
-		function executeSearch(){
+
+		function executeSearch() {
 			const searchTerm = searchInput.value;
-				
-			if(searchTerm.length > 0){
-				loadAthletes('/jee-project/api/athlete-controller/get-athletes-name?name='+searchTerm);
+
+			if (searchTerm.length > 0) {
+				loadAthletes('/jee-project/api/athlete-controller/get-athletes-name?name=' + searchTerm);
 			} else {
 				loadAthletes('/jee-project/api/athlete-controller/get-athletes');
 			}

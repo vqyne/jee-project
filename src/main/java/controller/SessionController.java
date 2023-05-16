@@ -56,7 +56,7 @@ public class SessionController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get-sessions-code")
 	public String getSessionsCode(@QueryParam("code") String code) {
-		Session sessions = null;
+		List<Session> sessions = null;
 		System.out.println(sessionDAO.findByCode(code));
 		if(code != null && code.length() > 0) {
 			sessions = sessionDAO.findByCode(code);

@@ -150,6 +150,7 @@ public class SessionDAO {
 	}
 
     
+	@SuppressWarnings("null")
 	public List<Session> findByCode(String code) {
 	    List <Session> ret = null;
 	    Connection connection = DBManager.getInstance().getConnection();
@@ -172,7 +173,7 @@ public class SessionDAO {
 	            Site site = new Site(rs.getInt("site_id"), rs.getString("site_name"), rs.getString("site_city"), CategorieSite.valueOf(rs.getString("site_category")));
 	            String sessionType = rs.getString("s.type");
 	            String sessionCategory = rs.getString("s.category");
-	            ret.add(new Session(sessionCode, sessionDate, sessionFromHour, sessionToHour, discipline, site, sessionDescription, TypeSession.valueOf(sessionType), CategorieSession.valueOf(sessionCategory));
+	            ret.add(new Session(sessionCode, sessionDate, sessionFromHour, sessionToHour, discipline, site, sessionDescription, TypeSession.valueOf(sessionType), CategorieSession.valueOf(sessionCategory)));
 	            break;
 	        }
 	    } catch (SQLException e) {
