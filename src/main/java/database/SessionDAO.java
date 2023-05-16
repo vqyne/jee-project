@@ -200,8 +200,8 @@ public class SessionDAO {
                 LocalTime sessionToHour = rs.getTime("toHour").toLocalTime();
                 String sessionDescription = rs.getString("description");
                 Site site = new SiteDAO().findById(rs.getInt("site"));
-                String sessionType = rs.getString("type");
-                String sessionCategory = rs.getString("category");
+                String sessionType = (rs.getString("type")).toLowerCase();
+                String sessionCategory = (rs.getString("category")).toLowerCase();
                 ret.add(new Session(sessionCode, sessionDate, sessionFromHour, sessionToHour, discipline, site, sessionDescription, TypeSession.valueOf(sessionType), CategorieSession.valueOf(sessionCategory)));
             }
         } catch (SQLException e) {

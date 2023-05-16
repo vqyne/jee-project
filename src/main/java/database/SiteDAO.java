@@ -123,7 +123,7 @@ public class SiteDAO {
 			while(rs.next()) {
 				String name = rs.getString("name");
 				String city = rs.getString("city");
-				String categoryString = rs.getString("category").toLowerCase();
+				String categoryString = (rs.getString("category")).toLowerCase();
 				CategorieSite category = CategorieSite.valueOf(categoryString);
 				ret = new Site(id, name, city, category);
 				break;

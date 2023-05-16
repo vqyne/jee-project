@@ -40,6 +40,55 @@ public class DisciplineDAO {
 	    return ret;
 	}
 	
+	public boolean editDiscipline(String name, String newName) {
+	    Connection connection = null;
+	    PreparedStatement statement = null;
+	    boolean ret = false;
+
+	    try {
+	        connection = DBManager.getInstance().getConnection();
+	        String disableForeignKeyChecks = "SET FOREIGN_KEY_CHECKS=0";
+	        statement = connection.prepareStatement(disableForeignKeyChecks);
+	        statement.executeUpdate();
+
+	        String updateDisciplineSql = "UPDATE discipline SET name = ? WHERE name = ?";
+	        statement = connection.prepareStatement(updateDisciplineSql);
+	        statement.setString(1, newName);
+	        statement.setString(2, name);
+	        int rowsUpdated = statement.executeUpdate();
+
+	        if (rowsUpdated > 0) {
+	            System.out.println("Discipline bien modifiée dans la base de données.");
+
+	            String updateAthleteSql = "UPDATE athlete SET discipline = ? WHERE discipline = ?";
+	            statement = connection.prepareStatement(updateAthleteSql);
+	            statement.setString(1, newName);
+	            statement.setString(2, name);
+	            statement.executeUpdate();
+
+	            String updateSessionSql = "UPDATE session SET discipline = ? WHERE discipline = ?";
+	            statement = connection.prepareStatement(updateSessionSql);
+	            statement.setString(1, newName);
+	            statement.setString(2, name);
+	            statement.executeUpdate();
+
+	            ret = true;
+	        }
+
+	        String enableForeignKeyChecks = "SET FOREIGN_KEY_CHECKS=1";
+	        statement = connection.prepareStatement(enableForeignKeyChecks);
+	        statement.executeUpdate();
+	    } catch (SQLException e) {
+	        System.err.println("Erreur lors de la mise à jour de la discipline: " + e.getMessage());
+	    } finally {
+	        DBManager.getInstance().cleanup(connection, statement, null);
+	    }
+
+	    return ret;
+	}
+
+
+	
 	public boolean removeDiscipline(String name) {
 	    Connection connection = null;
 	    PreparedStatement statement = null;
