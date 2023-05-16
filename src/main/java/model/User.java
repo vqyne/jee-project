@@ -1,11 +1,22 @@
 package model;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 public class User {
+	private int id;
 	private String login;
 	private String hashedPassword;
+	private String salt;
 	private CategorieUser category;
 
-	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getLogin() {
 		return login;
 	}
@@ -17,9 +28,18 @@ public class User {
 	public String getHashedPassword() {
 		return hashedPassword;
 	}
+	
+	public String getSalt() {
+		return this.salt;
+	}
 
-	public void setHashedPassword(String hashedPassword) {
-		this.hashedPassword = hashedPassword;
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public void setHashedPassword(String password) {
+		setSalt(BCrypt.gensalt());
+		this.hashedPassword = BCrypt.hashpw(password, salt);
 	}
 
 	public CategorieUser getCategory() {
@@ -31,12 +51,7 @@ public class User {
 	}
 
 	public boolean checkPassword(String password) {
-		return false;
-		//return BCrypt.checkpw(password,this.hashedPassword);
-	}
-	
-	private String hashPassword(String password) {
-		return null;
-		//return BCrypt.hashpw(password, BCrypt.gensalt())
+		String hashed = BCrypt.hashpw(password, salt);
+		return BCrypt.checkpw(hashed, this.hashedPassword);
 	}
 }
