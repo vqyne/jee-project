@@ -44,7 +44,7 @@
     <nav id="nav" class="bg-white dark:bg-gray-900 sticky w-full z-20 top-0 left-0 border-b-2">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a class="flex items-center">
-                <img src="./img/paris2.png" class="h-16 mr-2" alt="Paris OG Logo">
+                <img id="paris_logo" src="./img/paris2.png" class="h-16 mr-2" alt="Paris OG Logo">
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Session Map</span>
             </a>
             <div class="flex md:order-2">
@@ -81,6 +81,12 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
     <script>
+    
+		const paris_logo = document.getElementById("paris_logo");
+		paris_logo.addEventListener("click", function(){
+			window.location.href='/jee-project/';
+		});
+	
         document.addEventListener("DOMContentLoaded", function () {
             // Initialize the map
             var map = L.map("map").setView([48.8566, 2.3522], 10);

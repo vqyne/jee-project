@@ -33,7 +33,7 @@
 				tr.classList.add('bg-white', 'border-b', 'dark:bg-gray-800', 'dark:border-gray-700');
 				var td_name = document.createElement("th");
 				var link = document.createElement("a");
-				link.href = "/discipline/" + a.name;
+				link.href = "/jee-project/admin/discipline/page_discipline.html?d=" + a.name;
 				link.textContent = a.name;
 				td_name.appendChild(link);
 				
@@ -68,7 +68,7 @@
 		<nav class="bg-white dark:bg-gray-900 sticky w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
 			<div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 				<a class="flex items-center">
-					<img src="/jee-project/img/paris2.png" class="h-16 mr-2" alt="Paris OG Logo">
+					<img id="paris_logo" src="/jee-project/img/paris2.png" class="h-16 mr-2" alt="Paris OG Logo">
 					<span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Paris 2024</span>
 				</a>
 				<div class="flex md:order-2">
@@ -160,6 +160,11 @@
 	  const nameInput = document.getElementById('discipline-name');
 	  const accessibleInput = document.getElementById('accessible-paralympiques');
 	  const submitBtn = document.getElementById('submit-btn');
+	  
+	  const paris_logo = document.getElementById("paris_logo");
+	  paris_logo.addEventListener("click", function(){
+	  	window.location.href='/jee-project/';
+	  });
 
 	  submitBtn.addEventListener('click', function(event) {
 	    event.preventDefault();
