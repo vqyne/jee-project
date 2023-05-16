@@ -65,4 +65,17 @@ public class DisciplineController {
 			return false;
 		}
 	}
+	
+	@POST
+	@Consumes("application/x-www-form-urlencoded")
+	@Path("/discipline-edit")
+	public boolean editDiscipline(@FormParam("name") String name, @FormParam("newName") String newName) {
+		try {
+			disciplineDAO.editDiscipline(name,newName);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }
