@@ -11,40 +11,41 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
 	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
 	<style>
-		    .center-div {
-      			position: fixed;
-      			top: 35%;
-      			left: 50%;
-      			transform: translate(-50%, -50%);
-     			border: 2px solid black;
-      			border-radius: 8px;
-    		}
-    		
-    		@media (max-width: 1700px) {
-			  .center-div {
-			    top: 40%;
-			  }
+		.center-div {
+			position: fixed;
+			top: 35%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			border: 2px solid black;
+			border-radius: 8px;
+		}
+
+		@media (max-width: 1700px) {
+			.center-div {
+				top: 40%;
 			}
-			
-			
-    		@media (max-width: 500px) {
-			  .center-div {
-			    top: 50%;
-			  }
+		}
+
+
+		@media (max-width: 500px) {
+			.center-div {
+				top: 50%;
 			}
+		}
 	</style>
 </head>
 
 <body>
 	<header>
-		<nav class="bg-white dark:bg-gray-900 sticky w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+		<nav
+			class="bg-white dark:bg-gray-900 sticky w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
 			<div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 				<a class="flex items-center">
 					<img id="paris_logo" src="/jee-project/img/paris2.png" class="h-16 mr-2" alt="Paris OG Logo">
 					<span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Paris 2024</span>
 				</a>
 				<div class="flex md:order-2">
-				<button onclick="window.location.href='/jee-project/admin/index.html';" type="button"
+					<button onclick="window.location.href='/jee-project/admin/index.html';" type="button"
 						class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Admin</button>
 					<button data-collapse-toggle="navbar-sticky" type="button"
 						class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
@@ -80,111 +81,139 @@
 			</div>
 		</nav>
 	</header>
-	
+
 	<main style="margin-top: 10px" class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <div style="margin-top: 10px" class="w-full overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg z-10">
-            
-            <div>
-			  <div class="bg-none">
-              	<p class="text-center text-2xl font-bold mb-4">Importer les athlètes en CSV</p>
-			  </div>
-              <div class="w-90 h-90 bg-white-500 rounded-lg flex flex-col items-center justify-center text-white center-div"
-       			id="drag-div" onclick="openExplorer()">
-			    <div style="padding: 30px 50px 50px 50px; margin-top: 20px" class="flex flex-col items-center">
-			      <div class="w-20 h-20 mb-2 flex items-center justify-center">
-			        <img src="/jee-project/img/import_up.svg" alt="Import Up" class="w-full h-full">
-			      </div>
-			      <p style="color:black; margin-top:20px; " class="text-sm text-black text-center">Glisser un fichier CSV ou cliquer pour le sélectionner</p>
-			    </div>
-			  </div>
-            </div>
-		   
-        </div>
-    </main>
-	
-	
+		<div style="margin-top: 10px" class="w-full overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg z-10">
+
+			<div>
+
+
+				<div class="border-2 border-gray-300 border-solid rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+					<p class="text-center justify-center text-2xl text-gray-700 font-bold mt-3 mb-3">Importer les athlètes en CSV</p>
+				</div>
+
+
+				<!-- <div class="w-90 h-90 bg-white-500 rounded-lg flex flex-col items-center justify-center text-white center-div"
+					id="drag-div" onclick="openExplorer()">
+					<div style="padding: 30px 50px 50px 50px; margin-top: 20px" class="flex flex-col items-center">
+						<div class="w-20 h-20 mb-2 flex items-center justify-center">
+							<img src="/jee-project/img/import_up.svg" alt="Import Up" class="w-full h-full">
+						</div>
+						<p style="color:black; margin-top:20px; " class="text-sm text-black text-center">Glisser un
+							fichier CSV ou cliquer pour le sélectionner</p>
+					</div>
+				</div> -->
+
+
+				<div class="mt-6 relative items-center justify-center w-full" id="drag-div" onclick="openExplorer()">
+					<label for="dropzone-file"
+						class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+						<div class="flex flex-col items-center justify-center pt-5 pb-6">
+							<svg aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400" fill="none"
+								stroke="#1D4ED8" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+									d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+								</path>
+							</svg>
+							<p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Cliquez pour importer
+									</span> or glissez et déposez</p>
+							<p class="text-xs text-gray-500 dark:text-gray-400">Format accepté : CSV
+							</p>
+						</div>
+						<input id="dropzone-file" type="file" class="hidden" />
+					</label>
+				</div>
+
+
+			</div>
+
+		</div>
+	</main>
+
+
 	<span class="dot" id="red"></span>
 	<span class="dot" id="blue"></span>
 	<span class="dot" id="yellow"></span>
 	<script>
-	
+
 		const paris_logo = document.getElementById("paris_logo");
-		paris_logo.addEventListener("click", function(){
-			window.location.href='/jee-project/';
+		paris_logo.addEventListener("click", function () {
+			window.location.href = '/jee-project/';
 		});
-		
+
 		var drop_div = document.getElementById('drag-div');
-	
-	    drop_div.addEventListener('dragover', function(e) {
-	      e.preventDefault();
-	      drop_div.style.backgroundColor = 'rgba(0, 0, 255, 0.2)';
-	    });
-	
-	    drop_div.addEventListener('dragleave', function() {
+
+		drop_div.addEventListener('dragover', function (e) {
+			e.preventDefault();
+			drop_div.style.backgroundColor = 'rgba(0, 0, 255, 0.2)';
+		});
+
+		drop_div.addEventListener('dragleave', function () {
 			drop_div.style.backgroundColor = 'transparent';
-	    });
-	
-	    drop_div.addEventListener('drop', function(e) {
-	      e.preventDefault();
-	      drop_div.style.backgroundColor = 'transparent';
-	
-	      var file = e.dataTransfer.files[0];
-          const reader = new FileReader();
+		});
 
-          reader.onload = function(e) {
-            const content = e.target.result;
-            sendCSV(content);
-          };
+		drop_div.addEventListener('drop', function (e) {
+			e.preventDefault();
+			drop_div.style.backgroundColor = 'transparent';
 
-          reader.readAsText(file);	    
-       });
-    	
-        function openExplorer() {
-            // Ouvrir l'explorateur de fichiers ici
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.csv';
-            input.addEventListener('change', fileSelection);
-            input.click();
-         }
-        
-        function fileSelection(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
+			var file = e.dataTransfer.files[0];
+			const reader = new FileReader();
 
-            reader.onload = function(e) {
-              const content = e.target.result;
-              sendCSV(content);
-            };
+			reader.onload = function (e) {
+				const content = e.target.result;
+				sendCSV(content);
+			};
 
-            reader.readAsText(file);
-        }
-        
-        function sendCSV(file){
-  	      const formData = new FormData();
-	      formData.append('file', file);
-	      
-	      fetch('/jee-project/api/athlete-controller/import-athletes-from-csv', {
-	        method: 'POST',
-	        headers: {
-	            'Content-Type': 'text/csv' // Spécifiez le type de contenu correct ici
-	          },
-	        body: formData
-	      })
-	        .then(response => {
-	          if (response.ok) {
-	            console.log('Le fichier a été importé avec succès.');
-	            alert("Les athlètes du fichier ont bien été importés !")
-	          } else {
-	            console.error('Une erreur est survenue lors de l\'import du fichier.');
-	          }
-	        })
-	        .catch(error => {
-	          console.error('Une erreur s\'est produite :', error);
-	        });
-        }
-        
-  	</script>
+			reader.readAsText(file);
+		});
+
+		function openExplorer() {
+			// Ouvrir l'explorateur de fichiers ici
+			const input = document.createElement('input');
+			input.type = 'file';
+			input.accept = '.csv';
+			input.addEventListener('change', fileSelection);
+			input.click();
+		}
+
+		function fileSelection(event) {
+			const file = event.target.files[0];
+			const reader = new FileReader();
+
+			reader.onload = function (e) {
+				const content = e.target.result;
+				sendCSV(content);
+			};
+
+			reader.readAsText(file);
+		}
+
+		function sendCSV(file) {
+			const formData = new FormData();
+			formData.append('file', file);
+
+			fetch('/jee-project/api/athlete-controller/import-athletes-from-csv', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'text/csv' // Spécifiez le type de contenu correct ici
+				},
+				body: formData
+			})
+				.then(response => {
+					if (response.ok) {
+						console.log('Le fichier a été importé avec succès.');
+						alert("Les athlètes du fichier ont bien été importés !")
+					} else {
+						console.error('Une erreur est survenue lors de l\'import du fichier.');
+					}
+				})
+				.catch(error => {
+					console.error('Une erreur s\'est produite :', error);
+				});
+		}
+
+	</script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
 </body>
+
 </html>
