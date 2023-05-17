@@ -6,13 +6,13 @@ public class Site {
 	private String city;
 	private CategorieSite category;
 	
-	public Site(String n,String v,CategorieSite c) {
+	public Site(String n, String v, CategorieSite c) {
 		this.name = n;
 		this.city = v;
 		this.category = c;
 	}
 	
-	public Site(int id,String n,String v,CategorieSite c) {
+	public Site(int id, String n, String v, CategorieSite c) {
 		this.id = id;
 		this.name = n;
 		this.city = v;
