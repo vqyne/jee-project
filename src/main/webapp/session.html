@@ -35,7 +35,6 @@
 
     <script type="text/javascript">
         function loadSessions(url) {
-            // Show the loader
             document.getElementById("loader").style.display = "block";
 
             fetch(url)
@@ -53,14 +52,12 @@
 
 
         function process(sessions) {
-            var sessionlist = document.getElementById("sessionlist");
-            console.log(sessions);
-
-            if (sessionlist.hasChildNodes()) {
-                sessionlist.removeChild(sessionlist.firstChild);
-            }
 
             var table = document.getElementById("tbody-session");
+            
+			while (table.childElementCount > 0) {
+				table.removeChild(table.lastChild);
+			}
 
             for (var a of sessions) {
                 var tr = document.createElement("tr");
