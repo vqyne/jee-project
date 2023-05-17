@@ -170,6 +170,7 @@ public class DisciplineDAO {
 	            String name = rs.getString("name");
 	            Integer flag = rs.getInt("flag");
 	            Discipline discipline = new Discipline(name, flag == 1);
+	            discipline.setAllTime(rs.getInt("duration"));
 	            topDisciplines.add(discipline);
 	        }
 	    } catch (SQLException e) {

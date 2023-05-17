@@ -42,6 +42,13 @@
 			.catch(error => console.log("Erreur : " + error));
 		}
 		
+		 function convertMinutesToShow(minutes) {
+	            var jours = Math.floor(minutes / 1440);
+	            var heures = Math.floor((minutes % 1440) / 60);
+	            var minutes = minutes % 60;
+	            return jours + " jour(s), " + heures + " heure(s), " + minutes + " minute(s)";
+	    }
+		
 		function processSites(sites) {
 			
 			var table = document.getElementById("tbody-site");
@@ -74,10 +81,16 @@
 				td_categorie.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
 				td_categorie.setAttribute("scope", "col"); 
 				
+				var td_number = document.createElement("th");
+				td_number.append(s.numberUsed)
+				td_number.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_number.setAttribute("scope", "col");
+				
 				tr.appendChild(td_id);
 				tr.appendChild(td_name);
 				tr.appendChild(td_city);
-				tr.appendChild(td_categorie);
+				tr.appendChild(td_categorie);				
+				tr.appendChild(td_number);
 				table.appendChild(tr);
 			}
 		}
@@ -98,7 +111,6 @@
 				link.href = "/jee-project/admin/discipline/page_discipline.html?d=" + a.name;
 				link.textContent = a.name;
 				td_name.appendChild(link);
-				
 				td_name.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
 				td_name.setAttribute("scope", "col"); 
 				
@@ -115,9 +127,16 @@
 				var td_flag = document.createElement("td");
 				td_flag.appendChild(icon);
 				
+				var td_time = document.createElement("th");
+				td_time.append(convertMinutesToShow(a.allTime))
+				td_time.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_time.setAttribute("scope", "col");
+				
 				td_flag.classList.add('px-6', 'py-4')
 				tr.appendChild(td_name);
-				tr.appendChild(td_flag);
+				tr.appendChild(td_flag);				
+				tr.appendChild(td_time);
+
 				table.appendChild(tr);
 			}
 		}
@@ -195,6 +214,9 @@
                         <th scope="col" class="px-6 py-3">
                             Catégorie
                         </th>
+                         <th scope="col" class="px-6 py-3">
+                            Nombre de sessions
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="tbody-site">
@@ -214,6 +236,9 @@
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Paralympiques
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Temps total
                         </th>
                     </tr>
                 </thead>
@@ -236,6 +261,8 @@
 	  	paris_logo.addEventListener("click", function(){
 	  		window.location.href='/jee-project/';
 	  	});
+	  	
+	  	
 	</script>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
