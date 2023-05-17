@@ -155,5 +155,28 @@ public class DisciplineDAO {
 		return ret;
 	}
 	
+	public List<Discipline> findTopFiveDisciplinesByDuration() {
+	    List<Discipline> topDisciplines = new ArrayList<>();
+	    Connection connection = DBManager.getInstance().getConnection();
+	    try {
+	        Statement statement = connection.createStatement();
+	        ResultSet rs = statement.executeQuery("SELECT discipline.name, discipline.flag, SUM(TIMESTAMPDIFF(MINUTE, session.fromHour, session.toHour)) AS duration " +
+	                                               "FROM discipline " +
+	                                               "JOIN session ON discipline.name = session.discipline " +
+	                                               "GROUP BY discipline.name " +
+	                                               "ORDER BY duration DESC " +
+	                                               "LIMIT 5");
+	        while (rs.next()) {
+	            String name = rs.getString("name");
+	            Integer flag = rs.getInt("flag");
+	            Discipline discipline = new Discipline(name, flag == 1);
+	            topDisciplines.add(discipline);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return topDisciplines;
+	}
+
 	
 }

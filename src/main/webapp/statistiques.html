@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Statistiques - Paris 2024</title>
+	<link rel="stylesheet" href="css/styles.css">
+	<link rel="icon" href="./img/paris.ico" type="image/x-icon">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
+	<style>
+		.spinner {
+			border: 16px solid #f3f3f3;
+			border-top: 16px solid #ffd700;
+			border-radius: 50%;
+			width: 70px;
+			height: 70px;
+			animation: spin 2s linear infinite;
+		}
+
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+	</style>
+	<script type="text/javascript">
+		function load(urlSites,urlDisciplines) {
+			fetch(urlSites)
+			.then(response => response.json())
+			.then(response => processSites(response))
+			.catch(error => console.log("Erreur : " + error));
+			
+			fetch(urlDisciplines)
+			.then(response => response.json())
+			.then(response => processDisciplines(response))
+			.catch(error => console.log("Erreur : " + error));
+		}
+		
+		function processSites(sites) {
+			
+			var table = document.getElementById("tbody-site");
+			
+		    while (table.childElementCount > 0) {
+		        table.removeChild(table.lastChild);
+		    }
+		    			
+			for (var s of sites) {
+				var tr = document.createElement("tr");
+				tr.classList.add('bg-white', 'border-b', 'dark:bg-gray-800', 'dark:border-gray-700');
+				
+				var td_id = document.createElement("th");
+				td_id.append(s.id)
+				td_id.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_id.setAttribute("scope", "col"); 
+				
+				var td_name = document.createElement("th");
+				td_name.append(s.name)
+				td_name.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_name.setAttribute("scope", "col"); 
+				
+				var td_city = document.createElement("th");				
+				td_city.append(s.city)
+				td_city.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_city.setAttribute("scope", "col"); 
+				
+				var td_categorie = document.createElement("th");
+				td_categorie.append(s.category)
+				td_categorie.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_categorie.setAttribute("scope", "col"); 
+				
+				tr.appendChild(td_id);
+				tr.appendChild(td_name);
+				tr.appendChild(td_city);
+				tr.appendChild(td_categorie);
+				table.appendChild(tr);
+			}
+		}
+		
+		function processDisciplines(discipline) {
+			
+			var table = document.getElementById("tbody-discipline");
+			
+		    while (table.childElementCount > 0) {
+		        table.removeChild(table.lastChild);
+		    }
+		    			
+			for (var a of discipline) {
+				var tr = document.createElement("tr");
+				tr.classList.add('bg-white', 'border-b', 'dark:bg-gray-800', 'dark:border-gray-700');
+				var td_name = document.createElement("th");
+				var link = document.createElement("a");
+				link.href = "/jee-project/admin/discipline/page_discipline.html?d=" + a.name;
+				link.textContent = a.name;
+				td_name.appendChild(link);
+				
+				td_name.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_name.setAttribute("scope", "col"); 
+				
+				var icon = document.createElement("img");
+				icon.setAttribute("alt", "");
+				icon.setAttribute("width", "24");
+				icon.setAttribute("height", "24");
+				if (a.flag) {
+				  icon.setAttribute("src", "/jee-project/img/check.svg"); 
+				} else {
+				  icon.setAttribute("src", "/jee-project/img/x.svg");
+				}
+
+				var td_flag = document.createElement("td");
+				td_flag.appendChild(icon);
+				
+				td_flag.classList.add('px-6', 'py-4')
+				tr.appendChild(td_name);
+				tr.appendChild(td_flag);
+				table.appendChild(tr);
+			}
+		}
+
+	</script>
+</head>
+
+<body class="body">
+	<div id="loader"
+		style="display: none; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.5); z-index: 9999;">
+		<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+			<div class="spinner"></div>
+		</div>
+	</div>
+	<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+		<div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+			<a class="flex items-center">
+				<img id="paris_logo" src="./img/paris2.png" class="h-16 mr-2" alt="Paris OG Logo">
+				<span style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white prevent-select">Paris 2024</span>
+			</a>
+			<div class="flex md:order-2">
+				<button onclick="window.location.href='/jee-project/admin/index.html';" type="button"
+					class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Admin</button>
+				<button data-collapse-toggle="navbar-sticky" type="button"
+					class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+					aria-controls="navbar-sticky" aria-expanded="false">
+					<span class="sr-only">Open main menu</span>
+					<svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+						xmlns="http://www.w3.org/2000/svg">
+						<path fill-rule="evenodd"
+							d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+							clip-rule="evenodd"></path>
+					</svg>
+				</button>
+			</div>
+			<div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+				<ul
+					class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+
+					<li>
+						<a href="/jee-project/athlete.html"
+							class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Athlètes</a>
+					</li>
+					<li>
+						<a href="/jee-project/session.html"
+							class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Sessions</a>
+					</li>
+					<li>
+						<a href="/jee-project/statistiques.html"
+							class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Statistiques</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<main style="margin-top: 120px" class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+		
+		 <h3 class="text-center text-3xl font-bold mb-4 mt-5">Les 5 sites les plus utilisés pendant les JO 2024</h3>
+		
+		 <div style="margin-top: 10px" class="w-full overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg z-10">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead
+                    class="z-10 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Identifiant
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Nom
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Ville
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Catégorie
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-site">
+                </tbody>
+            </table>
+        </div>
+        
+        <h3 style="margin-top: 25px" class="text-center text-3xl font-bold mb-4 mt-5">Les 5 disciplines ayant les épreuves les plus longues</h3>
+        
+        <div style="margin-top: 20px" class="w-full overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg z-10">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead
+                    class="z-10 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Nom
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Paralympiques
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-discipline">
+                </tbody>
+            </table>
+        </div>
+        
+	</main>
+
+	<span class="dot" id="red"></span>
+	<span class="dot" id="blue"></span>
+	<span class="dot" id="yellow"></span>
+
+	<script>
+	
+		load('/jee-project/api/site-controller/get-top-five-sites','/jee-project/api/discipline-controller/get-disciplines-duration')
+	  
+	  	const paris_logo = document.getElementById("paris_logo");
+	  	paris_logo.addEventListener("click", function(){
+	  		window.location.href='/jee-project/';
+	  	});
+	</script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+</body>
+
+</html>

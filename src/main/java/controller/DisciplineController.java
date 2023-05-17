@@ -46,6 +46,21 @@ public class DisciplineController {
 		return json;
 	}
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/get-disciplines-duration")
+	public String getDisciplinesDuration() {
+		List<Discipline> disciplines = null;
+		disciplines = disciplineDAO.findTopFiveDisciplinesByDuration();
+		if(disciplines.isEmpty()) {
+			disciplines = new ArrayList<Discipline>();
+		}
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		String json = gson.toJson(disciplines);
+		return json;
+	}
+	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Path("/discipline-add")

@@ -133,10 +133,10 @@ public class SessionDAO {
 	            LocalTime fromHour = rs.getTime("s.fromHour").toLocalTime();
 	            LocalTime toHour = rs.getTime("s.toHour").toLocalTime();
 	            Discipline discipline = new Discipline(rs.getString("d.name"), rs.getBoolean("d.flag"));
-	            Site site = new Site(rs.getInt("si.id"), rs.getString("si.name"), rs.getString("si.city"), CategorieSite.valueOf(rs.getString("si.category").toLowerCase()));
+	            Site site = new Site(rs.getInt("si.id"), rs.getString("si.name"), rs.getString("si.city"), CategorieSite.valueOf((rs.getString("si.category").toLowerCase())));
 	            String description = rs.getString("s.description");
 	            TypeSession type = TypeSession.valueOf(rs.getString("s.type"));
-	            CategorieSession category = CategorieSession.valueOf(rs.getString("s.category").toLowerCase());
+	            CategorieSession category = CategorieSession.valueOf((rs.getString("s.category").toLowerCase()));
 	            ret.add(new Session(code, date, fromHour, toHour, discipline, site, description, type, category));
 	        }
 	    } catch (SQLException e) {
@@ -152,7 +152,7 @@ public class SessionDAO {
     
 	@SuppressWarnings("null")
 	public List<Session> findByCode(String code) {
-	    List <Session> ret = null;
+	    List <Session> ret = new ArrayList<Session>();
 	    Connection connection = DBManager.getInstance().getConnection();
 	    try {
 	        String query = "SELECT s.*, d.name AS discipline_name, d.flag AS discipline_flag, si.id AS site_id, si.name AS site_name, si.city AS site_city, si.category AS site_category " +
@@ -170,9 +170,9 @@ public class SessionDAO {
 	            LocalTime sessionToHour = rs.getTime("s.toHour").toLocalTime();
 	            String sessionDescription = rs.getString("s.description");
 	            Discipline discipline = new Discipline(rs.getString("discipline_name"), rs.getBoolean("discipline_flag"));
-	            Site site = new Site(rs.getInt("site_id"), rs.getString("site_name"), rs.getString("site_city"), CategorieSite.valueOf(rs.getString("site_category")));
-	            String sessionType = rs.getString("s.type");
-	            String sessionCategory = rs.getString("s.category");
+	            Site site = new Site(rs.getInt("site_id"), rs.getString("site_name"), rs.getString("site_city"), CategorieSite.valueOf((rs.getString("site_category").toLowerCase())));
+	            String sessionType = (rs.getString("s.type").toLowerCase());
+	            String sessionCategory = (rs.getString("s.category").toLowerCase());
 	            ret.add(new Session(sessionCode, sessionDate, sessionFromHour, sessionToHour, discipline, site, sessionDescription, TypeSession.valueOf(sessionType), CategorieSession.valueOf(sessionCategory)));
 	            break;
 	        }
