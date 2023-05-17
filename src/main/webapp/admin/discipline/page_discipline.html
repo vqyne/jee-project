@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paris 2024 | Discipline</title>
+<link rel="stylesheet" href="/jee-project/css/styles.css">
+<link rel="icon" href="/jee-project/img/paris.ico" type="image/x-icon">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css"
+	rel="stylesheet" />
+<link
+	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded"
+	rel="stylesheet" />
+
+<script type="text/javascript">
+		
+		function loadAthleteSession(urlAthlete,urlSession) {
+			fetch(urlAthlete)
+			.then(response => response.json())
+			.then(response => processAthlete(response))
+			.catch(error => console.log("Erreur : " + error));
+			
+			fetch(urlSession)
+			.then(response => response.json())
+			.then(response => processSession(response))
+			.catch(error => console.log("Erreur : " + error));
+		}
+		
+		function processAthlete(athletes) {
+			
+			var table = document.getElementById("tbody-athlete");
+			
+		    while (table.childElementCount > 0) {
+		        table.removeChild(table.lastChild);
+		    }
+		    			
+			for (var a of athletes) {
+				var tr = document.createElement("tr");
+				tr.classList.add('bg-white', 'border-b', 'dark:bg-gray-800', 'dark:border-gray-700');
+				var td_id = document.createElement("th");
+				td_id.append(a.id);
+				td_id.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_id.setAttribute("scope", "col"); 
+				var td_lastname = document.createElement("td");
+				td_lastname.append(a.lastname);
+				td_lastname.classList.add('px-6', 'py-4')
+				var td_firstname = document.createElement("td");
+				td_firstname.append(a.firstname);
+				td_firstname.classList.add('px-6', 'py-4')
+				var td_country = document.createElement("td");
+				td_country.append(a.country);
+				td_country.classList.add('px-6', 'py-4')
+				var td_birthdate = document.createElement("td");
+				td_birthdate.append(a.birthdate);
+				td_birthdate.classList.add('px-6', 'py-4')
+				var td_genre = document.createElement("td");
+				td_genre.append(a.genre);
+				td_genre.classList.add('px-6', 'py-4')
+				var td_discipline = document.createElement("td");
+				td_discipline.append(a.discipline.name);
+				td_discipline.classList.add('px-6', 'py-4')
+				tr.appendChild(td_id);
+				tr.appendChild(td_firstname);
+				tr.appendChild(td_lastname);
+				tr.appendChild(td_country);
+				tr.appendChild(td_birthdate);
+				tr.appendChild(td_genre);
+				tr.appendChild(td_discipline);
+				table.appendChild(tr);
+			}
+		}
+		
+		function processSession(sessions) {
+			
+			var table = document.getElementById("tbody-session");
+			
+		    while (table.childElementCount > 0) {
+		        table.removeChild(table.lastChild);
+		    }
+			
+			for (var a of sessions) {
+				var tr = document.createElement("tr");
+				tr.classList.add('bg-white', 'border-b', 'dark:bg-gray-800', 'dark:border-gray-700');
+				var td_code = document.createElement("th");
+				td_code.append(a.code);
+				td_code.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_code.setAttribute("scope", "col"); 
+				var td_date = document.createElement("td");
+				td_date.append(a.date);
+				td_date.classList.add('px-6', 'py-4')
+				var td_fromHour = document.createElement("td");
+				td_fromHour.append(a.fromHour);
+				td_fromHour.classList.add('px-6', 'py-4')
+				var td_toHour = document.createElement("td");
+				td_toHour.append(a.toHour);
+				td_toHour.classList.add('px-6', 'py-4')
+				var td_discipline = document.createElement("td");
+				td_discipline.append(a.discipline.name);
+				td_discipline.classList.add('px-6', 'py-4')
+				var td_site = document.createElement("td");
+				td_site.append(a.site.name);
+				td_site.classList.add('px-6', 'py-4')
+				var td_description = document.createElement("td");
+				td_description.append(a.description);
+				td_description.classList.add('px-6', 'py-4')
+                var td_type = document.createElement("td");
+				td_type.append(a.type);
+				td_type.classList.add('px-6', 'py-4')
+                var td_category = document.createElement("td");
+				td_category.append(a.category);
+				td_category.classList.add('px-6', 'py-4')
+				tr.appendChild(td_code);
+				tr.appendChild(td_date);
+				tr.appendChild(td_fromHour);
+				tr.appendChild(td_toHour);
+				tr.appendChild(td_discipline);
+				tr.appendChild(td_site);
+				tr.appendChild(td_description);
+                tr.appendChild(td_type);
+                tr.appendChild(td_category);
+				table.appendChild(tr);
+			}
+		}
+		
+	</script>
+</head>
+
+<body class="body">
+	<header>
+		<nav
+			class="bg-white dark:bg-gray-900 sticky w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
+			<div
+				class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+				<a class="flex items-center"> <img id="paris_logo"
+					src="/jee-project/img/paris2.png" class="h-16 mr-2"
+					alt="Paris OG Logo"> <span
+					class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Paris
+						2024</span>
+				</a>
+				<div class="flex md:order-2">
+					<button
+						onclick="window.location.href='/jee-project/admin/index.html';"
+						type="button"
+						class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Admin</button>
+					<button data-collapse-toggle="navbar-sticky" type="button"
+						class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+						aria-controls="navbar-sticky" aria-expanded="false">
+						<span class="sr-only">Open main menu</span>
+						<svg class="w-6 h-6" aria-hidden="true" fill="currentColor"
+							viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd"
+								d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+								clip-rule="evenodd"></path>
+						</svg>
+					</button>
+				</div>
+				<div
+					class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+					id="navbar-sticky">
+					<ul
+						class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+
+						<li><a href="/jee-project/admin/discipline/index.html"
+							class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Disciplines</a>
+						</li>
+						<li><a href="/jee-project/admin/site.html"
+							class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Sites</a>
+						</li>
+						<li><a href="/jee-project/admin/session.html"
+							class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Sessions</a>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<main style="margin-top: 10px"
+		class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+		<div style="margin-top: 10px"
+			class="w-full overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg z-10">
+
+			<div>
+				<div class="bg-none">
+					<h2 id="h2-discipline" class="text-center text-4xl font-bold mb-4">Discipline</h2>
+				</div>
+
+				<h3 class="text-center text-3xl font-bold mb-4 mt-5">Athlètes</h3>
+
+
+				<table
+					class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+					<thead
+						class="z-10 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+						<tr>
+							<th scope="col" class="px-6 py-3">Identifiant</th>
+							<th scope="col" class="px-6 py-3">Prénom</th>
+							<th scope="col" class="px-6 py-3">Nom</th>
+							<th scope="col" class="px-6 py-3">Nation</th>
+							<th scope="col" class="px-6 py-3">Date de naissance</th>
+							<th scope="col" class="px-6 py-3">Genre</th>
+							<th scope="col" class="px-6 py-3">Discipline</th>
+						</tr>
+					</thead>
+					<tbody id="tbody-athlete">
+					</tbody>
+				</table>
+
+				<h3 class="text-center text-3xl font-bold mb-4 mt-4">Sessions</h3>
+
+				<table
+					class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+					<thead
+						class="z-10 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+						<tr>
+							<th scope="col" class="px-6 py-3">Code de session</th>
+							<th scope="col" class="px-6 py-3">Date</th>
+							<th scope="col" class="px-6 py-3">Heure de début</th>
+							<th scope="col" class="px-6 py-3">Heure de fin</th>
+							<th scope="col" class="px-6 py-3">Discipline</th>
+							<th scope="col" class="px-6 py-3">Site de compétition</th>
+							<th scope="col" class="px-6 py-3">Description</th>
+							<th scope="col" class="px-6 py-3">Type</th>
+							<th scope="col" class="px-6 py-3">Catégorie</th>
+						</tr>
+					</thead>
+					<tbody id="tbody-session">
+					</tbody>
+				</table>
+
+
+
+			</div>
+
+		</div>
+	</main>
+
+	<span class="dot" id="red"></span>
+	<span class="dot" id="blue"></span>
+	<span class="dot" id="yellow"></span>
+
+	<script>
+		const queryString = window.location.search;
+		const urlParams = new URLSearchParams(queryString);
+		const disciplineParam = urlParams.get('d')
+			
+		const h2 = document.getElementById("h2-discipline");
+		h2.textContent = disciplineParam
+		
+		h2.addEventListener("click", function() {
+			  var h2 = this;
+			  var text = h2.innerText;
+
+			  var input = document.createElement("input");
+			  input.value = text;
+			  input.className = "text-center text-4xl font-bold mb-4";
+
+			  h2.parentNode.replaceChild(input, h2);
+			  
+			  input.focus();
+
+			  input.addEventListener("keydown", function(event) {
+			    if (event.keyCode === 13) { 
+			      event.preventDefault(); 
+			      var newName = input.value;
+
+			      var newH2 = document.createElement("h2");
+			      newH2.innerText = newName;
+			      newH2.classList.add("text-center", "text-4xl", "font-bold", "mb-4")
+
+			      const url = '/jee-project/api/discipline-controller/discipline-edit/';
+				    
+				  const formData = new URLSearchParams();
+				  formData.append('name', disciplineParam);
+				  formData.append('newName', newName);
+
+				  fetch(url, {
+				      method: 'POST',
+				      headers: {
+				          'Content-Type': 'application/x-www-form-urlencoded'
+				        },
+				        body: formData
+				  })
+				  .then(response => {
+				    if (!response.ok) {
+				  		console.log(response);
+				        throw new Error('Error network');
+				    }
+				    return response.json();
+				  })
+				  .then(data => {
+				    console.log('Discipline modifiée avec succès:', data);
+				  	var url = window.location.href;
+				 	var newUrl = url.replace("d="+disciplineParam, "d="+newName);
+				 	window.location.href = newUrl;
+				  })
+				  .catch(error => {
+				    console.error('Erreur lors de la modification de la discipline:', error);
+				  });
+			    }
+			  });
+			});
+
+
+		loadAthleteSession('/jee-project/api/athlete-controller/get-athletes?discipline='+disciplineParam, '/jee-project/api/session-controller/get-sessions?discipline='+disciplineParam)
+	  
+	  	const paris_logo = document.getElementById("paris_logo");
+	  	paris_logo.addEventListener("click", function(){
+	  		window.location.href='/jee-project/';
+	  	});
+
+	  
+	  
+	</script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+</body>
+</html>
