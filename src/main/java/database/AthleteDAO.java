@@ -178,7 +178,7 @@ public class AthleteDAO {
 		Connection connexion = DBManager.getInstance().getConnection();
 		try {
 			PreparedStatement ps = connexion.prepareStatement("SELECT * FROM athlete WHERE upper(discipline) = ?");
-			ps.setString(1, "%" + disciplineName.toUpperCase() + "%");
+			ps.setString(1,disciplineName.toUpperCase());
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				int id = rs.getInt("id");

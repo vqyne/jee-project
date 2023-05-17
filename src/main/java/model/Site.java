@@ -5,14 +5,15 @@ public class Site {
 	private String name;
 	private String city;
 	private CategorieSite category;
+	private int numberUsed;
 	
-	public Site(String n,String v,CategorieSite c) {
+	public Site(String n, String v, CategorieSite c) {
 		this.name = n;
 		this.city = v;
 		this.category = c;
 	}
 	
-	public Site(int id,String n,String v,CategorieSite c) {
+	public Site(int id, String n, String v, CategorieSite c) {
 		this.id = id;
 		this.name = n;
 		this.city = v;
@@ -45,6 +46,14 @@ public class Site {
 
 	public void setCategory(CategorieSite categorie) {
 		this.category = categorie;
+	}
+	
+	public int getNumberUsed() {
+		return this.numberUsed;
+	}
+	
+	public void setNumberUsed(int n) {
+		this.numberUsed = n;
 	}
 	
 	

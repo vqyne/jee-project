@@ -3,6 +3,7 @@ package model;
 public class Discipline {
 	private String name;
 	private boolean flag;
+	private int allTime;
 	
 	public Discipline(String n, boolean f) {
 		this.name = n;
@@ -25,6 +26,14 @@ public class Discipline {
 	}
 	public void setFlag(boolean flag) {
 		this.flag = flag;
+	}
+	
+	public int getAllTime() {
+		return this.allTime;
+	}
+	
+	public void setAllTime(int a) {
+		this.allTime = a;
 	}
 	
 	
