@@ -5,6 +5,7 @@ public class Site {
 	private String name;
 	private String city;
 	private CategorieSite category;
+	private int numberUsed;
 	
 	public Site(String n, String v, CategorieSite c) {
 		this.name = n;
@@ -45,6 +46,14 @@ public class Site {
 
 	public void setCategory(CategorieSite categorie) {
 		this.category = categorie;
+	}
+	
+	public int getNumberUsed() {
+		return this.numberUsed;
+	}
+	
+	public void setNumberUsed(int n) {
+		this.numberUsed = n;
 	}
 	
 	

@@ -109,6 +109,7 @@ public class SiteDAO {
 	            String categoryString = rs.getString("category");
 	            CategorieSite category = CategorieSite.valueOf((categoryString.toLowerCase()));
 	            Site site = new Site(id, name, city, category);
+	            site.setNumberUsed(rs.getInt("session_count"));
 	            topSites.add(site);
 	        }
 	    } catch (SQLException e) {
