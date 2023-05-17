@@ -91,6 +91,32 @@ public class SiteDAO {
 		return ret;
 	}
 	
+	public List<Site> findTopFiveSitesBySessions() {
+	    List<Site> topSites = new ArrayList<>();
+	    Connection connection = DBManager.getInstance().getConnection();
+	    try {
+	        Statement statement = connection.createStatement();
+	        ResultSet rs = statement.executeQuery("SELECT site.*, COUNT(session.site) AS session_count " +
+	                                               "FROM site " +
+	                                               "JOIN session ON site.site_id = session.site " +
+	                                               "GROUP BY site.site_id " +
+	                                               "ORDER BY session_count DESC " +
+	                                               "LIMIT 5");
+	        while (rs.next()) {
+	            int id = rs.getInt("site_id");
+	            String name = rs.getString("name");
+	            String city = rs.getString("city");
+	            String categoryString = rs.getString("category");
+	            CategorieSite category = CategorieSite.valueOf(categoryString);
+	            Site site = new Site(id, name, city, category);
+	            topSites.add(site);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return topSites;
+	}
+	
 	public List<Site> findByString(String searchText) {
 		List<Site> ret = new ArrayList<Site>();
 		Connection connexion = DBManager.getInstance().getConnection();
