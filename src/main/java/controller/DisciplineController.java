@@ -46,6 +46,21 @@ public class DisciplineController {
 		return json;
 	}
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/get-disciplines-duration")
+	public String getDisciplinesDuration() {
+		List<Discipline> disciplines = null;
+		disciplines = disciplineDAO.findTopFiveDisciplinesByDuration();
+		if(disciplines.isEmpty()) {
+			disciplines = new ArrayList<Discipline>();
+		}
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		String json = gson.toJson(disciplines);
+		return json;
+	}
+	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Path("/discipline-add")
@@ -59,6 +74,19 @@ public class DisciplineController {
 		try {
 			Discipline discipline = new Discipline(name, accessibleBooolean);
 			disciplineDAO.addDiscipline(discipline);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	@POST
+	@Consumes("application/x-www-form-urlencoded")
+	@Path("/discipline-edit")
+	public boolean editDiscipline(@FormParam("name") String name, @FormParam("newName") String newName) {
+		try {
+			disciplineDAO.editDiscipline(name,newName);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
