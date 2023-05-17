@@ -10,10 +10,59 @@
 	<link rel="icon" href="/jee-project/img/paris.ico" type="image/x-icon">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
 	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
+	
+	<script>
+		function loadSite(url) {
+			fetch(url)
+			.then(response => response.json())
+			.then(response => process(response))
+			.catch(error => console.log("Erreur : " + error));
+		}
+		
+		function process(sites) {
+	
+			var table = document.getElementById("tbody-site");
+			
+		    while (table.childElementCount > 0) {
+		        table.removeChild(table.lastChild);
+		    }
+		    			
+			for (var s of sites) {
+				var tr = document.createElement("tr");
+				tr.classList.add('bg-white', 'border-b', 'dark:bg-gray-800', 'dark:border-gray-700');
+				
+				var td_id = document.createElement("th");
+				td_id.append(s.id)
+				td_id.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_id.setAttribute("scope", "col"); 
+				
+				var td_name = document.createElement("th");
+				td_name.append(s.name)
+				td_name.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_name.setAttribute("scope", "col"); 
+				
+				var td_city = document.createElement("th");				
+				td_city.append(s.city)
+				td_city.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_city.setAttribute("scope", "col"); 
+				
+				var td_categorie = document.createElement("th");
+				td_categorie.append(s.category)
+				td_categorie.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_categorie.setAttribute("scope", "col"); 
+				
+				tr.appendChild(td_id);
+				tr.appendChild(td_name);
+				tr.appendChild(td_city);
+				tr.appendChild(td_categorie);
+				table.appendChild(tr);
+			}
+		}
+	
+	</script>
 </head>
 
-<body>
-
+<body class="body" onload="loadSite('/jee-project/api/site-controller/get-sites')">
 	<header>
 		<nav class="bg-white dark:bg-gray-900 sticky w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
 			<div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -58,83 +107,135 @@
 			</div>
 		</nav>
 	</header>
-	
-	<main class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto h-auto p-4 z-50">
-		<section class="flex flex-col w-full">
-			<h1 class="text-xl font-semibold text-center mb-2">Ajouter un site</h1>
-			
-			<form class="grid grid-cols-1 md:grid-cols-3 space-y-2 md:space-y-0 md:gap-2 p-2">
-	            <div>
-	                <label for="siteName" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Nom du site</label>
-	                <input type="text" name="siteName" id="siteName" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Stade de France" required>
-	            </div>
-	            
-   	            <div>
-	                <label for="siteCity" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Ville du site</label>
-	                <input type="text" name="siteCity" id="siteCity" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Saint-Denis" required>
-	            </div>
-			</form>
-		</section>
+
+	<main style="margin-top: 10px" class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+	 
+		<form id="add-site-form" class="max-w-sm mx-auto">
+		  <div class="mb-4">
+		    <label class="block text-gray-700 font-bold mb-2" for="site-name">
+		      Site à ajouter
+		    </label>
+		    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="site-name" type="text" placeholder="Saisissez le nom du site">
+		  </div>
+		  <div class="mb-4">
+		    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="site-city" type="text" placeholder="Saisissez la ville du site">
+		  </div>
+		  <div class="mb-4">
+			<select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="site-category" data-target="categorieList">
+			</select>
+		  </div>
+		  <div class="flex items-center justify-center">
+		    <button id="submit-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+		      Ajouter
+		    </button>
+		  </div>
+		</form>
 		
-		<section id="sites" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></section>
-	</main>
+        <div style="margin-top: 20px" class="w-full overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg z-10">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead
+                    class="z-10 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">
+                            Identifiant
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Nom
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Ville
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Catégorie
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-site">
+                </tbody>
+            </table>
+        </div>
+    </main>
 	
 	<span class="dot" id="red"></span>
 	<span class="dot" id="blue"></span>
 	<span class="dot" id="yellow"></span>
+	
+	<script>
+	
+	  const form = document.getElementById('add-site-form');
+	  const nameInput = document.getElementById('site-name');
+	  const cityInput = document.getElementById('site-city');
+	  const categoryInput = document.getElementById('site-category');
+
+	  const submitBtn = document.getElementById('submit-btn');
+	  
+	  const paris_logo = document.getElementById("paris_logo");
+	  paris_logo.addEventListener("click", function(){
+	  	window.location.href='/jee-project/';
+	  });
+	  
+	  const selectElement = document.getElementById('site-category');
+
+	  function generateCategoryOptions(categories) {
+		  categories.forEach((categorie) => {
+		    const optionElement = document.createElement('option');
+		    optionElement.value = categorie;
+		    optionElement.textContent = categorie;
+		    selectElement.appendChild(optionElement);
+		  });
+	  }
+	
+	  fetch('/jee-project/api/site-controller/get-categories')
+		  .then((response) => response.json())
+		  .then((data) => {
+		    generateCategoryOptions(data);
+		  })
+		  .catch((error) => {
+		    console.error('Une erreur s\'est produite lors de la récupération des catégories :', error);
+	   });
+
+
+	  submitBtn.addEventListener('click', function(event) {
+	    event.preventDefault();
+	    
+	    const name = nameInput.value;
+	    const city = cityInput.value;
+	    const category = categoryInput.value;
+
+	    const url = '/jee-project/api/site-controller/site-add';
+	    
+	    const formData = new URLSearchParams();
+	    formData.append('name', name);
+	    formData.append('city', city);
+	    formData.append('category', category);
+
+	    fetch(url, {
+	        method: 'POST',
+	        headers: {
+	            'Content-Type': 'application/x-www-form-urlencoded'
+	          },
+	          body: formData
+	    })
+	    .then(response => {
+	      if (!response.ok) {
+	    	console.log(response);
+	        throw new Error('Error network');
+	      }
+	      return response.json();
+	    })
+	    .then(data => {
+	      console.log('Site ajouté avec succès:', data);
+	      form.reset();
+	      loadSite('/jee-project/api/site-controller/get-sites')
+	    })
+	    .catch(error => {
+	      console.error('Erreur lors de l\'ajout de le site:', error);
+	    });
+	  });
+	  
+	</script>
+	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
 	
-	<script type="module">
-		const main = document.querySelector('main');
-		const sites = document.querySelector('#sites');
-		const response = await fetch('/jee-project/api/sites');
-		if (!response.ok) {
-			throw new Error(response.statusText);
-		}
-
-		const siteIcons = {
-			stade: 'stadium',
-			salle_de_spectacle: 'theater_comedy',
-			lieu_public: 'location_city',
-			centre_aquatique: 'pool',
-		}
-		const sitesData = await response.json();
-		for (const x of sitesData)
-		{
-			sites.innerHTML = `
-			<article class="section shadow rounded bg-gray-100 flex flex-row p-2">
-				<div class="rounded-full w-10 h-10 bg-gray-200 mr-2 flex items-center justify-center">
-					<span class="material-symbols-rounded">${siteIcons[x.category]}</span>
-				</div>
-
-				<div class="flex flex-col">
-					<h1 class="font-semibold text-xl mb-1">${x.name}</h1>
-					
-					<p class="flex flex-row items-center mb-3">
-						<span class="material-symbols-rounded">location_on</span>
-						${x.city}
-					</p>
-					
-					<div class="flex flex-row flex-wrap space-x-1">
-						<button class="flex flex-row items-center text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-							<span class="material-symbols-rounded text-xs">edit</span>
-							Modifier
-						</button>
-						
-						<button onclick="deleteSite(${x.id})" class="flex flex-row items-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-							<span class="material-symbols-rounded text-xs">delete</span>
-							Supprimer
-						</button>
-					</div>
-				</div>
-			</article>`
-		}
-	</script>
-	<script>
-		async function deleteSite()
-		{
-
-		}
-	</script>
 </body>
 </html>

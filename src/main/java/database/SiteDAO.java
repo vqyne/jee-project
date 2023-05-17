@@ -81,7 +81,7 @@ public class SiteDAO {
 				String name = rs.getString("name");
 				String city = rs.getString("city");
 				String categoryString = rs.getString("category");
-				CategorieSite category = CategorieSite.valueOf(categoryString);
+				CategorieSite category = CategorieSite.valueOf(categoryString.toLowerCase());
 				ret.add(new Site(id,name, city, category));
 			}
 		} catch (SQLException e) {
