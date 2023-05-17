@@ -98,16 +98,16 @@ public class SiteDAO {
 	        Statement statement = connection.createStatement();
 	        ResultSet rs = statement.executeQuery("SELECT site.*, COUNT(session.site) AS session_count " +
 	                                               "FROM site " +
-	                                               "JOIN session ON site.site_id = session.site " +
-	                                               "GROUP BY site.site_id " +
+	                                               "JOIN session ON site.id = session.site " +
+	                                               "GROUP BY site.id " +
 	                                               "ORDER BY session_count DESC " +
 	                                               "LIMIT 5");
 	        while (rs.next()) {
-	            int id = rs.getInt("site_id");
+	            int id = rs.getInt("id");
 	            String name = rs.getString("name");
 	            String city = rs.getString("city");
 	            String categoryString = rs.getString("category");
-	            CategorieSite category = CategorieSite.valueOf(categoryString);
+	            CategorieSite category = CategorieSite.valueOf((categoryString.toLowerCase()));
 	            Site site = new Site(id, name, city, category);
 	            topSites.add(site);
 	        }
