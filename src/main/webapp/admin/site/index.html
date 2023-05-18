@@ -51,10 +51,41 @@
 				td_categorie.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
 				td_categorie.setAttribute("scope", "col"); 
 				
+				var td_modify = document.createElement("th");
+				
+				var editIcon = document.createElement("img");
+				editIcon.setAttribute("alt", "");
+				editIcon.setAttribute("width", "24");
+				editIcon.setAttribute("height", "24");
+				editIcon.setAttribute("src", "/jee-project/img/edit.svg"); 
+				editIcon.classList.add("edit-icon-class")
+				editIcon.setAttribute("id","edit-icon-"+s.id)
+				
+				td_modify.append(editIcon)
+				td_modify.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_modify.setAttribute("scope", "col"); 
+				
+				var td_delete = document.createElement("th");
+				
+				var deleteIcon = document.createElement("img");
+				deleteIcon.setAttribute("alt", "");
+				deleteIcon.setAttribute("width", "24");
+				deleteIcon.setAttribute("height", "24");
+				deleteIcon.setAttribute("src", "/jee-project/img/trash.svg"); 
+				deleteIcon.classList.add("delete-icon-class")
+				deleteIcon.setAttribute("id","delete-icon-"+s.id)
+				
+				td_delete.append(deleteIcon)
+				td_delete.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+				td_delete.setAttribute("scope", "col"); 
+				
 				tr.appendChild(td_id);
 				tr.appendChild(td_name);
 				tr.appendChild(td_city);
 				tr.appendChild(td_categorie);
+				tr.appendChild(td_modify);
+				tr.appendChild(td_delete);
+
 				table.appendChild(tr);
 			}
 		}
@@ -148,6 +179,12 @@
                         <th scope="col" class="px-6 py-3">
                             Catégorie
                         </th>
+                         <th scope="col" class="px-6 py-3">
+                            Modifier
+                        </th>
+                         <th scope="col" class="px-6 py-3">
+                            Supprimer
+                        </th>
                     </tr>
                 </thead>
                 <tbody id="tbody-site">
@@ -184,6 +221,24 @@
 		    selectElement.appendChild(optionElement);
 		  });
 	  }
+	  
+	  const elements_edit = document.querySelectorAll('.edit-icon-class');
+	  console.log(elements_edit)
+	  elements_edit.forEach((element) => {
+		  element.addEventListener('click', function(){
+			  console.alert("T'as les cramptés edit")
+		  })
+	  })
+		 
+	  
+	  const elements_delete = document.querySelectorAll('.delete-icon-class');
+	  console.log(elements_delete)
+
+	  elements_delete.forEach((element) => {
+		  element.addEventListener('click', function(){
+			  console.alert("T'as les cramptés delete")
+		  })
+	  })
 	
 	  fetch('/jee-project/api/site-controller/get-categories')
 		  .then((response) => response.json())
