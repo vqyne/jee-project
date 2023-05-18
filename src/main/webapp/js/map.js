@@ -1,14 +1,4 @@
 /**========================================================
- **                       Event Listeners
- *=========================================================**/
-
-// Event listener for clicking the Paris logo
-const paris_logo = document.getElementById("paris_logo");
-paris_logo.addEventListener("click", function () {
-    window.location.href = '/jee-project/';
-});
-
-/**========================================================
  **                       initializeMap
  *? Initializes the map.
  * @return {void}
@@ -39,7 +29,7 @@ function initializeMap() {
                     .then((response) => response.json())
                     .then((data) => {
                         if (data.features.length > 0) {
-                            console.log(data);
+                            //console.log(data);
                             var coordinates = data.features[0].center;
                             var latitude = coordinates[1];
                             var longitude = coordinates[0];
@@ -94,6 +84,17 @@ function assignIcon(category) {
             return 'category/golf.png';
     }
 }
+
+/**========================================================
+ **                       Event Listeners
+ *=========================================================**/
+
+// Event listener for clicking the Paris logo
+const paris_logo = document.getElementById("paris_logo");
+paris_logo.addEventListener("click", function () {
+    window.location.href = '/jee-project/';
+});
+
 
 /**========================================================
  **                Execution and Initialization

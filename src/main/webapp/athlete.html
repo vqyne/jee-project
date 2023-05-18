@@ -5,11 +5,11 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Les athlètes - Paris 2024</title>
+	<title>Les athlètes | Paris 2024</title>
 	<link rel="stylesheet" href="/jee-project/css/styles.css">
+	<link rel="stylesheet" href="/jee-project/css/athlete.css">
 	<link rel="icon" href="/jee-project/img/paris.ico" type="image/x-icon">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
-	<script src="/jee-project/js/athlete.js"></script>
 </head>
 
 <body class="body" onload="loadAthletes('/jee-project/api/athlete-controller/get-athletes')">
@@ -25,8 +25,7 @@
 				<img id="paris_logo" src="./img/paris2.png" class="h-16 mr-2" alt="Paris OG Logo">
 				<span
 					style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
-					class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white prevent-select">Paris
-					2024</span>
+					class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white prevent-select">Athlètes</span>
 			</a>
 			<div class="flex md:order-2">
 				<button onclick="window.location.href='/jee-project/admin/index.html';" type="button"
@@ -119,6 +118,7 @@
 	<span class="dot" id="red"></span>
 	<span class="dot" id="blue"></span>
 	<span class="dot" id="yellow"></span>
+	<script src="/jee-project/js/athlete.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
 </body>
 
