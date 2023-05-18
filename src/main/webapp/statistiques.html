@@ -10,7 +10,8 @@
 	<link rel="stylesheet" href="/jee-project/css/statistiques.css">
 	<link rel="icon" href="./img/paris.ico" type="image/x-icon">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
-	<script src="/jee-project/js/statistiques.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body class="body">
@@ -92,6 +93,10 @@
                 </tbody>
             </table>
         </div>
+
+		<div class="mx-auto w-2/4 overflow-hidden">
+			<canvas id="pie-chart"></canvas>
+		</div>
         
         <h3 style="margin-top: 25px" class="text-center text-3xl font-bold mb-4 mt-5">Les 5 disciplines ayant les épreuves les plus longues</h3>
         
@@ -122,6 +127,7 @@
 	<span class="dot" id="blue"></span>
 	<span class="dot" id="yellow"></span>
 
+	<script src="/jee-project/js/statistiques.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
 </body>
 

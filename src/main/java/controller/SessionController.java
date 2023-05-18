@@ -1,14 +1,17 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import utils.LocalTimeAdapter; // Import the LocalTimeAdapter class
-
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
@@ -51,6 +54,31 @@ public class SessionController {
 		String json = gson.toJson(sessions);
 		return json;
 	}
+		
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/get-categories")
+	public String getCategories() {
+	    List<CategorieSession> categories = Arrays.asList(CategorieSession.values());
+	    
+	    Gson gson = new Gson();
+	    String json = gson.toJson(categories);
+	    
+	    return json;
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/get-types")
+	public String getTypes() {
+	    List<TypeSession> types = Arrays.asList(TypeSession.values());
+	    
+	    Gson gson = new Gson();
+	    String json = gson.toJson(types);
+	    
+	    return json;
+	}
+	
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -67,7 +95,40 @@ public class SessionController {
 		String json = gson.toJson(sessions);
 		return json;
 	}
-
+	
+	/*@POST
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Path("/session-add")
+	public boolean addSession(
+	        @FormParam("code") String sessionCode,
+	        @FormParam("date") Date sessionDate,
+	        @FormParam("fromHour") LocalTime sessionFromHour,
+	        @FormParam("toHour") LocalTime sessionToHour,
+	        @FormParam("discipline") String discipline,
+	        @FormParam("site") String site,
+	        @FormParam("description") String sessionDescription,
+	        @FormParam("type") String sessionType,
+	        @FormParam("category") String sessionCategory
+	) {
+	    try {
+	        Session session = new Session(
+	                sessionCode,
+	                sessionDate,
+	                sessionFromHour,
+	                sessionToHour,
+	                Discipline.valueOf(discipline),
+	                Site.valueOf(site),
+	                sessionDescription,
+	                TypeSession.valueOf(sessionType),
+	                CategorieSession.valueOf(sessionCategory)
+	        );
+	        sessionDAO.addSession(session);
+	        return true;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}*/
 
 	
 }

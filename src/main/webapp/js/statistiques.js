@@ -6,6 +6,8 @@
  * @return {void}
  *=========================================================**/
 function load(urlSites, urlDisciplines) {
+    // Show the loader
+    document.getElementById("loader").style.display = "block";
     fetch(urlSites)
         .then(response => response.json())
         .then(response => processSites(response))
@@ -81,17 +83,51 @@ function processSites(sites) {
         tr.appendChild(td_number);
         table.appendChild(tr);
     }
+    // Generate pie chart
+    // console.log(sites);
+    generatePieChart(sites);
+    
 }
 
 /**=========================================================
- *                   processSites
+ *                   generatePieChart
+ * ? Processes the data and generate a pie chart.
+ * @param {Array} data
+ * @return {void}
+*=========================================================**/
+function generatePieChart(data) {
+    const ctx = document.getElementById('pie-chart').getContext('2d');
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: data.map(s => s.name),
+        datasets: [{
+          data: data.map(s => s.numberUsed),
+          backgroundColor: [
+            'rgba(63, 81, 181, 0.5)',
+            'rgba(77, 182, 172, 0.5)',
+            'rgba(66, 133, 244, 0.5)',
+            'rgba(156, 39, 176, 0.5)',
+            'rgba(233, 30, 99, 0.5)',
+          ],
+        }],
+      },
+      options: {
+        responsive: true,
+        legend: {
+            position: 'bottom',
+        },
+      },
+    });
+  }
+
+/**=========================================================
+ *                  processDisciplines
  * ? Processes the disciplines data and updates the table.
  * @param {Array} discipline
  * @return {void}
 *=========================================================**/
 function processDisciplines(discipline) {
-    // Show the loader
-    document.getElementById("loader").style.display = "block";
     var table = document.getElementById("tbody-discipline");
 
     while (table.childElementCount > 0) {
