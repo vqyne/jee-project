@@ -5,106 +5,14 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Paris 2024 | Sites</title>
+	<title>Paris 2024 | Modification du site</title>
 	<link rel="stylesheet" href="/jee-project/css/styles.css">
 	<link rel="icon" href="/jee-project/img/paris.ico" type="image/x-icon">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
 	<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
-	
-	<script>
-		function loadSite(url) {
-			fetch(url)
-			.then(response => response.json())
-			.then(response => process(response))
-			.catch(error => console.log("Erreur : " + error));
-		}
-		
-		function process(sites) {
-	
-			var table = document.getElementById("tbody-site");
-			
-		    while (table.childElementCount > 0) {
-		        table.removeChild(table.lastChild);
-		    }
-		    			
-			for (var s of sites) {
-				var tr = document.createElement("tr");
-				tr.classList.add('bg-white', 'border-b', 'dark:bg-gray-800', 'dark:border-gray-700');
-				
-				var td_id = document.createElement("th");
-				td_id.append(s.id)
-				td_id.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-				td_id.setAttribute("scope", "col"); 
-				
-				var td_name = document.createElement("th");
-				td_name.append(s.name)
-				td_name.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-				td_name.setAttribute("scope", "col"); 
-				
-				var td_city = document.createElement("th");				
-				td_city.append(s.city)
-				td_city.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-				td_city.setAttribute("scope", "col"); 
-				
-				var td_categorie = document.createElement("th");
-				td_categorie.append(s.category)
-				td_categorie.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-				td_categorie.setAttribute("scope", "col"); 
-				
-				var td_modify = document.createElement("th");
-				
-				var editIcon = document.createElement("img");
-				editIcon.setAttribute("alt", "");
-				editIcon.setAttribute("width", "24");
-				editIcon.setAttribute("height", "24");
-				editIcon.setAttribute("src", "/jee-project/img/edit.svg"); 
-				td_modify.classList.add("edit-class")
-				td_modify.setAttribute("id","edit-icon-"+s.id)
-				
-				td_modify.append(editIcon)
-				td_modify.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-				td_modify.setAttribute("scope", "col"); 
-				
-				td_modify.addEventListener('click',function(){
-					const currentURL = window.location.href;
-					const projectUrl = currentURL.split("/jee-project")[0];
-					const newURL = projectUrl + "/jee-project/admin/site/modify.html";
-					window.open(newURL, "_blank");
-				})
-				
-				var td_delete = document.createElement("th");
-				
-				var deleteIcon = document.createElement("img");
-				deleteIcon.setAttribute("alt", "");
-				deleteIcon.setAttribute("width", "24");
-				deleteIcon.setAttribute("height", "24");
-				deleteIcon.setAttribute("src", "/jee-project/img/trash.svg"); 
-				td_delete.classList.add("delete-class")
-				td_delete.setAttribute("id","delete-icon-"+s.id)
-				
-				td_delete.append(deleteIcon)
-				td_delete.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-				td_delete.setAttribute("scope", "col"); 
-				
-				td_delete.addEventListener('click',function(){
-					console.log("modify")
-				})
-				
-				tr.appendChild(td_id);
-				tr.appendChild(td_name);
-				tr.appendChild(td_city);
-				tr.appendChild(td_categorie);
-				tr.appendChild(td_modify);
-				tr.appendChild(td_delete);
-
-				table.appendChild(tr);
-			}
-		}
-	
-	</script>
 </head>
 
-<body class="body" onload="loadSite('/jee-project/api/site-controller/get-sites')">
+<body class="body">
 	<header>
 		<nav class="bg-white dark:bg-gray-900 sticky w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
 			<div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -152,10 +60,10 @@
 
 	<main style="margin-top: 10px" class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 	 
-		<form id="add-site-form" class="max-w-sm mx-auto">
+		<form id="edit-site-form" class="max-w-sm mx-auto">
 		  <div class="mb-4">
 		    <label class="block text-gray-700 font-bold mb-2" for="site-name">
-		      Site à ajouter
+		      Site à modifier
 		    </label>
 		    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="site-name" type="text" placeholder="Saisissez le nom du site">
 		  </div>
@@ -168,40 +76,10 @@
 		  </div>
 		  <div class="flex items-center justify-center">
 		    <button id="submit-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-		      Ajouter
+		      Modifier
 		    </button>
 		  </div>
 		</form>
-		
-        <div style="margin-top: 20px" class="w-full overflow-x-auto overflow-y-auto shadow-md sm:rounded-lg z-10">
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead
-                    class="z-10 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                            Identifiant
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Nom
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Ville
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Catégorie
-                        </th>
-                         <th scope="col" class="px-6 py-3">
-                            Modifier
-                        </th>
-                         <th scope="col" class="px-6 py-3">
-                            Supprimer
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="tbody-site">
-                </tbody>
-            </table>
-        </div>
     </main>
 	
 	<span class="dot" id="red"></span>
@@ -210,7 +88,7 @@
 	
 	<script>
 	
-	  const form = document.getElementById('add-site-form');
+	  const form = document.getElementById('edit-site-form');
 	  const nameInput = document.getElementById('site-name');
 	  const cityInput = document.getElementById('site-city');
 	  const categoryInput = document.getElementById('site-category');
@@ -241,6 +119,28 @@
 		  .catch((error) => {
 		    console.error('Une erreur s\'est produite lors de la récupération des catégories :', error);
 	   });
+	  
+	  const queryString = window.location.search;
+	  const urlParams = new URLSearchParams(queryString);
+      const siteId = urlParams.get('id')
+	  
+	  fetch('/jee-project/api/site-controller/get-site/'+siteId)
+			.then((response) => response.json())
+			.then((response) => {
+				nameInput.value = response.name;
+				cityInput.value = response.city;
+
+				for (let i = 0; i < categoryInput.options.length; i++) {
+				   const option = categoryInput.options[i];
+				   if (option.value === response.category) {
+				     option.selected = true;
+				     break;
+				   }
+				 }
+			})
+			.catch(error => console.log("Erreur : " + error));
+	  
+	  
 
 
 	  submitBtn.addEventListener('click', function(event) {
@@ -250,15 +150,16 @@
 	    const city = cityInput.value;
 	    const category = categoryInput.value;
 
-	    const url = '/jee-project/api/site-controller/site-add';
+	    const url = '/jee-project/api/site-controller/site-edit';
 	    
 	    const formData = new URLSearchParams();
+	    formData.append('id', siteId);
 	    formData.append('name', name);
 	    formData.append('city', city);
 	    formData.append('category', category);
 
 	    fetch(url, {
-	        method: 'POST',
+	        method: 'PUT',
 	        headers: {
 	            'Content-Type': 'application/x-www-form-urlencoded'
 	          },
@@ -272,9 +173,12 @@
 	      return response.json();
 	    })
 	    .then(data => {
-	      console.log('Site ajouté avec succès:', data);
+	      console.log('Site modifié avec succès:', data);
 	      form.reset();
-	      loadSite('/jee-project/api/site-controller/get-sites')
+	      const currentURL = window.location.href;
+		  const projectUrl = currentURL.split("/jee-project")[0];
+		  const newURL = projectUrl + "/jee-project/admin/site/index.html";
+		  location.replace(newURL);
 	    })
 	    .catch(error => {
 	      console.error('Erreur lors de l\'ajout de le site:', error);

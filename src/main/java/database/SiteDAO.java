@@ -42,6 +42,41 @@ public class SiteDAO {
 	    return ret;
 	}
 	
+	public boolean editSite(Site site) {
+	    Connection connection = null;
+	    PreparedStatement statement = null;
+	    boolean ret = false;
+
+	    try {
+	        connection = DBManager.getInstance().getConnection();
+	        
+	        String sql = "UPDATE site SET name = ?, city = ?, category = ? WHERE id = ?";
+	        statement = connection.prepareStatement(sql);
+
+	        statement.setString(1, site.getName());
+	        statement.setString(2, site.getCity());
+	        statement.setString(3, site.getCategory().toString());
+	        statement.setInt(4, site.getId());
+
+	        int rowsUpdated = statement.executeUpdate();
+
+	        if (rowsUpdated > 0) {
+	            System.out.println("Site mis à jour dans la base de données.");
+
+	            
+	            ret = true;
+	        }
+	        
+	    } catch (SQLException e) {
+	        System.err.println("Error updating site: " + e.getMessage());
+	    } finally {
+	        DBManager.getInstance().cleanup(connection, statement, null);
+	    }
+
+	    return ret;
+	}
+
+	
 	public boolean removeSite(int id) {
 	    Connection connection = null;
 	    PreparedStatement statement = null;

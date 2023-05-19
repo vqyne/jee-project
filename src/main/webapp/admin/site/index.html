@@ -69,7 +69,7 @@
 					const currentURL = window.location.href;
 					const projectUrl = currentURL.split("/jee-project")[0];
 					const newURL = projectUrl + "/jee-project/admin/site/modify.html?id=" + this.getAttribute('id').split('-')[2];
-					window.open(newURL, "_blank");
+					location.replace(newURL);
 				})
 				
 				if(!(s.hasSessions)){
