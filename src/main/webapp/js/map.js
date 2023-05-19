@@ -1,3 +1,10 @@
+
+/**========================================================
+ **                  Overlapping issues
+ *=========================================================**/
+// Need to specifically import the distributed JS file
+import 'overlapping-marker-spiderfier-leaflet/dist/oms';
+
 /**========================================================
  **                       initializeMap
  *? Initializes the map.
@@ -6,7 +13,8 @@
 function initializeMap() {
     // Initialize the map
     var map = L.map("map").setView([48.8566, 2.3522], 10);
-
+    // map refers to your leaflet map object
+    const oms = new window.OverlappingMarkerSpiderfier(map);
     // Add a tile layer for the map
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "Map data © <a href='https://openstreetmap.org'>OpenStreetMap</a> contributors",
@@ -39,7 +47,7 @@ function initializeMap() {
                                 iconUrl: assignIcon(session.site.category),
                                 iconSize: [32, 32],
                             });
-
+                            // Note access to constructor via window object
                             // Create a marker with the custom icon
                             var marker = L.marker([latitude, longitude], { icon: customIcon }).addTo(map);
                             marker.bindPopup(
@@ -51,6 +59,13 @@ function initializeMap() {
                                 "<span style='display: block;'>" + session.fromHour + " - " + session.toHour + "</span>" +
                                 "</div>"
                             );
+                            oms.addListener('click', (marker) => {
+                                // Your callback when marker is clicked
+                              });
+                              // Markers need to be added to OMS to spider overlapping markers
+                            markers.forEach((marker) => {
+                                oms.addMarker(marker);
+                            });
                         }
                     })
                     .catch((error) => console.error("Error: " + error));
@@ -85,6 +100,7 @@ function assignIcon(category) {
     }
 }
 
+
 /**========================================================
  **                       Event Listeners
  *=========================================================**/
@@ -95,7 +111,11 @@ paris_logo.addEventListener("click", function () {
     window.location.href = '/jee-project/';
 });
 
+    
 
+
+
+// Conversely use oms.removeMarker(marker) if a marker is removed
 /**========================================================
  **                Execution and Initialization
  *=========================================================**/
