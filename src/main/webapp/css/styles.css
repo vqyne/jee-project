@@ -14,7 +14,7 @@
   padding-left: 90px;
 }
 
-body {
+html, body {
   /* background-color: #F3F1F5; */
   /* Définit la largeur du body à 100% de la largeur de l'écran */
   height: 100vh;
@@ -28,6 +28,7 @@ a {
 .dot {
   border-radius: 50%;
   display: inline-block;
+  z-index: -10;
 }
 
 #red {
@@ -71,3 +72,8 @@ a {
   transform: translateX(-50%);
 }/*# sourceMappingURL=styles.css.map */
 
+.prevent-select{
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}

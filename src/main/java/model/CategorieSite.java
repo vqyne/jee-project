@@ -4,5 +4,8 @@ public enum CategorieSite {
 	stade,
 	salle_de_spectacle,
 	lieu_public,
-	centre_aquatique
+	centre_aquatique,
+	salle,
+	gymnase,
+	golf
 }

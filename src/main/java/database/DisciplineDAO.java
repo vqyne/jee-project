@@ -31,7 +31,7 @@ public class DisciplineDAO {
 	            ret = true;
 	        }
 	    } catch (SQLException e) {
-	        System.err.println("Error inserting athlete: " + e.getMessage());
+	        System.err.println("Error inserting discipline: " + e.getMessage());
 	    } finally {
 	        // Clean up resources
 	        DBManager.getInstance().cleanup(connection, statement, null);
@@ -39,6 +39,55 @@ public class DisciplineDAO {
 
 	    return ret;
 	}
+	
+	public boolean editDiscipline(String name, String newName) {
+	    Connection connection = null;
+	    PreparedStatement statement = null;
+	    boolean ret = false;
+
+	    try {
+	        connection = DBManager.getInstance().getConnection();
+	        String disableForeignKeyChecks = "SET FOREIGN_KEY_CHECKS=0";
+	        statement = connection.prepareStatement(disableForeignKeyChecks);
+	        statement.executeUpdate();
+
+	        String updateDisciplineSql = "UPDATE discipline SET name = ? WHERE name = ?";
+	        statement = connection.prepareStatement(updateDisciplineSql);
+	        statement.setString(1, newName);
+	        statement.setString(2, name);
+	        int rowsUpdated = statement.executeUpdate();
+
+	        if (rowsUpdated > 0) {
+	            System.out.println("Discipline bien modifiée dans la base de données.");
+
+	            String updateAthleteSql = "UPDATE athlete SET discipline = ? WHERE discipline = ?";
+	            statement = connection.prepareStatement(updateAthleteSql);
+	            statement.setString(1, newName);
+	            statement.setString(2, name);
+	            statement.executeUpdate();
+
+	            String updateSessionSql = "UPDATE session SET discipline = ? WHERE discipline = ?";
+	            statement = connection.prepareStatement(updateSessionSql);
+	            statement.setString(1, newName);
+	            statement.setString(2, name);
+	            statement.executeUpdate();
+
+	            ret = true;
+	        }
+
+	        String enableForeignKeyChecks = "SET FOREIGN_KEY_CHECKS=1";
+	        statement = connection.prepareStatement(enableForeignKeyChecks);
+	        statement.executeUpdate();
+	    } catch (SQLException e) {
+	        System.err.println("Erreur lors de la mise à jour de la discipline: " + e.getMessage());
+	    } finally {
+	        DBManager.getInstance().cleanup(connection, statement, null);
+	    }
+
+	    return ret;
+	}
+
+
 	
 	public boolean removeDiscipline(String name) {
 	    Connection connection = null;
@@ -90,8 +139,8 @@ public class DisciplineDAO {
 		Discipline ret = null;
 		Connection connexion = DBManager.getInstance().getConnection();
 		try {
-			PreparedStatement ps = connexion.prepareStatement("SELECT * FROM discipline WHERE upper(title) = ?");
-			ps.setString(1, "%" + searchText.toUpperCase() + "%");
+			PreparedStatement ps = connexion.prepareStatement("SELECT * FROM discipline WHERE upper(name) = ?");
+			ps.setString(1,searchText.toUpperCase());
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				String name = rs.getString("name");
@@ -106,5 +155,29 @@ public class DisciplineDAO {
 		return ret;
 	}
 	
+	public List<Discipline> findTopFiveDisciplinesByDuration() {
+	    List<Discipline> topDisciplines = new ArrayList<>();
+	    Connection connection = DBManager.getInstance().getConnection();
+	    try {
+	        Statement statement = connection.createStatement();
+	        ResultSet rs = statement.executeQuery("SELECT discipline.name, discipline.flag, SUM(TIMESTAMPDIFF(MINUTE, session.fromHour, session.toHour)) AS duration " +
+	                                               "FROM discipline " +
+	                                               "JOIN session ON discipline.name = session.discipline " +
+	                                               "GROUP BY discipline.name " +
+	                                               "ORDER BY duration DESC " +
+	                                               "LIMIT 5");
+	        while (rs.next()) {
+	            String name = rs.getString("name");
+	            Integer flag = rs.getInt("flag");
+	            Discipline discipline = new Discipline(name, flag == 1);
+	            discipline.setAllTime(rs.getInt("duration"));
+	            topDisciplines.add(discipline);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return topDisciplines;
+	}
+
 	
 }
