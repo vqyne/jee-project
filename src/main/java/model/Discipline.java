@@ -4,6 +4,7 @@ public class Discipline {
 	private String name;
 	private boolean flag;
 	private int allTime;
+	private boolean linked; //link with athlete or/and session
 	
 	public Discipline(String n, boolean f) {
 		this.name = n;
@@ -34,6 +35,14 @@ public class Discipline {
 	
 	public void setAllTime(int a) {
 		this.allTime = a;
+	}
+	
+	public boolean isLinked() {
+		return this.linked;
+	}
+	
+	public void setLinked(boolean b) {
+		this.linked = b;
 	}
 	
 	

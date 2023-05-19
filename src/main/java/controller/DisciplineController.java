@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -92,5 +93,17 @@ public class DisciplineController {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	@DELETE
+	@Path("/delete-discipline/{name}")
+	public boolean deleteDiscipline(@PathParam("name") String name) {
+	    try {
+	        disciplineDAO.removeDiscipline(name);
+	        return true;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 }
