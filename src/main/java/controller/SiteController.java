@@ -1,10 +1,12 @@
 package controller;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
@@ -68,6 +70,18 @@ public class SiteController {
 		Gson gson = builder.create();
 		String json = gson.toJson(sites);
 		return json;
+	}
+	
+	@DELETE
+	@Path("/delete-site/{id}")
+	public boolean deleteSite(@PathParam("id") int id) {
+	    try {
+	        siteDAO.removeSite(id);
+	        return true;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 	
 	@POST

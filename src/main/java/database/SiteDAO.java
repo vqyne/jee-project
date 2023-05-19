@@ -75,14 +75,23 @@ public class SiteDAO {
 		Connection connexion = DBManager.getInstance().getConnection();
 		try {
 			Statement statement = connexion.createStatement();
-			ResultSet rs = statement.executeQuery("SELECT * FROM site");
+			ResultSet rs = statement.executeQuery("SELECT site.id, site.name, site.city, site.category, COUNT(session.site) AS session_count " +
+	                "FROM site " +
+	                "LEFT JOIN session ON site.id = session.site " +
+	                "GROUP BY site.id");
 			while(rs.next()) {
-				int id = rs.getInt("id");
-				String name = rs.getString("name");
-				String city = rs.getString("city");
-				String categoryString = rs.getString("category");
+				int id = rs.getInt("site.id");
+				String name = rs.getString("site.name");
+				String city = rs.getString("site.city");
+				String categoryString = rs.getString("site.category");
 				CategorieSite category = CategorieSite.valueOf(categoryString.toLowerCase());
-				ret.add(new Site(id,name, city, category));
+				boolean hasSessions = false;
+				if(rs.getInt("session_count") > 0) {
+					hasSessions = true;
+				}
+				Site newSite = new Site(id,name, city, category);
+				newSite.setHasSessions(hasSessions);
+				ret.add(newSite);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
