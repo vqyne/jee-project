@@ -2,6 +2,8 @@
 
 Ce projet consiste à développer un site web pour la gestion des épreuves des Jeux Olympiques de Paris 2024. Le site permettra de gérer les sites de compétition, les disciplines, les sessions d'épreuves et les athlètes.
 
+![Alt text](src/main/webapp/assets/homepage.png?raw=true "Home page")
+
 ## Fonctionnalités
 
 ### Gestion des sites de compétition
