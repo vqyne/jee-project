@@ -1,0 +1,20 @@
+.center-div {
+    position: fixed;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid black;
+    border-radius: 8px;
+}
+
+@media (max-width: 1700px) {
+    .center-div {
+        top: 40%;
+    }
+}
+
+@media (max-width: 500px) {
+    .center-div {
+        top: 50%;
+    }
+}

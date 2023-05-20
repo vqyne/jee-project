@@ -5,143 +5,13 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Statistiques - Paris 2024</title>
-	<link rel="stylesheet" href="css/styles.css">
+	<title>Statistiques | Paris 2024</title>
+	<link rel="stylesheet" href="/jee-project/css/styles.css">
+	<link rel="stylesheet" href="/jee-project/css/statistiques.css">
 	<link rel="icon" href="./img/paris.ico" type="image/x-icon">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet" />
-	<style>
-		.spinner {
-			border: 16px solid #f3f3f3;
-			border-top: 16px solid #ffd700;
-			border-radius: 50%;
-			width: 70px;
-			height: 70px;
-			animation: spin 2s linear infinite;
-		}
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-		@keyframes spin {
-			0% {
-				transform: rotate(0deg);
-			}
-
-			100% {
-				transform: rotate(360deg);
-			}
-		}
-	</style>
-	<script type="text/javascript">
-		function load(urlSites,urlDisciplines) {
-			fetch(urlSites)
-			.then(response => response.json())
-			.then(response => processSites(response))
-			.catch(error => console.log("Erreur : " + error));
-			
-			fetch(urlDisciplines)
-			.then(response => response.json())
-			.then(response => processDisciplines(response))
-			.catch(error => console.log("Erreur : " + error));
-		}
-		
-		 function convertMinutesToShow(minutes) {
-	            var jours = Math.floor(minutes / 1440);
-	            var heures = Math.floor((minutes % 1440) / 60);
-	            var minutes = minutes % 60;
-	            return jours + " jour(s), " + heures + " heure(s), " + minutes + " minute(s)";
-	    }
-		
-		function processSites(sites) {
-			
-			var table = document.getElementById("tbody-site");
-			
-		    while (table.childElementCount > 0) {
-		        table.removeChild(table.lastChild);
-		    }
-		    			
-			for (var s of sites) {
-				var tr = document.createElement("tr");
-				tr.classList.add('bg-white', 'border-b', 'dark:bg-gray-800', 'dark:border-gray-700');
-				
-				var td_id = document.createElement("th");
-				td_id.append(s.id)
-				td_id.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-				td_id.setAttribute("scope", "col"); 
-				
-				var td_name = document.createElement("th");
-				td_name.append(s.name)
-				td_name.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-				td_name.setAttribute("scope", "col"); 
-				
-				var td_city = document.createElement("th");				
-				td_city.append(s.city)
-				td_city.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-				td_city.setAttribute("scope", "col"); 
-				
-				var td_categorie = document.createElement("th");
-				td_categorie.append(s.category)
-				td_categorie.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-				td_categorie.setAttribute("scope", "col"); 
-				
-				var td_number = document.createElement("th");
-				td_number.append(s.numberUsed)
-				td_number.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-				td_number.setAttribute("scope", "col");
-				
-				tr.appendChild(td_id);
-				tr.appendChild(td_name);
-				tr.appendChild(td_city);
-				tr.appendChild(td_categorie);				
-				tr.appendChild(td_number);
-				table.appendChild(tr);
-			}
-		}
-		
-		function processDisciplines(discipline) {
-			
-			var table = document.getElementById("tbody-discipline");
-			
-		    while (table.childElementCount > 0) {
-		        table.removeChild(table.lastChild);
-		    }
-		    			
-			for (var a of discipline) {
-				var tr = document.createElement("tr");
-				tr.classList.add('bg-white', 'border-b', 'dark:bg-gray-800', 'dark:border-gray-700');
-				var td_name = document.createElement("th");
-				var link = document.createElement("a");
-				link.href = "/jee-project/admin/discipline/page_discipline.html?d=" + a.name;
-				link.textContent = a.name;
-				td_name.appendChild(link);
-				td_name.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-				td_name.setAttribute("scope", "col"); 
-				
-				var icon = document.createElement("img");
-				icon.setAttribute("alt", "");
-				icon.setAttribute("width", "24");
-				icon.setAttribute("height", "24");
-				if (a.flag) {
-				  icon.setAttribute("src", "/jee-project/img/check.svg"); 
-				} else {
-				  icon.setAttribute("src", "/jee-project/img/x.svg");
-				}
-
-				var td_flag = document.createElement("td");
-				td_flag.appendChild(icon);
-				
-				var td_time = document.createElement("th");
-				td_time.append(convertMinutesToShow(a.allTime))
-				td_time.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-				td_time.setAttribute("scope", "col");
-				
-				td_flag.classList.add('px-6', 'py-4')
-				tr.appendChild(td_name);
-				tr.appendChild(td_flag);				
-				tr.appendChild(td_time);
-
-				table.appendChild(tr);
-			}
-		}
-
-	</script>
 </head>
 
 <body class="body">
@@ -155,7 +25,7 @@
 		<div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 			<a class="flex items-center">
 				<img id="paris_logo" src="./img/paris2.png" class="h-16 mr-2" alt="Paris OG Logo">
-				<span style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white prevent-select">Paris 2024</span>
+				<span style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;" class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white prevent-select">Statistiques</span>
 			</a>
 			<div class="flex md:order-2">
 				<button onclick="window.location.href='/jee-project/admin/index.html';" type="button"
@@ -223,6 +93,10 @@
                 </tbody>
             </table>
         </div>
+
+		<div class="mx-auto w-2/4 overflow-hidden">
+			<canvas id="pie-chart"></canvas>
+		</div>
         
         <h3 style="margin-top: 25px" class="text-center text-3xl font-bold mb-4 mt-5">Les 5 disciplines ayant les épreuves les plus longues</h3>
         
@@ -253,18 +127,7 @@
 	<span class="dot" id="blue"></span>
 	<span class="dot" id="yellow"></span>
 
-	<script>
-	
-		load('/jee-project/api/site-controller/get-top-five-sites','/jee-project/api/discipline-controller/get-disciplines-duration')
-	  
-	  	const paris_logo = document.getElementById("paris_logo");
-	  	paris_logo.addEventListener("click", function(){
-	  		window.location.href='/jee-project/';
-	  	});
-	  	
-	  	
-	</script>
-
+	<script src="/jee-project/js/statistiques.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
 </body>
 

@@ -1,4 +1,9 @@
-#nav{
-    border-image:   linear-gradient(to right, #ff002f 33%, #1c00ff 33%, #1c00ff 66%, #ffd700 66%) 3;
+#nav {
+    border-image: linear-gradient(to right, #ff002f 33%, #1c00ff 33%, #1c00ff 66%, #ffd700 66%) 3;
     border-bottom-width: 3px;
+}
+
+#map {
+    height: 100vh;
+    width: 100vw;
 }
