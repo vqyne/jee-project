@@ -14,6 +14,12 @@
 </head>
 
 <body class="body" onload="loadSite('/jee-project/api/site-controller/get-sites')">
+	<div id="loader"
+		style="display: none; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.5); z-index: 9999;">
+		<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+			<div class="spinner"></div>
+		</div>
+	</div>
 	<header>
 		<nav class="bg-white dark:bg-gray-900 sticky w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
 			<div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -99,6 +105,12 @@
                         </th>
                         <th scope="col" class="px-6 py-3">
                             Catégorie
+                        </th>
+                         <th scope="col" class="px-6 py-3">
+                            Modifier
+                        </th>
+                         <th scope="col" class="px-6 py-3">
+                            Supprimer
                         </th>
                     </tr>
                 </thead>

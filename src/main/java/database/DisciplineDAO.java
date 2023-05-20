@@ -104,7 +104,7 @@ public class DisciplineDAO {
 	        int rowsDeleted = statement.executeUpdate();
 
 	        if (rowsDeleted > 0) {
-	            System.out.println("Discipline bien supprimé de la base de données.");
+	            System.out.println("Discipline bien supprimée de la base de données.");
 	            ret = true;
 	        }
 	    } catch (SQLException e) {
@@ -117,23 +117,40 @@ public class DisciplineDAO {
 	    return ret;
 	}
 
-	public List<Discipline> findAll(){
-		List<Discipline> ret = new ArrayList<Discipline>();
-		Connection connexion = DBManager.getInstance().getConnection();
-		try {
-			Statement statement = connexion.createStatement();
-			ResultSet rs = statement.executeQuery("SELECT * FROM discipline");
-			while(rs.next()) {
-				String name = rs.getString("name");
-				Integer flag = rs.getInt("flag");
-				ret.add(new Discipline(name,flag == 1 ? true : false));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return ret;
+	public List<Discipline> findAll() {
+	    List<Discipline> ret = new ArrayList<>();
+	    Connection connection = DBManager.getInstance().getConnection();
+	    PreparedStatement statement = null;
+	    ResultSet rs = null;
+
+	    try {
+	        String sql = "SELECT d.name, d.flag, " +
+	                "(COUNT(DISTINCT s.code) > 0 OR COUNT(DISTINCT a.id) > 0) AS is_linked " +
+	                "FROM discipline d " +
+	                "LEFT JOIN session s ON d.name = s.discipline " +
+	                "LEFT JOIN athlete a ON d.name = a.discipline " +
+	                "GROUP BY d.name, d.flag";
+	        statement = connection.prepareStatement(sql);
+	        rs = statement.executeQuery();
+
+	        while (rs.next()) {
+	            String name = rs.getString("name");
+	            int flag = rs.getInt("flag");
+	            boolean isLinked = rs.getBoolean("is_linked");
+
+	            Discipline discipline = new Discipline(name, flag == 1);
+	            discipline.setLinked(isLinked);
+	            ret.add(discipline);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBManager.getInstance().cleanup(connection, statement, rs);
+	    }
+
+	    return ret;
 	}
+
 	
 	public Discipline findByString(String searchText) {
 		Discipline ret = null;

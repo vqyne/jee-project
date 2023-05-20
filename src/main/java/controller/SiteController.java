@@ -1,10 +1,13 @@
 package controller;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
@@ -70,6 +73,30 @@ public class SiteController {
 		return json;
 	}
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/get-site/{id}")
+	public String findAll(@PathParam("id") int id) {
+		Site site = siteDAO.findById(id);
+
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		String json = gson.toJson(site);
+		return json;
+	}
+	
+	@DELETE
+	@Path("/delete-site/{id}")
+	public boolean deleteSite(@PathParam("id") int id) {
+	    try {
+	        siteDAO.removeSite(id);
+	        return true;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Path("/site-add")
@@ -78,6 +105,21 @@ public class SiteController {
 		try {
 			Site site = new Site(name, city, CategorieSite.valueOf(category.toLowerCase()));
 			siteDAO.addSite(site);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	@PUT
+	@Consumes("application/x-www-form-urlencoded")
+	@Path("/site-edit")
+	public boolean editSite(@FormParam("id") int id,@FormParam("name") String name, @FormParam("city") String city, @FormParam("category") String category) {
+		
+		try {
+			Site site = new Site(id, name, city, CategorieSite.valueOf(category.toLowerCase()));
+			siteDAO.editSite(site);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
