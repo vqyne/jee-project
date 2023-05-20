@@ -6,6 +6,7 @@ public class Site {
 	private String city;
 	private CategorieSite category;
 	private int numberUsed;
+	private boolean hasSessions;
 	
 	public Site(String n, String v, CategorieSite c) {
 		this.name = n;
@@ -56,5 +57,12 @@ public class Site {
 		this.numberUsed = n;
 	}
 	
+	public boolean getHasSessions() {
+		return this.hasSessions;
+	}
+	
+	public void setHasSessions(boolean b) {
+		this.hasSessions = b;
+	}
 	
 }
