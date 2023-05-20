@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -37,6 +38,21 @@ public class DisciplineController {
 		} else {
 			disciplines = disciplineDAO.findAll();
 		}
+		if(disciplines.isEmpty()) {
+			disciplines = new ArrayList<Discipline>();
+		}
+		GsonBuilder builder = new GsonBuilder();
+		Gson gson = builder.create();
+		String json = gson.toJson(disciplines);
+		return json;
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/get-disciplines-duration")
+	public String getDisciplinesDuration() {
+		List<Discipline> disciplines = null;
+		disciplines = disciplineDAO.findTopFiveDisciplinesByDuration();
 		if(disciplines.isEmpty()) {
 			disciplines = new ArrayList<Discipline>();
 		}
@@ -77,5 +93,17 @@ public class DisciplineController {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	
+	@DELETE
+	@Path("/delete-discipline/{name}")
+	public boolean deleteDiscipline(@PathParam("name") String name) {
+	    try {
+	        disciplineDAO.removeDiscipline(name);
+	        return true;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 }
