@@ -128,7 +128,7 @@ function generateOptionsForDisciplines(data, selectElement) {
     // Generate options for disciplines
     data.forEach((discipline) => {
         const option = document.createElement('option');
-        option.value = discipline.id; // Use the appropriate property as the value
+        option.value = discipline.name; // Use the appropriate property as the value
         option.textContent = discipline.name; // Use the appropriate property as the label
         selectElement.appendChild(option);
     });
@@ -193,11 +193,41 @@ submitBtn.addEventListener('click', function (event) {
     event.preventDefault();
 
     const code = codeInput.value;
+    
+    if (code.trim() === '') {
+	    alert("Vous devez renseigner un code");
+	    return;
+  	}
+  	
     const date = dateInput.value;
+    
+    if (date.trim() === '') {
+	    alert("Vous devez renseigner une date");
+	    return;
+  	}
+  	
     const fromHour = fromHourInput.value;
+    
+    if (fromHour.trim() === '') {
+	    alert("Vous devez renseigner une heure de début valide");
+	    return;
+  	}
+  	
     const toHour = toHourInput.value;
+    
+    if (toHour.trim() === '') {
+	    alert("Vous devez renseigner une heure de fin valide");
+	    return;
+  	}
+  	
     const discipline = disciplineInput.value;
-    const description = descriptionInput.value;
+  
+    var description = descriptionInput.value;
+    
+   	if (description.trim() === '') {
+	    description = " "
+  	}
+  	
     const site = siteInput.value;
     const type = typeInput.value;
     const category = categoryInput.value;
@@ -210,29 +240,40 @@ submitBtn.addEventListener('click', function (event) {
     formData.append('fromHour', fromHour);
     formData.append('toHour', toHour);
     formData.append('discipline', discipline);
-    formData.append('description', description);
     formData.append('site', site);
+    formData.append('description', description);
     formData.append('type', type);
     formData.append('category', category);
-
+    
     fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: formData.toString() // Serialize the form data
+        body: formData 
     })
         .then(response => {
-            if (!response.ok) {
-                console.log(response);
+         
+            if (response.status === 409) {
+            	alert('Cette session chevauche une autre de la même discipline, ajout impossible')
+            	throw new Error('Conflict timeline');
+        	}
+        	
+        	if (response.status === 400) {
+            	alert('Le format des heures doit respecter le format suivant hh:mm')
+            	throw new Error('Conflict timeline');
+        	}
+        	
+        	if (!response.ok) {
                 throw new Error('Error network');
             }
+        	
             return response.json();
         })
         .then(data => {
-            console.log('Session ajouté avec succès:', data);
-            form.reset();
-            loadSession('/jee-project/api/session-controller/get-sessions');
+           console.log('Session ajouté avec succès:', data);
+           form.reset();
+           loadSession('/jee-project/api/session-controller/get-sessions');
         })
         .catch(error => {
             console.error('Erreur lors de l\'ajout de la session:', error);

@@ -15,18 +15,23 @@ import model.*;
 
 public class SessionDAO {
 
-    public boolean addSession(Session session) {
+	/**
+	 * Ajoute une session à la base de données
+	 * @param session session à ajouter à la base de données
+	 * @return 0 si l'ajout a échoué pour une raison X, 1 si l'ajout est un succès, 2 si l'ajout a échoué à cause d'un chevauchement des épreuves
+	 */
+    public int addSession(Session session) {
         Connection connection = null;
         PreparedStatement statement = null;
-        boolean ret = false;
+        int ret = 0;
 
         try {
             connection = DBManager.getInstance().getConnection();
-            String sql = "INSERT INTO session (code, date, fromHour, toHour, discipline_id, site_id, description, type, category) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO session (code, date, fromHour, toHour, discipline, site, description, type, category) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             statement = connection.prepareStatement(sql);
 
             statement.setString(1, session.getCode());
-            statement.setDate(2, (Date) session.getDate());
+            statement.setDate(2, (Date) new java.sql.Date(session.getDate().getTime()));
             statement.setTime(3, java.sql.Time.valueOf(session.getFromHour()));
             statement.setTime(4, java.sql.Time.valueOf(session.getToHour()));
             statement.setString(5, session.getDiscipline().getName());
@@ -40,11 +45,11 @@ public class SessionDAO {
 
                    if (rowsInserted > 0) {
                        System.out.println("Session bien ajoutée à la base de données.");
-                       ret = true;
+                       ret = 1;
                    }
             } else {
-            	System.out.println("La session n'a pas pu être ajoutée car une session de " + session.getDiscipline().getName() + "est déjà programmé sur ce créneau");
-                ret = false;
+            	System.out.println("La session n'a pas pu être ajoutée car une session de " + session.getDiscipline().getName() + " est déjà programmée sur ce créneau");
+                ret = 2;
             }
 
          
@@ -54,8 +59,8 @@ public class SessionDAO {
             // Clean up resources
             DBManager.getInstance().cleanup(connection, statement, null);
         }
-
         return ret;
+
     }
 
     private boolean slotsAvailable(Session session) {
@@ -66,7 +71,7 @@ public class SessionDAO {
 
         try {
             connection = DBManager.getInstance().getConnection();
-            String sql = "SELECT * FROM session WHERE discipline_name = ? AND date = ? AND ((fromHour <= ? AND toHour >= ?) OR (fromHour <= ? AND toHour >= ?) OR (toHour < ? AND ADDTIME(toHour, '01:00:00') > ?) OR (fromHour > ? AND SUBTIME(fromHour, '01:00:00') < ?))";
+            String sql = "SELECT * FROM session WHERE discipline = ? AND date = ? AND ((fromHour <= ? AND toHour >= ?) OR (fromHour <= ? AND toHour >= ?) OR (toHour < ? AND ADDTIME(toHour, '01:00:00') > ?) OR (fromHour > ? AND SUBTIME(fromHour, '01:00:00') < ?))";
             statement = connection.prepareStatement(sql);
             statement.setString(1, session.getDiscipline().getName());
             statement.setDate(2, new java.sql.Date(session.getDate().getTime()));
@@ -74,6 +79,10 @@ public class SessionDAO {
             statement.setTime(4, java.sql.Time.valueOf(session.getFromHour()));
             statement.setTime(5, java.sql.Time.valueOf(session.getToHour()));
             statement.setTime(6, java.sql.Time.valueOf(session.getToHour()));
+            statement.setTime(7, java.sql.Time.valueOf(session.getToHour()));
+            statement.setTime(8, java.sql.Time.valueOf(session.getToHour()));
+            statement.setTime(9, java.sql.Time.valueOf(session.getFromHour()));
+            statement.setTime(10, java.sql.Time.valueOf(session.getFromHour()));
             resultSet = statement.executeQuery();
 
             if (resultSet.next()) {

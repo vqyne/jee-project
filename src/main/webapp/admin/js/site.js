@@ -191,7 +191,6 @@ submitBtn.addEventListener('click', function (event) {
     })
         .then(response => {
             if (!response.ok) {
-                console.log(response);
                 throw new Error('Error network');
             }
             return response.json();
