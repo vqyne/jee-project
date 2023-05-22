@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.text.SimpleDateFormat;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.GsonBuilder;
 import utils.LocalTimeAdapter; // Import the LocalTimeAdapter class
 import jakarta.ws.rs.Consumes;
@@ -16,6 +18,9 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Application;
+
 import model.Session;
 import model.Site;
 import model.TypeSession;
@@ -23,6 +28,7 @@ import model.Discipline;
 import model.CategorieSession;
 import model.CategorieSite;
 import database.DisciplineDAO;
+import database.SiteDAO;
 import database.SessionDAO;
 
 import java.time.LocalTime;
@@ -32,6 +38,8 @@ public class SessionController {
 	
 	private SessionDAO sessionDAO = new SessionDAO();
 	private DisciplineDAO disciplineDAO = new DisciplineDAO();
+	private SiteDAO siteDAO = new SiteDAO();
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get-sessions")
@@ -95,40 +103,71 @@ public class SessionController {
 		String json = gson.toJson(sessions);
 		return json;
 	}
-	
-	/*@POST
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+
+	@POST
+	@Consumes("application/x-www-form-urlencoded")
 	@Path("/session-add")
-	public boolean addSession(
+	public Response addSession(
 	        @FormParam("code") String sessionCode,
-	        @FormParam("date") Date sessionDate,
-	        @FormParam("fromHour") LocalTime sessionFromHour,
-	        @FormParam("toHour") LocalTime sessionToHour,
+	        @FormParam("date") String sessionDate,
+	        @FormParam("fromHour") String sessionFromHour,
+	        @FormParam("toHour") String sessionToHour,
 	        @FormParam("discipline") String discipline,
 	        @FormParam("site") String site,
 	        @FormParam("description") String sessionDescription,
 	        @FormParam("type") String sessionType,
 	        @FormParam("category") String sessionCategory
 	) {
+
+	    int ret = -1;
 	    try {
+	        Discipline dis = disciplineDAO.findByString(discipline);
+	        Site sit = siteDAO.findById(Integer.parseInt(site));
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+	        Date date = dateFormat.parse(sessionDate);
+
+	        String[] splitFromHour = sessionFromHour.split(":");
+	        String[] splitToHour = sessionToHour.split(":");
+	        if(splitToHour.length != 2 || splitFromHour.length != 2) {
+		        return Response.status(Response.Status.BAD_REQUEST).build();
+	        }
+
+	        LocalTime from = LocalTime.of(Integer.parseInt(splitFromHour[0]), Integer.parseInt(splitFromHour[1]));
+	        LocalTime to = LocalTime.of(Integer.parseInt(splitToHour[0]),Integer.parseInt(splitToHour[1]));
 	        Session session = new Session(
 	                sessionCode,
-	                sessionDate,
-	                sessionFromHour,
-	                sessionToHour,
-	                Discipline.valueOf(discipline),
-	                Site.valueOf(site),
+	                date,
+	                from,
+	                to,
+	                dis,
+	                sit,
 	                sessionDescription,
 	                TypeSession.valueOf(sessionType),
 	                CategorieSession.valueOf(sessionCategory)
 	        );
-	        sessionDAO.addSession(session);
-	        return true;
+
+	        ret = sessionDAO.addSession(session);
+
+	        if (ret == 0) {
+	            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+	        } else if (ret == 2) {
+	            return Response.status(Response.Status.CONFLICT).build();
+	        } else {
+	        	JsonObject responseJson = new JsonObject();
+	            responseJson.addProperty("status", "success");
+	            responseJson.addProperty("message", "Session ajoutée avec succès");
+
+	            String jsonString = responseJson.toString();
+
+	            return Response.ok(jsonString, MediaType.APPLICATION_JSON).build();
+	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        return false;
+	        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 	    }
-	}*/
+	}
+
+
 
 	
 }

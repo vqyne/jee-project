@@ -89,7 +89,7 @@
                     </label>
                     <input
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        id="session-code" type="text" placeholder="Code de la session">
+                        id="session-code" type="text" placeholder="Code de la session" required>
                 </div>
                 <div class="mb-4">
 
@@ -104,7 +104,7 @@
                         </div>
                         <input datepicker type="text" id="session-date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Select date">
+                            placeholder="Select date" required>
                     </div>
 
                 </div>
@@ -114,7 +114,7 @@
                     </label>
                     <input
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        id="session-fromhour" type="text" placeholder="Heure de début">
+                        id="session-fromhour" type="text" placeholder="Heure de début (hh:mm)" required>
                 </div>
 
                 <div class="mb-4">
@@ -122,14 +122,13 @@
                     </label>
                     <input
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        id="session-tohour" type="text" placeholder="Heure de fin">
+                        id="session-tohour" type="text" placeholder="Heure de fin (hh:mm)" required>
                 </div>
 
                 <div class="mb-4">
                     <select
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         id="session-discipline" data-target="disciplineList">
-                        <option selected>Saisissez une discipline</option>
                     </select>
 
 
@@ -140,7 +139,6 @@
                 <select
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     id="session-site" data-target="siteList">
-                    <option selected>Saisissez un site</option>
                 </select>
             </div>
 
@@ -149,14 +147,13 @@
                 </label>
                 <input
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    id="session-description" type="text" placeholder="Description">
+                    id="session-description" type="text" placeholder="Description" required>
             </div>
 
             <div class="mb-4">
                 <select
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     id="session-type" data-target="typeList">
-                    <option selected>Saisissez un type</option>
                 </select>
 
             </div>
@@ -165,7 +162,6 @@
                 <select
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     id="session-categorie" data-target="categorieList">
-                    <option selected>Saisissez une catégorie</option>
                 </select>
             </div>
 
