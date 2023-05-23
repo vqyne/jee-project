@@ -58,6 +58,68 @@ function process(sessions) {
         var td_category = document.createElement("td");
         td_category.append(a.category);
         td_category.classList.add('px-6', 'py-4')
+        
+        var td_modify = document.createElement("th");
+				
+		var editIcon = document.createElement("img");
+		editIcon.setAttribute("alt", "");
+		editIcon.setAttribute("width", "24");
+		editIcon.setAttribute("height", "24");
+		editIcon.setAttribute("src", "/jee-project/img/edit.svg"); 
+		td_modify.classList.add("edit-class")
+		td_modify.setAttribute("id","edit-icon-"+a.code)
+				
+		td_modify.append(editIcon)
+		td_modify.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+		td_modify.setAttribute("scope", "col"); 
+			
+		td_modify.addEventListener('click',function(){
+			const currentURL = window.location.href;
+			const projectUrl = currentURL.split("/jee-project")[0];
+			const newURL = projectUrl + "/jee-project/admin/modify_session.html?id=" + this.getAttribute('id').split('-')[2];
+			location.replace(newURL);
+		})
+		
+		var td_delete = document.createElement("th");
+		
+		var deleteIcon = document.createElement("img");
+		deleteIcon.setAttribute("alt", "");
+		deleteIcon.setAttribute("width", "24");
+		deleteIcon.setAttribute("height", "24");
+		deleteIcon.setAttribute("src", "/jee-project/img/trash.svg"); 
+		td_delete.classList.add("delete-class")
+		td_delete.setAttribute("id","delete-icon-"+a.code)
+			
+		td_delete.append(deleteIcon)
+		td_delete.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+		td_delete.setAttribute("scope", "col"); 
+			
+		td_delete.addEventListener('click',function(){
+			const url = '/jee-project/api/session-controller/delete-session/'+this.getAttribute('id').split('-')[2];;
+
+			fetch(url, {
+			  method: 'DELETE',
+			  headers: {
+			    'Content-Type': 'application/json'
+			  }
+			})
+			  .then(response => {
+			    if (!response.ok) {
+			      console.log(response);
+			      throw new Error('Erreur réseau');
+			    }
+			    return response.json();
+			  })
+			  .then(data => {
+			    console.log('Session supprimée avec succès:', data);
+			    loadSession('/jee-project/api/session-controller/get-sessions')
+			  })
+			  .catch(error => {
+			    console.error('Erreur lors de la suppression du site:', error);
+			  });
+
+		})
+		
         tr.appendChild(td_code);
         tr.appendChild(td_date);
         tr.appendChild(td_fromHour);
@@ -67,6 +129,8 @@ function process(sessions) {
         tr.appendChild(td_description);
         tr.appendChild(td_type);
         tr.appendChild(td_category);
+		tr.appendChild(td_modify);
+		tr.appendChild(td_delete);
         table.appendChild(tr);
     }
     // Hide the loader
