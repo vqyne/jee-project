@@ -53,9 +53,30 @@ function process(sessions) {
         var td_discipline = document.createElement("td");
         td_discipline.append(a.discipline.name);
         td_discipline.classList.add('px-6', 'py-4')
+        
+        var icon = document.createElement("img");
+        icon.setAttribute("alt", "");
+        icon.setAttribute("width", "24");
+        icon.setAttribute("height", "24");
+        if (a.discipline.flag) {
+            icon.setAttribute("src", "/jee-project/img/check.svg");
+        } else {
+            icon.setAttribute("src", "/jee-project/img/x.svg");
+        }
+
+        var td_flag = document.createElement("td");
+        td_flag.appendChild(icon);
+
+        td_flag.classList.add('px-6', 'py-4');
+        
         var td_site = document.createElement("td");
         td_site.append(a.site.name);
         td_site.classList.add('px-6', 'py-4')
+        
+        var td_site_city = document.createElement("td");
+        td_site_city.append(a.site.city);
+        td_site_city.classList.add('px-6', 'py-4')
+        
         var td_description = document.createElement("td");
         td_description.append(a.description);
         td_description.classList.add('px-6', 'py-4')
@@ -70,7 +91,9 @@ function process(sessions) {
         tr.appendChild(td_fromHour);
         tr.appendChild(td_toHour);
         tr.appendChild(td_discipline);
+        tr.appendChild(td_flag);
         tr.appendChild(td_site);
+        tr.appendChild(td_site_city);
         tr.appendChild(td_description);
         tr.appendChild(td_type);
         tr.appendChild(td_category);
