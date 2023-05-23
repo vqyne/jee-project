@@ -62,6 +62,50 @@ public class SessionDAO {
         return ret;
 
     }
+    
+	public int editSession(Session session) {
+	    Connection connection = null;
+	    PreparedStatement statement = null;
+	    int ret = 0;
+
+	    try {
+	        connection = DBManager.getInstance().getConnection();
+	        
+	        String sql = "UPDATE session SET date = ?, fromHour = ?, toHour = ?, discipline = ?, site = ?, description = ?, type = ?, category = ? WHERE code = ?";
+
+	        statement = connection.prepareStatement(sql);
+
+            statement.setDate(1, (Date) new java.sql.Date(session.getDate().getTime()));
+            statement.setTime(2, java.sql.Time.valueOf(session.getFromHour()));
+            statement.setTime(3, java.sql.Time.valueOf(session.getToHour()));
+            statement.setString(4, session.getDiscipline().getName());
+            statement.setInt(5, session.getSite().getId());
+            statement.setString(6, session.getDescription());
+            statement.setString(7, session.getType().toString());
+            statement.setString(8, session.getCategory().toString());
+            statement.setString(9, session.getCode());
+
+
+            if(slotsAvailable(session)) {
+         	   int rowsInserted = statement.executeUpdate();
+
+                if (rowsInserted > 0) {
+                    System.out.println("Session bien mise à jour à la base de données.");
+                    ret = 1;
+                }
+            } else {
+            	System.out.println("La session n'a pas pu être mise à jour car une session de " + session.getDiscipline().getName() + " est déjà programmée sur ce créneau");
+            	ret = 2;
+            }
+	        
+	    } catch (SQLException e) {
+	        System.err.println("Error updating site: " + e.getMessage());
+	    } finally {
+	        DBManager.getInstance().cleanup(connection, statement, null);
+	    }
+
+	    return ret;
+	}
 
     private boolean slotsAvailable(Session session) {
         Connection connection = null;
@@ -119,7 +163,6 @@ public class SessionDAO {
         } catch (SQLException e) {
             System.err.println("Error deleting session: " + e.getMessage());
         } finally {
-            // Clean up resources
             DBManager.getInstance().cleanup(connection, statement, null);
         }
 
