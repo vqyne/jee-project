@@ -22,14 +22,10 @@ html, body {
   width: 100vw;
 }
 
-a {
-  -webkit-text-fill-color: rgb(39, 39, 39);
-}
-
 .dot {
   border-radius: 50%;
   display: inline-block;
-  z-index: 100;
+  z-index: 10;
 }
 
 #red {
@@ -73,8 +69,6 @@ a {
   transform: translateX(-50%);
 }
 
-/*# sourceMappingURL=styles.css.map */
-
 .prevent-select {
   -webkit-user-select: none;
   /* Safari */
@@ -84,7 +78,7 @@ a {
   /* Standard syntax */
 }
 
-.gradient-overlay::before {
+/* .gradient-overlay::before {
   content: "";
   position: absolute;
   top: 0;
@@ -113,4 +107,4 @@ a {
 .img img {
   position: relative;
   z-index: 1;
-}
+} */

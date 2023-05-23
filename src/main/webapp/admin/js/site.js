@@ -50,78 +50,83 @@ function process(sites) {
         td_categorie.append(s.category);
         td_categorie.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white');
         td_categorie.setAttribute("scope", "col");
-        
+
         var td_modify = document.createElement("th");
-				
-		var editIcon = document.createElement("img");
-		editIcon.setAttribute("alt", "");
-		editIcon.setAttribute("width", "24");
-		editIcon.setAttribute("height", "24");
-		editIcon.setAttribute("src", "/jee-project/img/edit.svg"); 
-		td_modify.classList.add("edit-class")
-		td_modify.setAttribute("id","edit-icon-"+s.id)
-				
-		td_modify.append(editIcon)
-		td_modify.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-		td_modify.setAttribute("scope", "col"); 
-			
-		td_modify.addEventListener('click',function(){
-			const currentURL = window.location.href;
-			const projectUrl = currentURL.split("/jee-project")[0];
-			const newURL = projectUrl + "/jee-project/admin/site/modify.html?id=" + this.getAttribute('id').split('-')[2];
-			location.replace(newURL);
-		})
-				
-		if(!(s.hasSessions)){
-			var td_delete = document.createElement("th");
-		
-			var deleteIcon = document.createElement("img");
-			deleteIcon.setAttribute("alt", "");
-			deleteIcon.setAttribute("width", "24");
-			deleteIcon.setAttribute("height", "24");
-			deleteIcon.setAttribute("src", "/jee-project/img/trash.svg"); 
-			td_delete.classList.add("delete-class")
-			td_delete.setAttribute("id","delete-icon-"+s.id)
-			
-			td_delete.append(deleteIcon)
-			td_delete.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
-			td_delete.setAttribute("scope", "col"); 
-			
-			td_delete.addEventListener('click',function(){
-				const url = '/jee-project/api/site-controller/delete-site/'+this.getAttribute('id').split('-')[2];;
 
-				fetch(url, {
-				  method: 'DELETE',
-				  headers: {
-				    'Content-Type': 'application/json'
-				  }
-				})
-				  .then(response => {
-				    if (!response.ok) {
-				      console.log(response);
-				      throw new Error('Erreur réseau');
-				    }
-				    return response.json();
-				  })
-				  .then(data => {
-				    console.log('Site supprimé avec succès:', data);
-				    loadSite('/jee-project/api/site-controller/get-sites')
-				  })
-				  .catch(error => {
-				    console.error('Erreur lors de la suppression du site:', error);
-				  });
+        var editIcon = document.createElement("img");
+        editIcon.setAttribute("alt", "");
+        editIcon.setAttribute("width", "24");
+        editIcon.setAttribute("height", "24");
+        editIcon.setAttribute("src", "/jee-project/img/edit.svg");
+        td_modify.classList.add("edit-class")
+        td_modify.setAttribute("id", "edit-icon-" + s.id)
 
-			})
-		}
-				
-		tr.appendChild(td_id);
-		tr.appendChild(td_name);
-		tr.appendChild(td_city);
-		tr.appendChild(td_categorie);
-		tr.appendChild(td_modify);
-		if(!(s.hasSessions)){
-			tr.appendChild(td_delete);
-		}
+        td_modify.append(editIcon)
+        td_modify.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+        td_modify.setAttribute("scope", "col");
+
+        td_modify.addEventListener('click', function () {
+            const currentURL = window.location.href;
+            const projectUrl = currentURL.split("/jee-project")[0];
+            const newURL = projectUrl + "/jee-project/admin/site/modify.html?id=" + this.getAttribute('id').split('-')[2];
+            location.replace(newURL);
+        })
+
+        if (!(s.hasSessions)) {
+            var td_delete = document.createElement("th");
+
+            var deleteIcon = document.createElement("img");
+            deleteIcon.setAttribute("alt", "");
+            deleteIcon.setAttribute("width", "24");
+            deleteIcon.setAttribute("height", "24");
+            deleteIcon.setAttribute("src", "/jee-project/img/trash.svg");
+            td_delete.classList.add("delete-class")
+            td_delete.setAttribute("id", "delete-icon-" + s.id)
+
+            td_delete.append(deleteIcon)
+            td_delete.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')
+            td_delete.setAttribute("scope", "col");
+
+            td_delete.addEventListener('click', function () {
+                const url = '/jee-project/api/site-controller/delete-site/' + this.getAttribute('id').split('-')[2];;
+
+                fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            console.log(response);
+                            throw new Error('Erreur réseau');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Site supprimé avec succès:', data);
+                        loadSite('/jee-project/api/site-controller/get-sites')
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la suppression du site:', error);
+                    });
+
+            })
+        } else {
+            var td_delete = document.createElement("th");
+
+            td_delete.classList.add("delete-class");
+            td_delete.setAttribute("id", "delete-icon-" + s.id);
+            td_delete.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white');
+            td_delete.setAttribute("scope", "col");
+        }
+
+        tr.appendChild(td_id);
+        tr.appendChild(td_name);
+        tr.appendChild(td_city);
+        tr.appendChild(td_categorie);
+        tr.appendChild(td_modify);
+        tr.appendChild(td_delete);
 
         table.appendChild(tr);
     }

@@ -14,3 +14,71 @@ body {
     font-family: 'Circular Std', sans-serif;
     padding-top: 70px;
   }
+
+  .bg-blue-700 {
+    background-color: #1d4ed8;
+  }
+  
+  .hover\:bg-blue-800:hover {
+    background-color: #1e40af;
+  }
+  
+  .focus\:ring-4:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5);
+  }
+  
+  .focus\:outline-none:focus {
+    outline: none;
+  }
+  
+  .focus\:ring-blue-300:focus {
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+  }
+  
+  .font-medium {
+    font-weight: 500;
+  }
+  
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+  
+  .text-sm {
+    font-size: 0.875rem;
+  }
+  
+  .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .py-2 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .mr-3 {
+    margin-right: 0.75rem;
+  }
+  
+  .md\:mr-0 {
+    margin-right: 0;
+  }
+  
+  .dark\:bg-blue-600 {
+    background-color: #1d4ed8;
+  }
+  
+  .dark\:hover\:bg-blue-700:hover {
+    background-color: #1e40af;
+  }
+  
+  .dark\:focus\:ring-blue-800:focus {
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+  }
+  
