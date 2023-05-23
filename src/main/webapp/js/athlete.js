@@ -70,10 +70,36 @@ function process(athletes) {
     document.getElementById("loader").style.display = "none";
 }
 
+var page = 1
+
 const paris_logo = document.getElementById("paris_logo");
 paris_logo.addEventListener("click", function () {
     window.location.href = '/jee-project/';
 });
+
+const previousBtn = document.getElementById("previous_btn");
+const nextBtn = document.getElementById("next_btn");
+
+if(page == 1){
+	previousBtn.style.display = "none";
+}
+
+previousBtn.addEventListener("click", (event) => {
+	page = page - 1;
+	if(page == 1){
+		previousBtn.style.display = "none";
+	}
+	loadAthletes('/jee-project/api/athlete-controller/get-athletes?limit=12&page='+page);
+});
+
+nextBtn.addEventListener("click", (event) => {
+	page = page + 1;
+	if(page == 2){
+		previousBtn.style.display = "flex";
+	}
+	loadAthletes('/jee-project/api/athlete-controller/get-athletes?limit=12&page='+page);
+});
+
 
 const searchInput = document.getElementById("searchInput");
 
@@ -94,6 +120,7 @@ function executeSearch() {
     if (searchTerm.length > 0) {
         loadAthletes('/jee-project/api/athlete-controller/get-athletes-name?name=' + searchTerm);
     } else {
-        loadAthletes('/jee-project/api/athlete-controller/get-athletes');
+        loadAthletes('/jee-project/api/athlete-controller/get-athletes?limit=12&page=1');
+        page = 1;
     }
 }
