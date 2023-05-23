@@ -36,12 +36,16 @@ public class AthleteController {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get-athletes")
-	public String getAthletes(@QueryParam("discipline") String nameDiscipline) {
+	public String getAthletes(@QueryParam("discipline") String nameDiscipline,@QueryParam("limit") String limit, @QueryParam("page") String page) {
 		List<Athlete> athletes = null;
 		if(nameDiscipline != null && nameDiscipline.length() > 0) {
 			athletes = athleteDAO.findByDiscipline(nameDiscipline);
 		} else {
-			athletes = athleteDAO.findAll();
+			if(limit != null && page != null) {
+				athletes = athleteDAO.findAllPagination(Integer.parseInt(limit),Integer.parseInt(page));
+			} else {
+				athletes = athleteDAO.findAll();
+			}
 		}
 		if(athletes.isEmpty()) {
 			athletes = new ArrayList<Athlete>();
