@@ -1,10 +1,3 @@
-
-/**========================================================
- **                  Overlapping issues
- *=========================================================**/
-// Need to specifically import the distributed JS file
-import 'overlapping-marker-spiderfier-leaflet/dist/oms';
-
 /**========================================================
  **                       initializeMap
  *? Initializes the map.
@@ -13,11 +6,10 @@ import 'overlapping-marker-spiderfier-leaflet/dist/oms';
 function initializeMap() {
     // Initialize the map
     var map = L.map("map").setView([48.8566, 2.3522], 10);
-    // map refers to your leaflet map object
-    const oms = new window.OverlappingMarkerSpiderfier(map);
     // Add a tile layer for the map
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "Map data © <a href='https://openstreetmap.org'>OpenStreetMap</a> contributors",
+        className: 'map-tiles',
         maxZoom: 18,
     }).addTo(map);
 
@@ -27,7 +19,7 @@ function initializeMap() {
         .then((sessions) => {
             sessions.forEach(function (session) {
                 // Geocode the session location using Mapbox Geocoding API
-                var location = session.site.name + ", Paris"; // Update with the appropriate location field from your data
+                var location = session.site.name + ", France"; // Update with the appropriate location field from your data
 
                 fetch(
                     "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
@@ -59,12 +51,12 @@ function initializeMap() {
                                 "<span style='display: block;'>" + session.fromHour + " - " + session.toHour + "</span>" +
                                 "</div>"
                             );
-                            oms.addListener('click', (marker) => {
+                            map.addListener('click', (marker) => {
                                 // Your callback when marker is clicked
                               });
                               // Markers need to be added to OMS to spider overlapping markers
                             markers.forEach((marker) => {
-                                oms.addMarker(marker);
+                                map.addMarker(marker);
                             });
                         }
                     })
@@ -100,25 +92,9 @@ function assignIcon(category) {
     }
 }
 
-
-/**========================================================
- **                       Event Listeners
- *=========================================================**/
-
-// Event listener for clicking the Paris logo
-const paris_logo = document.getElementById("paris_logo");
-paris_logo.addEventListener("click", function () {
-    window.location.href = '/jee-project/';
-});
-
-    
-
-
-
-// Conversely use oms.removeMarker(marker) if a marker is removed
 /**========================================================
  **                Execution and Initialization
  *=========================================================**/
 
 // Initialize the map
-initializeMap();
+

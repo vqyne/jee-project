@@ -12,3 +12,4 @@ function togglePasswordVisibility() {
         passwordInput.type = "password";
     }
 }
+

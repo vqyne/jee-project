@@ -1,6 +1,8 @@
 package model;
 
 import org.mindrot.jbcrypt.BCrypt;
+import com.google.gson.Gson;
+
 
 public class User {
 	private int id;
@@ -8,6 +10,7 @@ public class User {
 	private String hashedPassword;
 	private String salt;
 	private CategorieUser category;
+	private boolean isLoggedIn;
 
 	public int getId() {
 		return id;
@@ -54,4 +57,17 @@ public class User {
 		String hashed = BCrypt.hashpw(password, salt);
 		return BCrypt.checkpw(hashed, this.hashedPassword);
 	}
+	
+	public boolean isLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public void setLoggedIn(boolean isLoggedIn) {
+        this.isLoggedIn = isLoggedIn;
+    }
+	
+	public String toJson() {
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
 }
