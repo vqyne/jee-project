@@ -9,6 +9,7 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+
 public class DBManager {
 
 	private static DBManager instance;
@@ -136,14 +137,16 @@ public class DBManager {
 	        stmt.executeUpdate(sessionTable);
 
 
-	        // Create User table
+	     // Create User table
 	        String userTable = "CREATE TABLE IF NOT EXISTS user ("
 	                + "id INT NOT NULL AUTO_INCREMENT,"
 	                + "login VARCHAR(255) NOT NULL,"
 	                + "hashedPassword VARCHAR(255) NOT NULL,"
+	                + "salt VARCHAR(255) NOT NULL,"
 	                + "category VARCHAR(255) NOT NULL,"
 	                + "PRIMARY KEY (id)"
 	                + ");";
+
 	        stmt.executeUpdate(userTable);
 
 	        cleanup(conn, stmt, null);
@@ -173,3 +176,4 @@ public class DBManager {
 		}
 	}
 }
+

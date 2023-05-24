@@ -1,4 +1,5 @@
 @charset "UTF-8";
+
 .main-logo {
   left: 50%;
   top: 10px;
@@ -21,14 +22,10 @@ html, body {
   width: 100vw;
 }
 
-a {
-  -webkit-text-fill-color: rgb(39, 39, 39);
-}
-
 .dot {
   border-radius: 50%;
   display: inline-block;
-  z-index: -10;
+  z-index: 10;
 }
 
 #red {
@@ -70,10 +67,44 @@ a {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-}/*# sourceMappingURL=styles.css.map */
-
-.prevent-select{
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
 }
+
+.prevent-select {
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
+}
+
+/* .gradient-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(to bottom, white, transparent);
+  z-index: 2;
+}
+
+.gradient-overlay img {
+  position: relative;
+  z-index: 1;
+}
+
+.img::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(to bottom, white, transparent);
+  z-index: 2;
+}
+.img img {
+  position: relative;
+  z-index: 1;
+} */

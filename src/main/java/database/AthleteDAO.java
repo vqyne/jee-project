@@ -104,6 +104,39 @@ public class AthleteDAO {
 	    }
 	    return ret;
 	}
+	
+	public List<Athlete> findAllPagination(int limit, int page) {
+	    List<Athlete> ret = new ArrayList<Athlete>();
+	    Connection connexion = DBManager.getInstance().getConnection();
+	    PreparedStatement statement = null;
+	    ResultSet rs = null;
+
+	    try {
+	        String sql = "SELECT a.*, d.* FROM athlete a JOIN discipline d ON a.discipline = d.name LIMIT ? OFFSET ?";
+	        statement = connexion.prepareStatement(sql);
+	        statement.setInt(1, limit);
+	        statement.setInt(2, (page - 1) * limit);
+	        rs = statement.executeQuery();
+
+	        while (rs.next()) {
+	            Integer id = rs.getInt("id");
+	            String lastname = rs.getString("lastname");
+	            String firstname = rs.getString("firstname");
+	            String country = rs.getString("country");
+	            Date birthdate = rs.getDate("birthdate");
+	            Genre genre = Genre.valueOf(rs.getString("genre"));
+	            Discipline discipline = new Discipline(rs.getString("d.name"), rs.getBoolean("d.flag")); 
+
+	            ret.add(new Athlete(id, lastname, firstname, country, birthdate, genre, discipline));
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        DBManager.getInstance().cleanup(connexion, statement, rs);
+	    }
+
+	    return ret;
+	}
 
 	
 	public Athlete findById(int id) {

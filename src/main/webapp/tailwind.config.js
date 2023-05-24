@@ -1,61 +1,34 @@
-// /** @type {import('tailwindcss').Config} */
-// module.exports = {
-//   content: [
-//     "./node_modules/flowbite/**/*.js"
-//   ],
-//   theme: {
-//     extend: {},
-//   },
-//   plugins: [
-//     require('flowbite/plugin')
-//   ]
-  
-// }
+module.exports = {
 
-tailwind.config = {
-  darkMode: 'class',
-  theme: {
-    extend: {
-      colors: {
-        primary: {"50":"#fef2f2","100":"#fee2e2","200":"#fecaca","300":"#fca5a5","400":"#f87171","500":"#ef4444","600":"#dc2626","700":"#b91c1c","800":"#991b1b","900":"#7f1d1d"}
+    // add the folders and files from your templates
+    content: ["./layouts/**/*.html", "./content/**/*.md", "./content/**/*.html", "./src/**/*.js"],
+  
+    // make sure to safelist these classes when using purge
+    safelist: [
+      'w-64',
+      'w-1/2',
+      'rounded-l-lg',
+      'rounded-r-lg',
+      'bg-gray-200',
+      'grid-cols-4',
+      'grid-cols-7',
+      'h-6',
+      'leading-6',
+      'h-9',
+      'leading-9',
+      'shadow-lg'
+    ],
+  
+    // enable dark mode via class strategy
+    darkMode: 'class',
+  
+    theme: {
+      extend: {
+        // extend base Tailwind CSS utility classes
       }
     },
-    fontFamily: {
-      'body': [
-    'Inter',      
-    'ui-sans-serif', 
-    'system-ui', 
-    '-apple-system', 
-    'system-ui', 
-    'Segoe UI', 
-    'Roboto', 
-    'Helvetica Neue', 
-    'Arial', 
-    'Noto Sans', 
-    'sans-serif', 
-    'Apple Color Emoji', 
-    'Segoe UI Emoji', 
-    'Segoe UI Symbol', 
-    'Noto Color Emoji',
-    'Circular Std'
-  ],
-      'sans': [
-    'Inter', 
-    'ui-sans-serif', 
-    'system-ui', 
-    '-apple-system', 
-    'system-ui', 
-    'Segoe UI', 
-    'Roboto', 
-    'Helvetica Neue', 
-    'Arial', 
-    'Noto Sans', 
-    'sans-serif', 
-    'Apple Color Emoji', 
-    'Segoe UI Emoji', 
-    'Segoe UI Symbol', 
-    'Noto Color Emoji'
-  ]
-    }
+    plugins: [
+      // include Flowbite as a plugin in your Tailwind CSS project
+      require('flowbite/plugin')
+    ]
   }
-}
