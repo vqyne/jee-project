@@ -4,6 +4,9 @@ paris_logo.addEventListener("click", function () {
     window.location.href = '/jee-project/';
 });
 
+document.getElementById('fileUploader').addEventListener('click', openExplorer);
+
+
 const drop_div = document.getElementById('drag-div');
 
 drop_div.addEventListener('dragover', function (e) {

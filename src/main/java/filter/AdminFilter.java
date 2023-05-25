@@ -24,7 +24,7 @@ public class AdminFilter implements Filter {
 
     private static final String UNAUTHORIZED_PAGE = "/unauthorized.html";
     private static final String SESSION_HANDLER_PAGE = "/admin/protected/session.html";
-    private static final String BETTER_HANDLER_PAGES = "/admin/protected/discipline.html,/admin/protected/site.html";
+    private static final String BETTER_HANDLER_PAGES = "/admin/protected/discipline.html,/admin/protected/site.html, /admin/protected/modify.html, /admin/protected/page_discipline.html";
 
     /**
      * Méthode permettant de filter l'accès à la page

@@ -103,7 +103,7 @@ public class AthleteDAO {
 	    ResultSet rs = null;
 
 	    try {
-	        String sql = "SELECT a.*, d.* FROM athlete a JOIN discipline d ON a.discipline = d.name LIMIT ? OFFSET ? ORDER BY a.id ASC";
+	        String sql = "SELECT a.*, d.* FROM athlete a JOIN discipline d ON a.discipline = d.name ORDER BY a.id ASC LIMIT ? OFFSET ? ";
 	        statement = connexion.prepareStatement(sql);
 	        statement.setInt(1, limit);
 	        //permet de faire un décalage en fonction de la page sur laquelle se trouve l'utilisateur
