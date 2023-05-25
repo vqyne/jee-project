@@ -15,45 +15,78 @@
 </head>
 
 <body class="bg-white dark:bg-gray-900">
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto mt-40 lg:py-0">
-            <a href="/jee-project/index.html" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                <img id="paris_logo" onclick="window.open(/jee-project/index.html)" src="/jee-project/img/paris2.png" class="h-16 mr-2" alt="Paris OG Logo">
-				<img id="paris_logo_white" onclick="window.open(/jee-project/index.html)" src="/jee-project/img/paris_white.png" style="display: none;" class="h-16 mr-2" alt="Paris OG Logo">
-                Bon retour.
-            </a>
-            <div
-                class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                    <h1
-                        class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                        Accédez à votre compte
-                    </h1>
-                    <form id="loginForm" class="space-y-4 md:space-y-6" action="admin" method="post">
-                        <div>
-                            <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Votre pseudonyme</label>
-                            <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="gdelauna" required="">
+    <div class="w-full top-0">
+        <button id="theme-toggle" class="absolute" style="top: 15px; right: 15px; margin-top: 15px; margin-right: 15px;" type="button"
+            class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mx-4">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                    fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto mt-40 lg:py-0">
+        <a href="/jee-project/index.html"
+            class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+            <img id="paris_logo" onclick="window.open(/jee-project/index.html)" src="/jee-project/img/paris2.png"
+                class="h-16 mr-2" alt="Paris OG Logo">
+            <img id="paris_logo_white" onclick="window.open(/jee-project/index.html)"
+                src="/jee-project/img/paris_white.png" style="display: none;" class="h-16 mr-2" alt="Paris OG Logo">
+            Bon retour.
+        </a>
+        <div
+            class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    Accédez à votre compte
+                </h1>
+                <form id="loginForm" class="space-y-4 md:space-y-6" action="admin" method="post">
+                    <div>
+                        <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Votre
+                            pseudonyme</label>
+                        <input type="text" name="username" id="username"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="gdelauna" required="">
+                    </div>
+                    <div>
+                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mot
+                            de passe</label>
+                        <div class="relative">
+                            <input type="password" name="password" id="password"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                required="">
+                            <button type="button"
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center focus:outline-none"
+                                onclick="togglePasswordVisibility()">
+                                <svg class="w-5 h-5 text-gray-400 dark:text-gray-300" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" fill-rule="evenodd">
+                                    </path>
+                                    <path
+                                        d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm8-6a6 6 0 00-6 6 6 6 0 0012 0 6 6 0 00-6-6z"
+                                        clip-rule="evenodd" fill-rule="evenodd"></path>
+                                </svg>
+                            </button>
                         </div>
-                        <div>
-                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mot de passe</label>
-                            <div class="relative">
-                                <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-                                <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center focus:outline-none" onclick="togglePasswordVisibility()">
-                                    <svg class="w-5 h-5 text-gray-400 dark:text-gray-300" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" fill-rule="evenodd"></path>
-                                        <path d="M2 10a8 8 0 1116 0 8 8 0 01-16 0zm8-6a6 6 0 00-6 6 6 6 0 0012 0 6 6 0 00-6-6z" clip-rule="evenodd" fill-rule="evenodd"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" value="Login">Se connecter</button>
-                        <button onclick="window.location.href='/jee-project/index.html';" class="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" value="Login">Retourner à la page d'accueil</button>
-                    </form>
-                </div>
+                    </div>
+
+                    <button type="submit"
+                        class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        value="Login">Se connecter</button>
+                    <button onclick="window.location.href='/jee-project/index.html';"
+                        class="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                        value="Login">Retourner à la page d'accueil</button>
+                </form>
             </div>
         </div>
-        <script src="/jee-project/js/darkmode.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+    </div>
+    <script src="/jee-project/js/darkmode.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
 </body>
 
 </html>
