@@ -9,114 +9,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
+/**
+ * DAO (Data Access Object) de Discipline
+ * Cette classe regroupe les différentes requêtes SQL pour récupérer, ajouter, modifier, supprimer les données
+ */
 public class DisciplineDAO {
 	
-	public boolean addDiscipline(Discipline discipline) {
-	    Connection connection = null;
-	    PreparedStatement statement = null;
-	    boolean ret = false;
-
-	    try {
-	        connection = DBManager.getInstance().getConnection();
-	        String sql = "INSERT INTO discipline (name, flag) VALUES (?, ?)";
-	        statement = connection.prepareStatement(sql);
-
-	        statement.setString(1, discipline.getName());
-	        statement.setInt(2, discipline.isFlag() ? 1 : 0);
-
-	        int rowsInserted = statement.executeUpdate();
-
-	        if (rowsInserted > 0) {
-	            System.out.println("Discipline bien ajouté à la base de données.");
-	            ret = true;
-	        }
-	    } catch (SQLException e) {
-	        System.err.println("Error inserting discipline: " + e.getMessage());
-	    } finally {
-	        // Clean up resources
-	        DBManager.getInstance().cleanup(connection, statement, null);
-	    }
-
-	    return ret;
-	}
-	
-	public boolean editDiscipline(String name, String newName) {
-	    Connection connection = null;
-	    PreparedStatement statement = null;
-	    boolean ret = false;
-
-	    try {
-	        connection = DBManager.getInstance().getConnection();
-	        String disableForeignKeyChecks = "SET FOREIGN_KEY_CHECKS=0";
-	        statement = connection.prepareStatement(disableForeignKeyChecks);
-	        statement.executeUpdate();
-
-	        String updateDisciplineSql = "UPDATE discipline SET name = ? WHERE name = ?";
-	        statement = connection.prepareStatement(updateDisciplineSql);
-	        statement.setString(1, newName);
-	        statement.setString(2, name);
-	        int rowsUpdated = statement.executeUpdate();
-
-	        if (rowsUpdated > 0) {
-	            System.out.println("Discipline bien modifiée dans la base de données.");
-
-	            String updateAthleteSql = "UPDATE athlete SET discipline = ? WHERE discipline = ?";
-	            statement = connection.prepareStatement(updateAthleteSql);
-	            statement.setString(1, newName);
-	            statement.setString(2, name);
-	            statement.executeUpdate();
-
-	            String updateSessionSql = "UPDATE session SET discipline = ? WHERE discipline = ?";
-	            statement = connection.prepareStatement(updateSessionSql);
-	            statement.setString(1, newName);
-	            statement.setString(2, name);
-	            statement.executeUpdate();
-
-	            ret = true;
-	        }
-
-	        String enableForeignKeyChecks = "SET FOREIGN_KEY_CHECKS=1";
-	        statement = connection.prepareStatement(enableForeignKeyChecks);
-	        statement.executeUpdate();
-	    } catch (SQLException e) {
-	        System.err.println("Erreur lors de la mise à jour de la discipline: " + e.getMessage());
-	    } finally {
-	        DBManager.getInstance().cleanup(connection, statement, null);
-	    }
-
-	    return ret;
-	}
-
-
-	
-	public boolean removeDiscipline(String name) {
-	    Connection connection = null;
-	    PreparedStatement statement = null;
-	    boolean ret = false;
-
-	    try {
-	        connection = DBManager.getInstance().getConnection();
-	        String sql = "DELETE FROM discipline WHERE upper(name)=?";
-	        statement = connection.prepareStatement(sql);
-
-	        statement.setString(1, name.toUpperCase());
-
-	        int rowsDeleted = statement.executeUpdate();
-
-	        if (rowsDeleted > 0) {
-	            System.out.println("Discipline bien supprimée de la base de données.");
-	            ret = true;
-	        }
-	    } catch (SQLException e) {
-	        System.err.println("Error deleting discipline: " + e.getMessage());
-	    } finally {
-	        // Clean up resources
-	        DBManager.getInstance().cleanup(connection, statement, null);
-	    }
-
-	    return ret;
-	}
-
+	/**
+	 * Méthode permettant de retourner toutes les disciplines présentes dans la base de données
+	 * @return toutes les disciplines présentes en base de données
+	 */
 	public List<Discipline> findAll() {
 	    List<Discipline> ret = new ArrayList<>();
 	    Connection connection = DBManager.getInstance().getConnection();
@@ -152,6 +54,11 @@ public class DisciplineDAO {
 	}
 
 	
+	/**
+	 * Méthode permettant la recherche dans la barre de recherche
+	 * @param searchText recherche effectuée par l'utilisateur
+	 * @return les disciplines correspondants à la recherche
+	 */
 	public Discipline findByString(String searchText) {
 		Discipline ret = null;
 		Connection connexion = DBManager.getInstance().getConnection();
@@ -172,6 +79,10 @@ public class DisciplineDAO {
 		return ret;
 	}
 	
+	/**
+	 * Méthode permettant de retourner la TOP 5 des disciplines avec les sessions les plus longues
+	 * @return le TOP 5
+	 */
 	public List<Discipline> findTopFiveDisciplinesByDuration() {
 	    List<Discipline> topDisciplines = new ArrayList<>();
 	    Connection connection = DBManager.getInstance().getConnection();
@@ -195,6 +106,126 @@ public class DisciplineDAO {
 	    }
 	    return topDisciplines;
 	}
-
 	
+	/**
+	 * Fonction permettant d'ajouter une discipline à la base de données
+	 * @param discipline discipline à ajouter
+	 * @return retourne true si l'ajout a été effectué false sinon
+	 */
+	public boolean addDiscipline(Discipline discipline) {
+	    Connection connection = null;
+	    PreparedStatement statement = null;
+	    boolean ret = false;
+
+	    try {
+	        connection = DBManager.getInstance().getConnection();
+	        String sql = "INSERT INTO discipline (name, flag) VALUES (?, ?)";
+	        statement = connection.prepareStatement(sql);
+
+	        statement.setString(1, discipline.getName());
+	        statement.setInt(2, discipline.isFlag() ? 1 : 0);
+
+	        int rowsInserted = statement.executeUpdate();
+
+	        if (rowsInserted > 0) {
+	            System.out.println("Discipline bien ajouté à la base de données.");
+	            ret = true;
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Error inserting discipline: " + e.getMessage());
+	    } finally {
+	        // Clean up resources
+	        DBManager.getInstance().cleanup(connection, statement, null);
+	    }
+
+	    return ret;
+	}
+	
+	/**
+	 * Fonction permettant de modifier une discipline
+	 * @param name nom de la discipline à modifier (CLEF PRIMAIRE)
+	 * @param newName nouveau nom de la discipline
+	 * @return true si la modification est un succès false sinon
+	 */
+	public boolean editDiscipline(String name, String newName) {
+	    Connection connection = null;
+	    PreparedStatement statement = null;
+	    boolean ret = false;
+
+	    try {
+	        connection = DBManager.getInstance().getConnection();
+	        //desactive les clés étrangères pour pouvoir modifier la discipline
+	        String disableForeignKeyChecks = "SET FOREIGN_KEY_CHECKS=0";
+	        statement = connection.prepareStatement(disableForeignKeyChecks);
+	        statement.executeUpdate();
+
+	        String updateDisciplineSql = "UPDATE discipline SET name = ? WHERE name = ?";
+	        statement = connection.prepareStatement(updateDisciplineSql);
+	        statement.setString(1, newName);
+	        statement.setString(2, name);
+	        int rowsUpdated = statement.executeUpdate();
+
+	        if (rowsUpdated > 0) {
+	            System.out.println("Discipline bien modifiée dans la base de données.");
+
+	            //modification dans athlete et session le nom de la discipline
+	            String updateAthleteSql = "UPDATE athlete SET discipline = ? WHERE discipline = ?";
+	            statement = connection.prepareStatement(updateAthleteSql);
+	            statement.setString(1, newName);
+	            statement.setString(2, name);
+	            statement.executeUpdate();
+
+	            String updateSessionSql = "UPDATE session SET discipline = ? WHERE discipline = ?";
+	            statement = connection.prepareStatement(updateSessionSql);
+	            statement.setString(1, newName);
+	            statement.setString(2, name);
+	            statement.executeUpdate();
+
+	            ret = true;
+	        }
+
+	        String enableForeignKeyChecks = "SET FOREIGN_KEY_CHECKS=1";
+	        statement = connection.prepareStatement(enableForeignKeyChecks);
+	        statement.executeUpdate();
+	    } catch (SQLException e) {
+	        System.err.println("Erreur lors de la mise à jour de la discipline: " + e.getMessage());
+	    } finally {
+	        DBManager.getInstance().cleanup(connection, statement, null);
+	    }
+
+	    return ret;
+	}
+
+	/**
+	 * Méthode permettant de supprimer une discipline de la base de données
+	 * @param name nom de la discipline (CLEF PRIMAIRE) à supprimer
+	 * @return true si la suppression de la discipline est un succès
+	 */
+	public boolean removeDiscipline(String name) {
+	    Connection connection = null;
+	    PreparedStatement statement = null;
+	    boolean ret = false;
+
+	    try {
+	        connection = DBManager.getInstance().getConnection();
+	        String sql = "DELETE FROM discipline WHERE upper(name)=?";
+	        statement = connection.prepareStatement(sql);
+
+	        statement.setString(1, name.toUpperCase());
+
+	        int rowsDeleted = statement.executeUpdate();
+
+	        if (rowsDeleted > 0) {
+	            System.out.println("Discipline bien supprimée de la base de données.");
+	            ret = true;
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Error deleting discipline: " + e.getMessage());
+	    } finally {
+	        // Clean up resources
+	        DBManager.getInstance().cleanup(connection, statement, null);
+	    }
+
+	    return ret;
+	}	
 }

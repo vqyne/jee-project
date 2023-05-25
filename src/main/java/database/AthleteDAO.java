@@ -13,10 +13,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
+/**
+ * DAO (Data Access Object) de Athlete
+ * Cette classe regroupe les différentes requêtes SQL pour récupérer, ajouter, modifier, supprimer les données
+ */
 public class AthleteDAO {
 	
+	//DAO de Discipline nécessaire pour certaines opérations
 	private DisciplineDAO disciplineDAO = new DisciplineDAO();
 
+	/**
+	 * Fonction permettant d'ajouter un athlète dans la base de données
+	 * @param athlete athlète à ajouter
+	 * @return true si l'athlète a été ajouté dans la base de données
+	 */
 	public boolean addAthlete(Athlete athlete) {
 	    Connection connection = null;
 	    PreparedStatement statement = null;
@@ -50,35 +60,10 @@ public class AthleteDAO {
 	    return ret;
 	}
 	
-	public boolean removeAthlete(int id) {
-	    Connection connection = null;
-	    PreparedStatement statement = null;
-	    boolean ret = false;
-
-	    try {
-	        connection = DBManager.getInstance().getConnection();
-	        String sql = "DELETE FROM athlete WHERE id=?";
-	        statement = connection.prepareStatement(sql);
-
-	        statement.setInt(1, id);
-
-	        int rowsDeleted = statement.executeUpdate();
-
-	        if (rowsDeleted > 0) {
-	            System.out.println("Athlete bien supprimé de la base de données.");
-	            ret = true;
-	        }
-	    } catch (SQLException e) {
-	        System.err.println("Error deleting athlete: " + e.getMessage());
-	    } finally {
-	        // Clean up resources
-	        DBManager.getInstance().cleanup(connection, statement, null);
-	    }
-
-	    return ret;
-	}
-
-	
+	/**
+	 * Fonction permettant de récupérer tous les athlètes de la base de données
+	 * @return liste des athlètes présent dans la base de données
+	 */
 	public List<Athlete> findAll() {
 	    List<Athlete> ret = new ArrayList<Athlete>();
 	    Connection connexion = DBManager.getInstance().getConnection();
@@ -93,7 +78,7 @@ public class AthleteDAO {
 	            String country = rs.getString("country");
 	            Date birthdate = rs.getDate("birthdate");
 	            Genre genre = Genre.valueOf(rs.getString("genre"));
-	            Discipline discipline = new Discipline(rs.getString("d.name"), rs.getBoolean("d.flag")); // Assuming that the Discipline class has a constructor like this
+	            Discipline discipline = new Discipline(rs.getString("d.name"), rs.getBoolean("d.flag")); 
 
 	            ret.add(new Athlete(id,lastname,firstname,country,birthdate,genre,discipline));
 	        }
@@ -105,6 +90,12 @@ public class AthleteDAO {
 	    return ret;
 	}
 	
+	/**
+	 * Fonction permettant de récupérer tous les athlètes de la base de données pour la pagination 
+	 * @param limit nombre d'athlètes maximum à retourner
+	 * @param page page sur laquelle se trouve l'utilisateur
+	 * @return liste des athlètes présent dans la base de données en fonction de la page où se trouve l'utilisateur
+	 */
 	public List<Athlete> findAllPagination(int limit, int page) {
 	    List<Athlete> ret = new ArrayList<Athlete>();
 	    Connection connexion = DBManager.getInstance().getConnection();
@@ -115,6 +106,7 @@ public class AthleteDAO {
 	        String sql = "SELECT a.*, d.* FROM athlete a JOIN discipline d ON a.discipline = d.name LIMIT ? OFFSET ?";
 	        statement = connexion.prepareStatement(sql);
 	        statement.setInt(1, limit);
+	        //permet de faire un décalage en fonction de la page sur laquelle se trouve l'utilisateur
 	        statement.setInt(2, (page - 1) * limit);
 	        rs = statement.executeQuery();
 
@@ -138,7 +130,11 @@ public class AthleteDAO {
 	    return ret;
 	}
 
-	
+	/**
+	 * Fonction permettant de trouver un athlète grâce à son identifiant
+	 * @param id identifiant de l'athlète à retourner
+	 * @return l'athlète dont l'identifiant est id
+	 */
 	public Athlete findById(int id) {
 	    Athlete ret = null;
 	    Connection connexion = DBManager.getInstance().getConnection();
@@ -166,7 +162,11 @@ public class AthleteDAO {
 	    return ret;
 	}
 
-	
+	/**
+	 * Fonction permettant la recherche grâce à la barre de recherche
+	 * @param name texte tapé dans la barre de recherche
+	 * @return athlètes correspondant à la recherche effectuée
+	 */
 	public List<Athlete> findByName(String name) {
 		List<Athlete> ret = new ArrayList<Athlete>();
 		Connection connexion = DBManager.getInstance().getConnection();
@@ -175,6 +175,7 @@ public class AthleteDAO {
 			String lastname = "";
 			String firstname = "";
 
+			//on ne sait pas si la recherche correspond au prénom ou au nom on va rechercher sur les deux
 			if(names.length == 2) {
 			    lastname = names[1];
 			    firstname = names[0];
@@ -206,6 +207,11 @@ public class AthleteDAO {
 		return ret;
 	}
 	
+	/**
+	 * Fonction permettant de chercher les athlètes par discipline
+	 * @param disciplineName discipline dont on cherche les athlètes
+	 * @return tous les athlètes effectuant la discipline passé en argument
+	 */
 	public List<Athlete> findByDiscipline(String disciplineName) {
 		List<Athlete> ret = new ArrayList<Athlete>();
 		Connection connexion = DBManager.getInstance().getConnection();
@@ -231,5 +237,36 @@ public class AthleteDAO {
 		return ret;
 	}
 	
-	
+	/**
+	 * Méthode permettant de supprimer un athlète dans la base de données
+	 * @param id id de l'athlète (CLEF PRIMAIRE)
+	 * @return true si la suppression a fonctionné sinon false
+	 */
+	public boolean removeAthlete(int id) {
+	    Connection connection = null;
+	    PreparedStatement statement = null;
+	    boolean ret = false;
+
+	    try {
+	        connection = DBManager.getInstance().getConnection();
+	        String sql = "DELETE FROM athlete WHERE id=?";
+	        statement = connection.prepareStatement(sql);
+
+	        statement.setInt(1, id);
+
+	        int rowsDeleted = statement.executeUpdate();
+
+	        if (rowsDeleted > 0) {
+	            System.out.println("Athlete bien supprimé de la base de données.");
+	            ret = true;
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Error deleting athlete: " + e.getMessage());
+	    } finally {
+	        // Clean up resources
+	        DBManager.getInstance().cleanup(connection, statement, null);
+	    }
+
+	    return ret;
+	}
 }

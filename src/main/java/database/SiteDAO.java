@@ -10,8 +10,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
+/**
+ * DAO (Data Access Object) de Site
+ * Cette classe regroupe les différentes requêtes SQL pour récupérer, ajouter, modifier, supprimer les données
+ */
 public class SiteDAO {
 	
+	/**
+	 * Fonction permettant d'ajouter un site à la base de données
+	 * @param site site que l'on veut ajouter à la base de données
+	 * @return true si l'ajout est un succès false sinon
+	 */
 	public boolean addSite(Site site) {
 	    Connection connection = null;
 	    PreparedStatement statement = null;
@@ -42,6 +51,11 @@ public class SiteDAO {
 	    return ret;
 	}
 	
+	/**
+	 * Méthode permettant de modifier un site en base de données
+	 * @param site site à modifier (seul l'id reste constant)
+	 * @return true si le changement est un succès false sinon
+	 */
 	public boolean editSite(Site site) {
 	    Connection connection = null;
 	    PreparedStatement statement = null;
@@ -76,7 +90,11 @@ public class SiteDAO {
 	    return ret;
 	}
 
-	
+	/**
+	 * Méthode permettant de supprimer un site de la base de données
+	 * @param id id du site que l'on souhaite modifier
+	 * @return true si la suppression est un succès sinon false
+	 */
 	public boolean removeSite(int id) {
 	    Connection connection = null;
 	    PreparedStatement statement = null;
@@ -105,6 +123,10 @@ public class SiteDAO {
 	    return ret;
 	}
 
+	/**
+	 * Méthode permettant de récupérer tous les sites de la base de données
+	 * @return la liste des sites présent en base de données
+	 */
 	public List<Site> findAll(){
 		List<Site> ret = new ArrayList<Site>();
 		Connection connexion = DBManager.getInstance().getConnection();
@@ -135,6 +157,10 @@ public class SiteDAO {
 		return ret;
 	}
 	
+	/**
+	 * Méthode permettant de retourner les 5 sites les plus utilisés par des sessions
+	 * @return le TOP 5 des sites les plus utilisés
+	 */
 	public List<Site> findTopFiveSitesBySessions() {
 	    List<Site> topSites = new ArrayList<>();
 	    Connection connection = DBManager.getInstance().getConnection();

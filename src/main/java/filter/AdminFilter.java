@@ -12,6 +12,9 @@ import jakarta.servlet.annotation.WebFilter;
 
 import java.io.IOException;
 
+/**
+ * Classe permettant de protéger certaines pages en fonction du rôle de l'utilisateur
+ */
 @WebFilter(filterName = "AdminFilter", urlPatterns = {"/admin/protected/*"})
 public class AdminFilter implements Filter {
 
@@ -23,6 +26,9 @@ public class AdminFilter implements Filter {
     private static final String SESSION_HANDLER_PAGE = "/admin/protected/session.html";
     private static final String BETTER_HANDLER_PAGES = "/admin/protected/discipline.html,/admin/protected/site.html";
 
+    /**
+     * Méthode permettant de filter l'accès à la page
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
@@ -54,6 +60,11 @@ public class AdminFilter implements Filter {
         }
     }
 
+    /**
+     * Méthode vérifiant si l'utilisateur a accès à une page en tant que better_handler
+     * @param requestURI lien de la page dont on veut vérifier si l'utilisateur a l'accès
+     * @return true si autorisé false sinon
+     */
     private boolean isAuthorizedPageForBetterHandler(String requestURI) {
         // Vérifier si la page demandée est autorisée pour l'utilisateur 'better_handler'
         String[] authorizedPages = BETTER_HANDLER_PAGES.split(",");

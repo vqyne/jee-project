@@ -8,6 +8,9 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
+/**
+ * Classe permettant de sérialiser un LocalTime (heures) et de le passer dans un JSON
+ */
 public class LocalTimeAdapter extends TypeAdapter<LocalTime> implements JsonSerializer<LocalTime>, JsonDeserializer<LocalTime> {
 
     @Override

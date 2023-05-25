@@ -9,7 +9,9 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-
+/**
+ * Classe permettant de manager la base de données
+ */
 public class DBManager {
 
 	private static DBManager instance;
@@ -18,6 +20,9 @@ public class DBManager {
 
 	private static String resourceBundle = "config";
 
+	/**
+	 * Constructeur privé
+	 */
 	private DBManager() {
 		properties = ResourceBundle.getBundle(resourceBundle);
 
@@ -30,6 +35,10 @@ public class DBManager {
 
 	}
 
+	/**
+	 * Retourne l'instance en singleton de DBManager
+	 * @return l'instance de la classe
+	 */
 	public static DBManager getInstance() {
 		if (instance == null) {
 			synchronized (DBManager.class) {
@@ -39,6 +48,10 @@ public class DBManager {
 		return instance;
 	}
 
+	/**
+	 * Permet de faire la connexion avec la base de données
+	 * @return
+	 */
 	public Connection getConnection() {
 
 		Connection connection = null;
@@ -53,6 +66,12 @@ public class DBManager {
 
 	}
 
+	/**
+	 * Permet de fermer les objets utilisés dans les DAO
+	 * @param connection connexion avec la base de données
+	 * @param stat permet de manipuler la requête
+	 * @param rs résultat de la requête SQL
+	 */
 	public void cleanup(Connection connection, Statement stat, ResultSet rs) {
 		if (rs != null) {
 			try {
@@ -80,6 +99,9 @@ public class DBManager {
 		}
 	}
 	
+	/**
+	 * Fonction permettant de créer les tables dans la base de données
+	 */
 	public void createTables() {
 	    Connection conn = null;
 	    Statement stmt = null;
@@ -155,6 +177,10 @@ public class DBManager {
 	    }
 	}
 
+	/**
+	 * Méthode principale appelant la fonction créant la connexion
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Connection c = DBManager.getInstance().getConnection();
 		if (c != null) {
