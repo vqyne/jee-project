@@ -5,6 +5,7 @@
  **=========================================================**/
 function openExplorer() {
     // Open the file explorer here
+    console.log("ok");
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.csv';

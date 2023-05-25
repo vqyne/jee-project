@@ -13,6 +13,10 @@ function loadAthletes(url) {
         .catch(error => console.log("Erreur : " + error));
 }
 
+
+const previousBtn = document.getElementById("previous_btn");
+const nextBtn = document.getElementById("next_btn");
+
 /**========================================================
  **                 process
  * ? Processes the athletes data.
@@ -22,6 +26,10 @@ function loadAthletes(url) {
 function process(athletes) {
     var athletelist = document.getElementById("athletelist");
 
+	if(athletes.length < 12){
+		nextBtn.style.display = "none";
+	}
+	
     if (athletelist.hasChildNodes()) {
         athletelist.removeChild(athletelist.firstChild);
     }
@@ -76,9 +84,6 @@ const paris_logo = document.getElementById("paris_logo");
 paris_logo.addEventListener("click", function () {
     window.location.href = '/jee-project/';
 });
-
-const previousBtn = document.getElementById("previous_btn");
-const nextBtn = document.getElementById("next_btn");
 
 if(page == 1){
 	previousBtn.style.display = "none";
