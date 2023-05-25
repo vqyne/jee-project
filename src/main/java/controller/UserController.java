@@ -12,6 +12,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+/**
+ * Servlet servant de contrôleur pour la classe User
+ */
 @WebServlet(name = "UserController", urlPatterns = { "/admin" })
 public class UserController extends HttpServlet implements Servlet {
     private static final long serialVersionUID = 1L;
@@ -20,6 +23,9 @@ public class UserController extends HttpServlet implements Servlet {
         super();
     }
 
+    /**
+     * Méthode permettant la connexion
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     String username = request.getParameter("username");
@@ -43,9 +49,7 @@ public class UserController extends HttpServlet implements Servlet {
         // Invalid username or password, redirect to login page with an error message
         response.sendRedirect(request.getContextPath() + "/login.html?error=1");
     }
-}
-
-
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

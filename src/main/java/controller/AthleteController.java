@@ -27,12 +27,26 @@ import model.Genre;
 import database.AthleteDAO;
 import database.DisciplineDAO;
 
+/**
+ * Contrôleur de la classe Athlète
+ * Permet de CRUD sur les athlètes
+ */
 @Path("/athlete-controller")
 public class AthleteController {
 	
+	//initialisation des DAO nécessaires
 	private AthleteDAO athleteDAO = new AthleteDAO();
 	private DisciplineDAO disciplineDAO = new DisciplineDAO();
 
+	/**
+	 * Méthode permettant de faire le lien entre la vue et la base de données
+	 * Retourne tous les athlètes présents en base de données
+	 * Plusieurs paramètres possibles en cas de pagination ou de recherche par discipline
+	 * @param nameDiscipline nom de la discipline si recherche par discipline
+	 * @param limit nombre d'athlètes maximum à retourner (en cas de pagination)
+	 * @param page page actuelle où se trouve l'utilisateur (pour ne pas retourner toujours les n (limit) premiers athlètes
+	 * @return une liste d'athlètes au format JSON
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get-athletes")
@@ -49,6 +63,7 @@ public class AthleteController {
 		}
 		if(athletes.isEmpty()) {
 			athletes = new ArrayList<Athlete>();
+			//Au cas où la base de données est vide : permet de tester si la connexion fonctionne néanmoins
 			athletes.add(new Athlete(1,"DELAUNAY","Gurwan","France",new Date(),Genre.homme,new Discipline("Football")));
 		}
 		GsonBuilder builder = new GsonBuilder();
@@ -57,6 +72,13 @@ public class AthleteController {
 		return json;
 	}
 	
+	/**
+	 * Méthode GET permettant de retourner les athlètes ayant un nom ressemblant à name passé en argument
+	 * Cette méthode nous est utile pour notre fonctionnalité de recherche (barre de recherche)
+	 * La méthode va appeler la méthode associée du DAO Athlète
+	 * @param name nom complet ou partiel que l'on recherche dans notre barre de recherche d'athlètes
+	 * @return la liste d'athlètes ayant un nom/prénom semblable à l'argument sous format JSON
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get-athletes-name")
@@ -76,6 +98,12 @@ public class AthleteController {
 		return json;
 	}
 	
+	
+	/**
+	 * Méthode permettant d'appeler la fonction traitant le fichier CSV et d'insérer dans la base de données, les athlètes trouvés.
+	 * @param csvInputStream contenu du fichier CSV sous format texte
+	 * @return Réponse HTTP indiquant la réussite ou non de l'opération
+	 */
     @POST
     @Path("/import-athletes-from-csv")
     public Response importAthletesFromCSV(String csvInputStream) {
@@ -87,6 +115,11 @@ public class AthleteController {
         }
     }
     
+    /**
+     * Méthode privée appelée par importAthletesFromCSV
+     * Cette méthode va convertir le contenu de notre fichier CSV en objets Athlète et les insérer dans la base de données
+     * @param csv contenu du fichier CSV sous format texte
+     */
     private void csvToDatabase(String csv) {
     	AthleteDAO athleteDAO = new AthleteDAO();
         try {

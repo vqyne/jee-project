@@ -23,21 +23,26 @@ import model.Discipline;
 import model.Genre;
 import database.DisciplineDAO;
 
+/**
+ * Contrôleur de la classe Discipline
+ * Permet de CRUD sur les disciplines
+ */
 @Path("/discipline-controller")
 public class DisciplineController {
 	
+	//initialisation du DAO nécessaire
 	private DisciplineDAO disciplineDAO = new DisciplineDAO();
 
+	/**
+	 * Méthode permettant de retourner toutes les disciplines présentes en base de données
+	 * @return la liste de toutes les disciplines en base de données
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get-disciplines")
-	public String getDisciplines(@QueryParam("discipline") String nameDiscipline) {
+	public String getDisciplines() {
 		List<Discipline> disciplines = null;
-		if(nameDiscipline != null && nameDiscipline.length() > 0) {
-			
-		} else {
-			disciplines = disciplineDAO.findAll();
-		}
+		disciplines = disciplineDAO.findAll();
 		if(disciplines.isEmpty()) {
 			disciplines = new ArrayList<Discipline>();
 		}
@@ -47,6 +52,12 @@ public class DisciplineController {
 		return json;
 	}
 	
+	/**
+	 * Méthode utile à la partie statistiques de l'application web
+	 * Cette méthode va permettre de retourner le TOP 5 des disciplines ayant les sessions les plus longues
+	 * Pour cela, elle va seulement appeler la fonction associée dans le DAO de Discipline
+	 * @return la liste des 5 disciplines ayant les plus gros totaux en durée de leurs sessions
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/get-disciplines-duration")
@@ -62,6 +73,12 @@ public class DisciplineController {
 		return json;
 	}
 	
+	/**
+	 * Méthode POST permettant l'ajout d'une discipline
+	 * @param name nom de la nouvelle discipline
+	 * @param accessible disponible aux paralympiques ou non, argument passé sous format String d'un bit (0 ou 1)
+	 * @return true si l'ajout a été effectué false si erreur : retour non optimal, devrait être remplacé par une Response
+	 */
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Path("/discipline-add")
@@ -82,6 +99,13 @@ public class DisciplineController {
 		}
 	}
 	
+	/**
+	 * Méthode POST permettant de modifier une discipline
+	 * L'accès aux jeux paralympiques n'est pas modifiable
+	 * @param name nom de la discipline à modifier
+	 * @param newName nouveau nom
+	 * @return true si la modification a été effectué false si erreur : retour non optimal, devrait être remplacé par une Response
+	 */
 	@POST
 	@Consumes("application/x-www-form-urlencoded")
 	@Path("/discipline-edit")
@@ -95,6 +119,11 @@ public class DisciplineController {
 		}
 	}
 	
+	/**
+	 * Méthode DELETE permettant de supprimer une discipline
+	 * @param name nom de la discipline à supprimer
+	 * @return true si la modification a été effectué false si erreur : retour non optimal, devrait être remplacé par une Response
+	 */
 	@DELETE
 	@Path("/delete-discipline/{name}")
 	public boolean deleteDiscipline(@PathParam("name") String name) {
