@@ -76,7 +76,7 @@ function process(sessions) {
 		td_modify.addEventListener('click',function(){
 			const currentURL = window.location.href;
 			const projectUrl = currentURL.split("/jee-project")[0];
-			const newURL = projectUrl + "/jee-project/admin/modify_session.html?id=" + this.getAttribute('id').split('-')[2];
+			const newURL = projectUrl + "/jee-project/admin/protected/modify_session.html?id=" + this.getAttribute('id').split('-')[2];
 			location.replace(newURL);
 		})
 		

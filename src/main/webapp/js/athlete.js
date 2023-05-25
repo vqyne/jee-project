@@ -120,7 +120,7 @@ function executeSearch() {
     if (searchTerm.length > 0) {
         loadAthletes('/jee-project/api/athlete-controller/get-athletes-name?name=' + searchTerm);
     } else {
-        loadAthletes('/jee-project/api/athlete-controller/get-athletes?limit=12&page=1');
-        page = 1;
+        //loadAthletes('/jee-project/api/athlete-controller/get-athletes?limit=12&page=1');
+        //page = 1;
     }
 }

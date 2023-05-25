@@ -68,7 +68,7 @@ function process(sites) {
         td_modify.addEventListener('click', function () {
             const currentURL = window.location.href;
             const projectUrl = currentURL.split("/jee-project")[0];
-            const newURL = projectUrl + "/jee-project/admin/site/modify.html?id=" + this.getAttribute('id').split('-')[2];
+            const newURL = projectUrl + "/jee-project/admin/protected/modify.html?id=" + this.getAttribute('id').split('-')[2];
             location.replace(newURL);
         })
 

@@ -139,7 +139,7 @@ function processDisciplines(discipline) {
         tr.classList.add('bg-white', 'border-b', 'dark:bg-gray-800', 'dark:border-gray-700');
         var td_name = document.createElement("th");
         var link = document.createElement("a");
-        link.href = "/jee-project/admin/discipline/page_discipline.html?d=" + a.name;
+        link.href = "/jee-project/admin/protected/page_discipline.html?d=" + a.name;
         link.textContent = a.name;
         td_name.appendChild(link);
         td_name.classList.add('px-6', 'py-4', 'font-medium', 'text-gray-900', 'whitespace-nowrap', 'dark:text-white')

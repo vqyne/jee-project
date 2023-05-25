@@ -273,18 +273,19 @@ public class SessionDAO {
         try {
             connection = DBManager.getInstance().getConnection();
             //l'espace temps de 1h avant le début de la session jusqu'à 1h après la fin doit être libre
-            String sql = "SELECT * FROM session WHERE discipline = ? AND date = ? AND ((fromHour <= ? AND toHour >= ?) OR (fromHour <= ? AND toHour >= ?) OR (toHour < ? AND ADDTIME(toHour, '01:00:00') > ?) OR (fromHour > ? AND SUBTIME(fromHour, '01:00:00') < ?))";
+            String sql = "SELECT * FROM session WHERE discipline = ? AND code != ? AND date = ? AND ((fromHour <= ? AND toHour >= ?) OR (fromHour <= ? AND toHour >= ?) OR (toHour < ? AND ADDTIME(toHour, '01:00:00') > ?) OR (fromHour > ? AND SUBTIME(fromHour, '01:00:00') < ?))";
             statement = connection.prepareStatement(sql);
             statement.setString(1, session.getDiscipline().getName());
-            statement.setDate(2, new java.sql.Date(session.getDate().getTime()));
-            statement.setTime(3, java.sql.Time.valueOf(session.getFromHour()));
+            statement.setString(2, session.getCode());
+            statement.setDate(3, new java.sql.Date(session.getDate().getTime()));
             statement.setTime(4, java.sql.Time.valueOf(session.getFromHour()));
-            statement.setTime(5, java.sql.Time.valueOf(session.getToHour()));
+            statement.setTime(5, java.sql.Time.valueOf(session.getFromHour()));
             statement.setTime(6, java.sql.Time.valueOf(session.getToHour()));
             statement.setTime(7, java.sql.Time.valueOf(session.getToHour()));
             statement.setTime(8, java.sql.Time.valueOf(session.getToHour()));
-            statement.setTime(9, java.sql.Time.valueOf(session.getFromHour()));
+            statement.setTime(9, java.sql.Time.valueOf(session.getToHour()));
             statement.setTime(10, java.sql.Time.valueOf(session.getFromHour()));
+            statement.setTime(11, java.sql.Time.valueOf(session.getFromHour()));
             resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
