@@ -4,6 +4,21 @@ Ce projet consiste à développer un site web pour la gestion des épreuves des 
 
 ![Alt text](src/main/webapp/assets/homepage.png?raw=true "Home page")
 
+## Informations générales pour l'évaluation
+- Numéro du groupe : 1
+- Branche la plus à jour : master
+- Identifiants de connexion :
+- Admin 
+  - Username : Louei
+  - Password : password_admin
+- Session_handler
+  - Username : Oussama
+  - Password : password_session_handler
+- Better_handler
+  - Username : Gurwan
+  - Password : password_better_handler
+- URL d'accueil : http://localhost:8080/jee-project/
+
 ## Fonctionnalités
 
 ### Gestion des sites de compétition

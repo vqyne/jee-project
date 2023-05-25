@@ -86,7 +86,7 @@ function processSites(sites) {
     // Generate pie chart
     // console.log(sites);
     generatePieChart(sites);
-    
+
 }
 
 /**=========================================================
@@ -98,28 +98,28 @@ function processSites(sites) {
 function generatePieChart(data) {
     const ctx = document.getElementById('pie-chart').getContext('2d');
     new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: data.map(s => s.name),
-        datasets: [{
-          data: data.map(s => s.numberUsed),
-          backgroundColor: [
-            'rgba(63, 81, 181, 0.5)',
-            'rgba(77, 182, 172, 0.5)',
-            'rgba(66, 133, 244, 0.5)',
-            'rgba(156, 39, 176, 0.5)',
-            'rgba(233, 30, 99, 0.5)',
-          ],
-        }],
-      },
-      options: {
-        responsive: true,
-        legend: {
-            position: 'bottom',
+        type: 'pie',
+        data: {
+            labels: data.map(s => s.name),
+            datasets: [{
+                data: data.map(s => s.numberUsed),
+                backgroundColor: [
+                    'rgba(63, 81, 181, 0.5)',
+                    'rgba(77, 182, 172, 0.5)',
+                    'rgba(66, 133, 244, 0.5)',
+                    'rgba(156, 39, 176, 0.5)',
+                    'rgba(233, 30, 99, 0.5)',
+                ],
+            }],
         },
-      },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+            },
+        },
     });
-  }
+}
 
 /**=========================================================
  *                  processDisciplines
@@ -170,9 +170,55 @@ function processDisciplines(discipline) {
 
         table.appendChild(tr);
     }
+
+    // Generate bar chart
+    generateBarChart(discipline);
+
     // Hide the loader
     document.getElementById("loader").style.display = "none";
 }
+
+/**=========================================================
+ *                   generateBarChart
+ * ? Processes the data and generate a bar chart.
+ * @param {Array} data
+ * @return {void}
+*=========================================================**/
+function generateBarChart(data) {
+    const ctx = document.getElementById('bar-chart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data.map(d => d.name),
+            datasets: [{
+                label: 'Disciplines',
+                data: data.map(d => d.allTime),
+                backgroundColor: 'rgba(63, 81, 181, 0.5)',
+                borderColor: 'rgba(63, 81, 181, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y',  // Rotate the chart to display bars horizontally
+            responsive: true,
+            legend: {
+                display: false
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function (value) {
+                            return value;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+
 
 /**------------------------------------------------------------------------
  *                           CONST & LOAD

@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function disconnect() {
   // Perform the disconnect logic using an endpoint URL
   $.ajax({
-    url: '/jee-project/admin/disconnect', // Replace with the actual disconnect endpoint URL
+    url: '/jee-project/admin/disconnect',
     method: 'GET',
     success: function(response) {
       console.log('Successfully disconnected');
