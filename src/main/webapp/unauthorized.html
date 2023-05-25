@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unauthorized</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body class="bg-white dark:bg-gray-900">
@@ -30,33 +29,7 @@
                 </button>
             </div>
         </div>
-
     </main>
-    <script>
-        // Make a GET request to the server-side endpoint
-        $.ajax({
-            url: 'getUserInfo', // Replace with the actual server-side endpoint URL
-            method: 'GET',
-            dataType: 'json',
-            success: function (response) {
-
-                if (isLoggedIn) {
-                    // User is not logged in, redirect to index.html
-                    window.location.href = '/jee-project/admin/index.html';
-
-                } else {
-                    window.location.href = '/jee-project/unauthorized.html';
-                }
-
-            },
-            error: function (xhr, status, error) {
-                console.log('Error: ' + error);
-                window.location.href = '/jee-project/login.html';
-
-            }
-        });
-
-    </script>
     <script src="/jee-project/js/darkmode.js"></script>
 
 </body>
