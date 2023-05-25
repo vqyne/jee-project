@@ -12,9 +12,6 @@ import jakarta.servlet.annotation.WebFilter;
 
 import java.io.IOException;
 
-/**
- * Classe permettant de protéger certaines pages en fonction du rôle de l'utilisateur
- */
 @WebFilter(filterName = "AdminFilter", urlPatterns = {"/admin/protected/*"})
 public class AdminFilter implements Filter {
 
@@ -23,12 +20,20 @@ public class AdminFilter implements Filter {
     private static final String BETTER_HANDLER_CATEGORY = "better_handler";
 
     private static final String UNAUTHORIZED_PAGE = "/unauthorized.html";
-    private static final String SESSION_HANDLER_PAGE = "/admin/protected/session.html";
-    private static final String BETTER_HANDLER_PAGES = "/admin/protected/discipline.html,/admin/protected/site.html, /admin/protected/modify.html, /admin/protected/page_discipline.html";
 
-    /**
-     * Méthode permettant de filter l'accès à la page
-     */
+    private static final String[] SESSION_HANDLER_BLOCKED_PAGES = {
+            "/jee-project/admin/protected/discipline.html",
+            "/jee-project/admin/protected/site.html",
+            "/jee-project/admin/protected/page_discipline.html",
+            "/jee-project/admin/protected/athlete.html"
+    };
+
+    private static final String[] BETTER_HANDLER_BLOCKED_PAGES = {
+            "/jee-project/admin/protected/session.html",
+            "/jee-project/admin/protected/modify_session.html",
+            "/jee-project/admin/protected/athlete.html"
+    };
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
@@ -37,39 +42,38 @@ public class AdminFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         HttpSession session = request.getSession(false);
+        
         if (session != null && session.getAttribute("category") != null) {
             String userCategory = session.getAttribute("category").toString();
             String requestURI = request.getRequestURI();
-
+            System.out.println(requestURI);
+            System.out.println(userCategory);
+            
             if (ADMIN_CATEGORY.equals(userCategory)) {
-                // L'utilisateur 'admin' a accès à toutes les pages HTML dans /admin/protected/
                 filterChain.doFilter(request, response);
-            } else if (SESSION_HANDLER_CATEGORY.equals(userCategory) && requestURI.contains(SESSION_HANDLER_PAGE)) {
-                // L'utilisateur 'session_handler' a accès à admin/protected/session.html
-                filterChain.doFilter(request, response);
-            } else if (BETTER_HANDLER_CATEGORY.equals(userCategory) && isAuthorizedPageForBetterHandler(requestURI)) {
-                // L'utilisateur 'better_handler' a accès aux pages spécifiques
-                filterChain.doFilter(request, response);
+            } else if (SESSION_HANDLER_CATEGORY.equals(userCategory)) {
+                if (isBlockedPageForUser(SESSION_HANDLER_BLOCKED_PAGES, requestURI)) {
+                    response.sendRedirect(request.getContextPath() + UNAUTHORIZED_PAGE);
+                } else {
+                    filterChain.doFilter(request, response);
+                }
+            } else if (BETTER_HANDLER_CATEGORY.equals(userCategory)) {
+                if (isBlockedPageForUser(BETTER_HANDLER_BLOCKED_PAGES, requestURI)) {
+                    response.sendRedirect(request.getContextPath() + UNAUTHORIZED_PAGE);
+                } else {
+                    filterChain.doFilter(request, response);
+                }
             } else {
-                // L'utilisateur ne dispose pas des droits d'accès requis, redirection vers la page d'accès non autorisé
                 response.sendRedirect(request.getContextPath() + UNAUTHORIZED_PAGE);
             }
         } else {
-            // Aucune session ou catégorie d'utilisateur trouvée, redirection vers la page d'accès non autorisé
             response.sendRedirect(request.getContextPath() + UNAUTHORIZED_PAGE);
         }
     }
 
-    /**
-     * Méthode vérifiant si l'utilisateur a accès à une page en tant que better_handler
-     * @param requestURI lien de la page dont on veut vérifier si l'utilisateur a l'accès
-     * @return true si autorisé false sinon
-     */
-    private boolean isAuthorizedPageForBetterHandler(String requestURI) {
-        // Vérifier si la page demandée est autorisée pour l'utilisateur 'better_handler'
-        String[] authorizedPages = BETTER_HANDLER_PAGES.split(",");
-        for (String page : authorizedPages) {
-            if (requestURI.contains(page)) {
+    private boolean isBlockedPageForUser(String[] blockedPages, String requestURI) {
+        for (String page : blockedPages) {
+            if (requestURI.equals(page)) {
                 return true;
             }
         }

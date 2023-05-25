@@ -26,7 +26,6 @@ function disconnect() {
     method: 'GET',
     success: function(response) {
       console.log('Successfully disconnected');
-      localStorage.clear();
       localStorage.setItem('isLoggedIn', 'false');
       // Redirect the user to the desired page
       window.location.href = '/jee-project/login.html'; // Replace with the desired logout page URL

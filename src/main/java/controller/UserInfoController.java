@@ -20,26 +20,35 @@ public class UserInfoController extends HttpServlet {
 	/**
 	 * Méthode permettant de retrouver certaines informations : nom de l'utilisateur, son rôle et le fait qu'il soit connecté ou non
 	 */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve user information from the session
-        HttpSession session = request.getSession(false);
-        String username = (String) session.getAttribute("username");
-        CategorieUser category = (CategorieUser) session.getAttribute("category");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    // Retrieve user information from the session
+	    HttpSession session = request.getSession(false);
+	    
+	    String username = null;
+	    CategorieUser category = null;
 
-        // Create a User object with user information
-        User user = new User();
-        user.setLogin(username);
-        user.setCategory(category);
-        user.setLoggedIn(session != null && session.getAttribute("loggedIn") != null);
+	    boolean isLoggedIn = session != null && session.getAttribute("loggedIn") != null;
 
-        // Set the response content type to JSON
-        response.setContentType("application/json");
+	    if(isLoggedIn){
+	        username = (String) session.getAttribute("username");
+	        category = (CategorieUser) session.getAttribute("category");
+	    }
 
-        // Use Gson to serialize User object to JSON
-        Gson gson = new Gson();
-        String json = gson.toJson(user);
+	    // Create a User object with user information
+	    User user = new User();
+	    user.setLogin(username);
+	    user.setCategory(category);
+	    user.setLoggedIn(isLoggedIn);
 
-        // Write the JSON to the response
-        response.getWriter().write(json);
-    }
+	    // Set the response content type to JSON
+	    response.setContentType("application/json");
+
+	    // Use Gson to serialize User object to JSON
+	    Gson gson = new Gson();
+	    String json = gson.toJson(user);
+
+	    // Write the JSON to the response
+	    response.getWriter().write(json);
+	}
+
 }
