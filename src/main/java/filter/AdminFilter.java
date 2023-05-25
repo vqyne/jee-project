@@ -46,8 +46,6 @@ public class AdminFilter implements Filter {
         if (session != null && session.getAttribute("category") != null) {
             String userCategory = session.getAttribute("category").toString();
             String requestURI = request.getRequestURI();
-            System.out.println(requestURI);
-            System.out.println(userCategory);
             
             if (ADMIN_CATEGORY.equals(userCategory)) {
                 filterChain.doFilter(request, response);
